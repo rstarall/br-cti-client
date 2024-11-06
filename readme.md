@@ -28,7 +28,8 @@ git push -u origin work1
 #拉取分支代码
 git pull origin main
 #将分支代码合并到自己的任务分支(work1)
-git merge main
+git add .
+git commit -m "work1 merge main"
 #推送更新到自己的分支
 git push origin work1
 ```
