@@ -26,8 +26,8 @@ git push -u origin work1
 6.拉取某个分支的代码并合并到自己的开发分支
 ```shell
 #拉取分支代码
-#22222
 git pull origin main
+#解决可能得冲突
 #将分支代码合并到自己的任务分支(work1)
 git add .
 git commit -m "work1 merge main"
