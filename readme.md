@@ -1,5 +1,3 @@
-
-
 ### Git拉取与提交
 1.拉取main分支
 ```shell
@@ -34,3 +32,4 @@ git commit -m "work1 merge main"
 #推送更新到自己的分支
 git push origin work1
 ```
+### 库依赖说明
