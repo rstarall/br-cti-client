@@ -1,0 +1,1498 @@
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--d4bf0366-9d1f-4de5-9d76-1a092492e3b8",
+    "created": "2024-11-11T15:17:48.810212Z",
+    "modified": "2024-11-11T15:17:48.810212Z",
+    "first_observed": "2023-10-28T14:17:30.987639Z",
+    "last_observed": "2023-10-28T14:17:30.987639Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--dc629726-e5e0-5329-b917-8e87ee13bcf4",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 32847,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--4e7e8ad7-128a-4b89-b5ba-d3d047a1e928",
+    "created": "2024-11-11T15:17:48.810212Z",
+    "modified": "2024-11-11T15:17:48.810212Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--1485144e-eb86-4380-8808-2991217c21f7",
+    "created": "2024-11-11T15:17:48.811277Z",
+    "modified": "2024-11-11T15:17:48.811277Z",
+    "first_observed": "2023-10-28T14:17:30.989783Z",
+    "last_observed": "2023-10-28T14:17:30.989783Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--a684a80f-7692-5559-86f2-43a380685b96",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 32847,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--bb3c0ebf-08c2-565b-a1fb-37d29fb56be4",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDguMC4wLjAgU2FmYXJpLzUzNy4zNiIsICJYX0ZvcndhcmRlZF9Gb3IiOiAiMTcwLjY0LjE2MC4xMjMiLCAiR0VUIjogIi8ifQ=="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--c05a0a29-a003-493d-a09e-ce017218f48d",
+    "created": "2024-11-11T15:17:48.812265Z",
+    "modified": "2024-11-11T15:17:48.812265Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--acae53fa-2498-41ea-adfb-dcfe6c211508",
+    "created": "2024-11-11T15:17:48.813278Z",
+    "modified": "2024-11-11T15:17:48.813278Z",
+    "first_observed": "2023-10-28T14:17:31.927784Z",
+    "last_observed": "2023-10-28T14:17:31.927784Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--b11bf04b-a49c-5446-88e3-4eaa0ed900bc",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 20422,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--f73a5ad7-aa3c-4157-83c5-c742d8491579",
+    "created": "2024-11-11T15:17:48.813278Z",
+    "modified": "2024-11-11T15:17:48.813278Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--0af4c556-57e5-41d0-a7f7-f116ac5ad6c6",
+    "created": "2024-11-11T15:17:48.81427Z",
+    "modified": "2024-11-11T15:17:48.81427Z",
+    "first_observed": "2023-10-28T14:17:31.930122Z",
+    "last_observed": "2023-10-28T14:17:31.930122Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--c9523f3a-fe71-5264-97f6-7cfa8fe340e5",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 20422,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--9507d440-dbf6-51c7-99a6-965db6079637",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogImN1cmwvOC4xLjIiLCAiWF9Gb3J3YXJkZWRfRm9yIjogIjE3MC42NC4xNjAuMTIzIiwgIkdFVCI6ICIvZm9ybS5odG1sIn0="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--31830315-cd68-4116-813d-9bce7f21aaa7",
+    "created": "2024-11-11T15:17:48.81527Z",
+    "modified": "2024-11-11T15:17:48.81527Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--3d16c808-0e68-4463-baea-e921c320ee41",
+    "created": "2024-11-11T15:17:48.816273Z",
+    "modified": "2024-11-11T15:17:48.816273Z",
+    "first_observed": "2023-10-28T14:17:32.558539Z",
+    "last_observed": "2023-10-28T14:17:32.558539Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--fa0a5d2a-1f0f-5193-930b-c7b98367020a",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 42046,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--5755d99c-a567-4329-9fb7-c3fdcca75ef5",
+    "created": "2024-11-11T15:17:48.817279Z",
+    "modified": "2024-11-11T15:17:48.817279Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--aaf08949-f5fe-4386-8672-a72babc57b73",
+    "created": "2024-11-11T15:17:48.818272Z",
+    "modified": "2024-11-11T15:17:48.818272Z",
+    "first_observed": "2023-10-28T14:17:32.56076Z",
+    "last_observed": "2023-10-28T14:17:32.56076Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--7dc67489-3fe2-57f5-9a4b-4c74f8bdab49",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 42046,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--85385743-eccf-50f9-a4fd-92250ac77169",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIxNzAuNjQuMTYwLjEyMyIsICJHRVQiOiAiL3VwbC5waHAifQ=="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--e4ecc34e-3ad5-4f26-a6ee-3d83ca461a27",
+    "created": "2024-11-11T15:17:48.818272Z",
+    "modified": "2024-11-11T15:17:48.818272Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--886c97c3-8263-4006-8c74-82b6d0df662b",
+    "created": "2024-11-11T15:17:48.819918Z",
+    "modified": "2024-11-11T15:17:48.819918Z",
+    "first_observed": "2023-10-28T14:17:34.658528Z",
+    "last_observed": "2023-10-28T14:17:34.658528Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--50c8432f-4164-54d9-abb7-9ad6741c4d45",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 22941,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--98c3d700-2a89-42e6-9ca5-832a74331994",
+    "created": "2024-11-11T15:17:48.819918Z",
+    "modified": "2024-11-11T15:17:48.819918Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--08f4add0-d6bc-4ce1-9259-7f14ecf596f5",
+    "created": "2024-11-11T15:17:48.820968Z",
+    "modified": "2024-11-11T15:17:48.820968Z",
+    "first_observed": "2023-10-28T14:17:34.660855Z",
+    "last_observed": "2023-10-28T14:17:34.660855Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--6923dc51-0899-52f8-8876-83f48edaeb89",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 22941,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--bf0ab991-ca3f-544b-ac9d-f417bf0bb78f",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDguMC4wLjAgU2FmYXJpLzUzNy4zNiIsICJYX0ZvcndhcmRlZF9Gb3IiOiAiMTcwLjY0LjE2MC4xMjMiLCAiR0VUIjogIi9nZW9pcC8ifQ=="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--073a013b-4da4-4524-a904-8024a6ea5c5a",
+    "created": "2024-11-11T15:17:48.821959Z",
+    "modified": "2024-11-11T15:17:48.821959Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--6463f9fd-3044-4406-bb61-c34007517992",
+    "created": "2024-11-11T15:17:48.823Z",
+    "modified": "2024-11-11T15:17:48.823Z",
+    "first_observed": "2023-10-28T14:17:35.290819Z",
+    "last_observed": "2023-10-28T14:17:35.290819Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--5315f02c-3718-59c2-bd8c-6f37ef29b5c3",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 44627,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--51a89de8-fbb9-4491-aca7-27230c741ea6",
+    "created": "2024-11-11T15:17:48.824001Z",
+    "modified": "2024-11-11T15:17:48.824001Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--c0855d67-f599-4d7a-a491-854b2ea5e8e5",
+    "created": "2024-11-11T15:17:48.824001Z",
+    "modified": "2024-11-11T15:17:48.824001Z",
+    "first_observed": "2023-10-28T14:17:35.293171Z",
+    "last_observed": "2023-10-28T14:17:35.293171Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--9a5ecfd6-169a-5651-9c84-9f2af37202c8",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 44627,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--7271075c-1ef3-5003-825e-48cd276c6b0d",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChpUGhvbmU7IENQVSBpUGhvbmUgT1MgMTNfM18xIGxpa2UgTWFjIE9TIFgpIEFwcGxlV2ViS2l0LzYwNS4xLjE1IChLSFRNTCwgbGlrZSBHZWNrbykgVmVyc2lvbi8xMy4wLjUgTW9iaWxlLzE1RTE0OCBTbmFwY2hhdC8xMC43Ny4wLjU0IChsaWtlIFNhZmFyaS82MDQuMSkiLCAiWF9Gb3J3YXJkZWRfRm9yIjogIjE3MC42NC4xNjAuMTIzIiwgIkdFVCI6ICIvIn0="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--7ea69eda-e4ca-4556-ba9f-061ab15691d2",
+    "created": "2024-11-11T15:17:48.825006Z",
+    "modified": "2024-11-11T15:17:48.825006Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--115c012b-c494-415a-aa85-3aee13179ce6",
+    "created": "2024-11-11T15:17:48.826024Z",
+    "modified": "2024-11-11T15:17:48.826024Z",
+    "first_observed": "2023-10-28T14:17:36.241012Z",
+    "last_observed": "2023-10-28T14:17:36.241012Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--1f3a5a3f-bfb2-54af-98be-e4d31bb04d33",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 31448,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--a0039c39-611d-417a-8476-121275df3ed1",
+    "created": "2024-11-11T15:17:48.826981Z",
+    "modified": "2024-11-11T15:17:48.826981Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--6875c750-9242-4573-ad78-fc7e8fbd8c0d",
+    "created": "2024-11-11T15:17:48.827999Z",
+    "modified": "2024-11-11T15:17:48.827999Z",
+    "first_observed": "2023-10-28T14:17:36.243484Z",
+    "last_observed": "2023-10-28T14:17:36.243484Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--ae5d56cb-09fc-54d9-9a1b-f241e823e34d",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 31448,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--aa4cdc11-1dc6-5285-b749-e141a5a14005",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDguMC4wLjAgU2FmYXJpLzUzNy4zNiIsICJYX0ZvcndhcmRlZF9Gb3IiOiAiMTcwLjY0LjE2MC4xMjMiLCAiR0VUIjogIi9mYXZpY29uLmljbyJ9"
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--f45d9429-2a03-470a-98bc-3083cce7fa7a",
+    "created": "2024-11-11T15:17:48.827999Z",
+    "modified": "2024-11-11T15:17:48.827999Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--84ce4679-abd1-43ad-9b9f-a96b3b591aad",
+    "created": "2024-11-11T15:17:48.829008Z",
+    "modified": "2024-11-11T15:17:48.829008Z",
+    "first_observed": "2023-10-28T14:17:36.862343Z",
+    "last_observed": "2023-10-28T14:17:36.862343Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--8548dbe5-261e-578b-ba60-9e3bdfcc145e",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 51328,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--72f83528-ec05-44f1-b0bd-7a89575375c0",
+    "created": "2024-11-11T15:17:48.830008Z",
+    "modified": "2024-11-11T15:17:48.830008Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--b6bfd85d-debf-4a1b-ac09-c5f3b7eb010d",
+    "created": "2024-11-11T15:17:48.830588Z",
+    "modified": "2024-11-11T15:17:48.830588Z",
+    "first_observed": "2023-10-28T14:17:36.864719Z",
+    "last_observed": "2023-10-28T14:17:36.864719Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--d543ffc3-bfd4-51bc-9dc5-cb019cdc839c",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 51328,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--02003577-b6cf-5311-9712-d4b74e460264",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDguMC4wLjAgU2FmYXJpLzUzNy4zNiIsICJYX0ZvcndhcmRlZF9Gb3IiOiAiMTcwLjY0LjE2MC4xMjMiLCAiR0VUIjogIi8xLnBocCJ9"
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--48bb800e-b5c8-420c-b550-c7fec3ea254c",
+    "created": "2024-11-11T15:17:48.831678Z",
+    "modified": "2024-11-11T15:17:48.831678Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--a310f636-30b1-4f26-be96-67c70d9a4464",
+    "created": "2024-11-11T15:17:48.832672Z",
+    "modified": "2024-11-11T15:17:48.832672Z",
+    "first_observed": "2023-10-28T14:17:37.488546Z",
+    "last_observed": "2023-10-28T14:17:37.488546Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--d34b3adc-4627-558f-be45-2c507cb2844d",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 27507,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--afee1414-3888-4767-9c95-e6cc21fac37c",
+    "created": "2024-11-11T15:17:48.8337Z",
+    "modified": "2024-11-11T15:17:48.8337Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--2a4549f2-f8df-4aaf-aa14-160a8a288096",
+    "created": "2024-11-11T15:17:48.834677Z",
+    "modified": "2024-11-11T15:17:48.834677Z",
+    "first_observed": "2023-10-28T14:17:37.490814Z",
+    "last_observed": "2023-10-28T14:17:37.490814Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--41be1234-c602-5b5d-b7b0-3dd95c278958",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 27507,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--93f26ecf-8f22-5a62-9b96-7e0501f13918",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDguMC4wLjAgU2FmYXJpLzUzNy4zNiIsICJYX0ZvcndhcmRlZF9Gb3IiOiAiMTcwLjY0LjE2MC4xMjMiLCAiR0VUIjogIi9idW5kbGUuanMifQ=="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--b66332ca-8cc6-4436-8a45-8b86c84fa4ad",
+    "created": "2024-11-11T15:17:48.834677Z",
+    "modified": "2024-11-11T15:17:48.834677Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--68850d04-e9e1-4870-a6cb-63638c31d168",
+    "created": "2024-11-11T15:17:48.836591Z",
+    "modified": "2024-11-11T15:17:48.836591Z",
+    "first_observed": "2023-10-28T14:17:39.837362Z",
+    "last_observed": "2023-10-28T14:17:39.837362Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--43207364-db3c-5736-bdec-19b609bc7327",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 16441,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--e9260d1a-099b-4a62-9b3b-98538b5fa674",
+    "created": "2024-11-11T15:17:48.836591Z",
+    "modified": "2024-11-11T15:17:48.836591Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--659f2dac-26ff-4b0b-a831-a6cb7e527fd4",
+    "created": "2024-11-11T15:17:48.837637Z",
+    "modified": "2024-11-11T15:17:48.837637Z",
+    "first_observed": "2023-10-28T14:17:39.839806Z",
+    "last_observed": "2023-10-28T14:17:39.839806Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--99316b70-10d3-5c3f-a9e1-5e0b89029a5d",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 16441,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--74446cec-11fd-5715-9517-910be8945652",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDguMC4wLjAgU2FmYXJpLzUzNy4zNiIsICJYX0ZvcndhcmRlZF9Gb3IiOiAiMTcwLjY0LjE2MC4xMjMiLCAiR0VUIjogIi9maWxlcy8ifQ=="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--3e9e41f7-35dd-4b5c-a5ed-8ce26b20c497",
+    "created": "2024-11-11T15:17:48.838708Z",
+    "modified": "2024-11-11T15:17:48.838708Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--1c807b45-f63e-4e90-91b9-e7b8e276421f",
+    "created": "2024-11-11T15:17:48.840222Z",
+    "modified": "2024-11-11T15:17:48.840222Z",
+    "first_observed": "2023-10-28T14:17:40.467352Z",
+    "last_observed": "2023-10-28T14:17:40.467352Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--5ce512c9-7879-5d0e-bba3-9d4d66cf6a63",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 38193,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--1da4f3ed-8b4a-4e5e-b9a2-0d9eac42a4d1",
+    "created": "2024-11-11T15:17:48.840222Z",
+    "modified": "2024-11-11T15:17:48.840222Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--cb4b7308-6973-43dd-a2ab-d248c31ad1d4",
+    "created": "2024-11-11T15:17:48.841232Z",
+    "modified": "2024-11-11T15:17:48.841232Z",
+    "first_observed": "2023-10-28T14:17:40.469585Z",
+    "last_observed": "2023-10-28T14:17:40.469585Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--6310d5d8-31a7-52af-8087-e194e6f3eb16",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 38193,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--169e9cc8-d2ea-52c4-a2c3-a351654dc040",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDguMC4wLjAgU2FmYXJpLzUzNy4zNiIsICJYX0ZvcndhcmRlZF9Gb3IiOiAiMTcwLjY0LjE2MC4xMjMiLCAiR0VUIjogIi9zeXN0ZW1iYy9wYXNzd29yZC5waHAifQ=="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--e60bffc5-8ecc-4c55-851d-900812aa10db",
+    "created": "2024-11-11T15:17:48.842231Z",
+    "modified": "2024-11-11T15:17:48.842231Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--f39c74fe-6c7f-4adc-b5e9-90dfb5577bbb",
+    "created": "2024-11-11T15:17:48.84323Z",
+    "modified": "2024-11-11T15:17:48.84323Z",
+    "first_observed": "2023-10-28T14:17:41.918139Z",
+    "last_observed": "2023-10-28T14:17:41.918139Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--b084619e-81ce-557f-9e5f-e14b261d98d5",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 41176,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--e9a7a1db-8c85-4596-af24-10b4d84f4053",
+    "created": "2024-11-11T15:17:48.84423Z",
+    "modified": "2024-11-11T15:17:48.84423Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--4352b89b-56aa-46a8-8a56-a8a0c16dee42",
+    "created": "2024-11-11T15:17:48.84423Z",
+    "modified": "2024-11-11T15:17:48.84423Z",
+    "first_observed": "2023-10-28T14:17:41.920367Z",
+    "last_observed": "2023-10-28T14:17:41.920367Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--ae8812b4-96b9-5426-8710-b05fe8ab70d5",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 41176,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--96bb9213-a66c-5fa3-abec-02394cec356f",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDguMC4wLjAgU2FmYXJpLzUzNy4zNiIsICJYX0ZvcndhcmRlZF9Gb3IiOiAiMTcwLjY0LjE2MC4xMjMiLCAiR0VUIjogIi9wYXNzd29yZC5waHAifQ=="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--0124d12e-5732-4f61-a443-8e7a2adc6271",
+    "created": "2024-11-11T15:17:48.845231Z",
+    "modified": "2024-11-11T15:17:48.845231Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--97105126-59c1-46a8-be35-d499068cb5fe",
+    "created": "2024-11-11T15:17:48.84623Z",
+    "modified": "2024-11-11T15:17:48.84623Z",
+    "first_observed": "2023-10-28T14:17:42.550182Z",
+    "last_observed": "2023-10-28T14:17:42.550182Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--26a366f9-1461-5c88-aaa9-4429d31d22e1",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 17334,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--db0a962e-8d87-4587-8a32-78a1e090935c",
+    "created": "2024-11-11T15:17:48.84723Z",
+    "modified": "2024-11-11T15:17:48.84723Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--c5010974-b7eb-4aa5-8e75-297b67f13f34",
+    "created": "2024-11-11T15:17:48.84823Z",
+    "modified": "2024-11-11T15:17:48.84823Z",
+    "first_observed": "2023-10-28T14:17:42.552445Z",
+    "last_observed": "2023-10-28T14:17:42.552445Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "value": "170.64.160.123"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--b970d6b5-e004-51a8-bb43-e4b66ebcf953",
+            "src_ref": "ipv4-addr--3ff2e6c7-03c9-55b6-8c98-4e7f3b3e48c3",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 17334,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--a7a1e446-1e52-5271-93e5-e56a75b3472d",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDguMC4wLjAgU2FmYXJpLzUzNy4zNiIsICJYX0ZvcndhcmRlZF9Gb3IiOiAiMTcwLjY0LjE2MC4xMjMiLCAiR0VUIjogIi9pbmZvLnBocCJ9"
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--d6305bf3-fa30-415b-82a2-4c8f72d449ec",
+    "created": "2024-11-11T15:17:48.84823Z",
+    "modified": "2024-11-11T15:17:48.84823Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--540ee383-954f-4561-a993-f8aa4ea1186d",
+    "created": "2024-11-11T15:17:48.849739Z",
+    "modified": "2024-11-11T15:17:48.849739Z",
+    "first_observed": "2023-10-28T14:18:13.599256Z",
+    "last_observed": "2023-10-28T14:18:13.599256Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--519c4572-2786-530a-8b6d-4b13283d4b9d",
+            "value": "205.210.31.221"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--ea7353c3-f66c-5424-b9af-4b4bbda5c340",
+            "src_ref": "ipv4-addr--519c4572-2786-530a-8b6d-4b13283d4b9d",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 36768,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--cf57794f-89d9-4148-8da1-a439913851ee",
+    "created": "2024-11-11T15:17:48.850753Z",
+    "modified": "2024-11-11T15:17:48.850753Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--6ca632c6-0edb-445b-8597-d5b1ffa3238c",
+    "created": "2024-11-11T15:17:48.850753Z",
+    "modified": "2024-11-11T15:17:48.850753Z",
+    "first_observed": "2023-10-28T14:18:13.601738Z",
+    "last_observed": "2023-10-28T14:18:13.601738Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--519c4572-2786-530a-8b6d-4b13283d4b9d",
+            "value": "205.210.31.221"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--dbffe6a7-7d41-5e47-8f65-c8c21fadcd8b",
+            "src_ref": "ipv4-addr--519c4572-2786-530a-8b6d-4b13283d4b9d",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 36768,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--10f4e4cd-44ca-57d0-a4bc-7a387cab7177",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIkV4cGFuc2UsIGEgUGFsbyBBbHRvIE5ldHdvcmtzIGNvbXBhbnksIHNlYXJjaGVzIGFjcm9zcyB0aGUgZ2xvYmFsIElQdjQgc3BhY2UgbXVsdGlwbGUgdGltZXMgcGVyIGRheSB0byBpZGVudGlmeSBjdXN0b21lcnMmIzM5OyBwcmVzZW5jZXMgb24gdGhlIEludGVybmV0LiBJZiB5b3Ugd291bGQgbGlrZSB0byBiZSBleGNsdWRlZCBmcm9tIG91ciBzY2FucywgcGxlYXNlIHNlbmQgSVAgYWRkcmVzc2VzL2RvbWFpbnMgdG86IHNjYW5pbmZvQHBhbG9hbHRvbmV0d29ya3MuY29tIiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMDUuMjEwLjMxLjIyMSIsICJHRVQiOiAiLyJ9"
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--ef1d9629-e135-4757-8db3-45f0f9f2ac54",
+    "created": "2024-11-11T15:17:48.852145Z",
+    "modified": "2024-11-11T15:17:48.852145Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--b0e5cff2-9594-45da-a74a-ebcb0e3f7743",
+    "created": "2024-11-11T15:17:48.853148Z",
+    "modified": "2024-11-11T15:17:48.853148Z",
+    "first_observed": "2023-10-28T14:20:23.238224Z",
+    "last_observed": "2023-10-28T14:20:23.238224Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--08d9c103-e56f-5db3-a5a5-6e2937fd201e",
+            "value": "89.248.164.165"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "value": "101.33.192.242"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--e3b295ee-9ad9-579a-8fda-31924624f2d1",
+            "src_ref": "ipv4-addr--08d9c103-e56f-5db3-a5a5-6e2937fd201e",
+            "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
+            "src_port": 17308,
+            "dst_port": 80,
+            "protocols": [
+                "T",
+                "C",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
+            "mime_type": "TCP",
+            "payload_bin": "e30="
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--7b38b586-3a85-4b32-bfac-1f31b172f297",
+    "created": "2024-11-11T15:17:48.854148Z",
+    "modified": "2024-11-11T15:17:48.854148Z",
+    "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
+}
+{
+    "type": "observed-data",
+    "spec_version": "2.1",
+    "id": "observed-data--0f5e90b8-faeb-4c72-b1c0-896baa79578f",
+    "created": "2024-11-11T15:17:48.855152Z",
+    "modified": "2024-11-11T15:17:48.855152Z",
+    "first_observed": "2023-10-28T14:20:23.239086Z",
+    "last_observed": "2023-10-28T14:20:23.239086Z",
+    "number_observed": 1,
+    "objects": {
+        "0": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--08d9c103-e56f-5db3-a5a5-6e2937fd201e",
+            "value": "89.248.164.165"
+        },
+        "1": {
+            "type": "ipv4-addr",
+            "spec_version": "2.1",
+            "id": "ipv4-addr--1fcd201b-2344-52c9-bf69-96747cd5e9c7",
+            "value": "pingjs.qq.com"
+        },
+        "2": {
+            "type": "network-traffic",
+            "spec_version": "2.1",
+            "id": "network-traffic--e6fb7077-3cb0-5447-bc6c-cb4596f44a13",
+            "src_ref": "ipv4-addr--08d9c103-e56f-5db3-a5a5-6e2937fd201e",
+            "dst_ref": "ipv4-addr--1fcd201b-2344-52c9-bf69-96747cd5e9c7",
+            "src_port": 17308,
+            "dst_port": 80,
+            "protocols": [
+                "H",
+                "T",
+                "T",
+                "P"
+            ]
+        },
+        "3": {
+            "type": "artifact",
+            "spec_version": "2.1",
+            "id": "artifact--8e579202-0774-5907-a84a-d7fd627d2fd7",
+            "mime_type": "HTTP_GET",
+            "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEiLCAiWF9Gb3J3YXJkZWRfRm9yIjogIjg5LjI0OC4xNjQuMTY1IiwgIkdFVCI6ICIvcGluZy5qcyJ9"
+        }
+    }
+}
+{
+    "type": "attack-pattern",
+    "spec_version": "2.1",
+    "id": "attack-pattern--95f448d9-0e0e-4e33-9cef-4240ac3ba2c6",
+    "created": "2024-11-11T15:17:48.855152Z",
+    "modified": "2024-11-11T15:17:48.855152Z",
+    "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
+}
