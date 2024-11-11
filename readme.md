@@ -1,7 +1,7 @@
 ### Git拉取与提交
 1.拉取main分支
 ```shell
-git clone git@github.com:righstar2020/br-cti-client.git
+git clone https://github.com/righstar2020/br-cti-client.git
 ```
 2.创建自己的任务分支(比如任务1)
 ```shell
