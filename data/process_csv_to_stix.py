@@ -6,13 +6,17 @@ import psutil
 from pathlib import Path
 import base64
 import json
-
+import uuid
+import numpy as np
 
 # 调整属性值为合适的数据类型
 def apply_transformation(value, transformation):
     if transformation == "list":
         if not isinstance(value, list):
-            value = list(value)
+            if not isinstance(value, str):
+                value = [value]
+            else:
+                value = list(value)
 
     elif transformation == "dict":
         if not isinstance(value, dict):
@@ -25,7 +29,14 @@ def apply_transformation(value, transformation):
         value = json.dumps(value)
         value = base64.b64encode(value.encode()).decode()
 
-        # ....后续可根据需要添加
+    # ....后续可根据需要添加
+
+    # 如不需特殊转换（值为none），则检查数据格式是否满足stix库的序列化要求（如不能为numpy.int64 类型的数值，值不能为NaN等）
+    else:
+        if isinstance(value, (np.int64, np.int32)):
+            value = int(value)
+        elif pd.isna(value):
+            value = 0
 
     return value
 
@@ -38,34 +49,48 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
     ipv4address_object = []  # 存储IPv4Address的name属性的值
     attackpattern_object = {}  # 存储AttackPattern需要的属性和对应的属性值
     artifact_object = {}  # 存储Artifact需要的属性和对应的属性值
+    url_object = {}  # 存储URL对象需要的属性和对应的属性值
+    networktraffic_extensions = {}  # 存储NetworkTraffic的扩展字段
 
     # 要返回的SDO的对象， 初始化为空
     observed_data = None
     attack_pattern = None
 
-    # 根据映射关系生成STIX属性并存储属性值
+    # 根据映射关系生成STIX属性并存储属性值，未知映射关系的统一放入NetworkTraffic的扩展字段
     for field in mapped_columns:
         try:
-            property_value = row[field]  # 从数据集的行数据中获取属性值
-            mapping = mapping_dict[field]  # 根据列名从映射字典获取映射关系
-            stix_type = mapping["stix_object"]  # STIX对象类别
-            object_property = mapping["object_property"]  # STIX对象属性
-            transformation = mapping["transformation"]  # 属性值规定的数据类型
+            # 已知映射关系
+            if field in mapping_dict:
+                property_value = row[field]  # 从数据集的行数据中获取属性值
+                mapping = mapping_dict[field]  # 根据列名从映射字典获取映射关系
+                stix_type = mapping["stix_object"]  # STIX对象类别
+                object_property = mapping["object_property"]  # STIX对象属性
+                transformation = mapping["transformation"]  # 属性值规定的数据类型
 
-            # 将属性值调整为合适的数据类型
-            property_value = apply_transformation(property_value, transformation)
+                # 将属性值调整为合适的数据类型
+                property_value = apply_transformation(property_value, transformation)
 
-            # 存入可能使用到的STIX对象的属性和对应的属性值，用于后续构建STIX对象
-            if stix_type == "IPv4Address":
-                ipv4address_object.append(property_value)
-            elif stix_type == "NetworkTraffic":
-                networktraffic_object[object_property] = property_value
-            elif stix_type == "Artifact":
-                artifact_object[object_property] = property_value
-            elif stix_type == "AttackPattern":
-                attackpattern_object[object_property] = property_value
-            elif stix_type == "ObservedData":
-                observed_time.append(property_value)
+                # 存入可能使用到的STIX对象的属性和对应的属性值，用于后续构建STIX对象
+                if stix_type == "IPv4Address":
+                    ipv4address_object.append(property_value)
+                elif stix_type == "NetworkTraffic":
+                    networktraffic_object[object_property] = property_value
+                elif stix_type == "Artifact":
+                    artifact_object[object_property] = property_value
+                elif stix_type == "AttackPattern":
+                    attackpattern_object[object_property] = property_value
+                elif stix_type == "ObservedData":
+                    observed_time.append(property_value)
+                elif stix_type == "URL":
+                    url_object[object_property] = property_value
+
+            # 未知映射关系
+            else:
+                property_value = row[field]  # 从数据集的行数据中获取属性值
+                # 将属性值调整为合适的数据类型
+                property_value = apply_transformation(property_value, "none")
+
+                networktraffic_extensions[field] = property_value
 
         except Exception as e:
             print(f"第 {row_count + 1} 行，{field} 列数据处理出错: {e}")
@@ -75,6 +100,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
     try:
         # 构造IPv4Address对象
         if len(ipv4address_object):
+            create_name = "IPv4Address"
             # NetworkTraffic对象要用到的原地址对象id
             src_ref = None
             dst_ref = None
@@ -88,22 +114,51 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
 
         # 构造NetworkTraffic对象
         if len(networktraffic_object) and len(ipv4address_object):
+            create_name = "NetworkTraffic"
             # 判断必需属性是否存在，不存在则进行处理以保证对象创建时不会出错
             if "protocols" not in networktraffic_object:
-                networktraffic_object["protocols"] = ["Unknown"]
+                networktraffic_object["protocols"] = ["NULL"]
 
             networktraffic_object["src_ref"] = src_ref
             networktraffic_object["dst_ref"] = dst_ref
+            networktraffic_object["extensions"] = {f"extension-definition--{uuid.uuid4()}": {**networktraffic_extensions}}
             stix_sco_object = stix2.NetworkTraffic(**networktraffic_object)  # 用**操作符解包字典获取键值对作为参数
+            observed_objects[str(len(observed_objects))] = stix_sco_object  # 添加SCO对象到 observed_objects
+        # 只有extensions属性时：
+        elif len(networktraffic_extensions):
+            create_name = "NetworkTraffic"
+            stix_sco_object = stix2.NetworkTraffic(
+                src_ref=f"ipv4-addr--{uuid.uuid4()}",
+                protocols=["NULL"],
+                extensions={f"extension-definition--{uuid.uuid4()}": {**networktraffic_extensions}}
+            )
             observed_objects[str(len(observed_objects))] = stix_sco_object  # 添加SCO对象到 observed_objects
 
         # 构造Artifact对象
         if len(artifact_object):
+            create_name = "Artifact"
+            # 判断必需属性是否存在，不存在则进行处理以保证对象创建时不会出错
+            if "mime_type" not in artifact_object:
+                artifact_object["mime_type"] = "NULL"
+
             stix_sco_object = stix2.Artifact(**artifact_object)  # 用**操作符解包字典获取键值对作为参数
+            observed_objects[str(len(observed_objects))] = stix_sco_object  # 添加SCO对象到 observed_objects
+
+        # 构造URL对象
+        if len(url_object):
+            create_name = "URL"
+            # 判断必需属性是否存在，不存在则进行处理以保证对象创建时不会出错
+            if "value" not in url_object:
+                url_object["value"] = "NULL"
+            elif not url_object["value"]:
+                url_object["value"] = "NULL"
+
+            stix_sco_object = stix2.URL(**url_object)  # 用**操作符解包字典获取键值对作为参数
             observed_objects[str(len(observed_objects))] = stix_sco_object  # 添加SCO对象到 observed_objects
 
         # 构造ObservedData对象
         if len(observed_objects):
+            create_name = "ObservedData"
             # 判断必需属性是否存在，不存在则进行处理以保证对象创建时不会出错
             if len(observed_time) == 1:
                 first_observed = observed_time[0]
@@ -124,6 +179,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
 
         # 构造AttackPattern对象
         if len(attackpattern_object):
+            create_name = "AttackPattern"
             # 判断必需属性是否存在，不存在则进行处理以保证对象创建时不会出错
             if "name" not in attackpattern_object:
                 attackpattern_object["name"] = "None"
@@ -131,7 +187,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
             attack_pattern = stix2.AttackPattern(**attackpattern_object)  # 用**操作符解包字典获取键值对作为参数
 
     except Exception as e:
-        print(f"第 {row_count + 1} 行数据扫描完后构造对象时出错: {e}")
+        print(f"第 {row_count + 1} 行数据扫描完后构造对象 {create_name} 时出错: {e}")
 
     return observed_data, attack_pattern  # 返回SDO对象
 
@@ -159,18 +215,20 @@ def processCsvToStix(input_file):
             dataset = pd.read_csv(input_file)
         elif input_file.suffix == ".txt":
             dataset = pd.read_json(input_file, lines=True)
+        elif input_file.suffix == ".xlsx":
+            dataset = pd.read_excel(input_file)
     except Exception as e:
         print(f"文件打开失败！：{e}")
         return
 
-    mapped_columns = [col for col in dataset.columns if col in mapping_dict]  # 筛选有用列
+    mapped_columns = dataset.columns  # 获取数据集的列名
 
     # 逐行处理数据集文件，最终生成stix数据文件
     output_directory = Path("./csv")  # 指定输出目录
     output_file = output_directory / f"{input_file.stem}_stix.jsonl"  # 自动命名生成文件
     with open(output_file, "w") as fp:
         batch_size = 1000  # 处理大文件时每次写入文件的批次大小
-        buffer = []  # 写入缓存区
+        buffer = []  # 缓存区
         file_size = dataset.shape[0]
 
         # 大数据集文件分批写入
@@ -235,7 +293,7 @@ if __name__ == '__main__':
 
     # 测试：处理dataset文件夹中的所有文件并将生成文件放入stix_file文件夹
     print("开始处理数据集文件...")
-    folder_path = Path("test_dataset")  # 指定要遍历的文件夹
+    folder_path = Path("./test_dataset")  # 指定要遍历的文件夹
     for file in folder_path.rglob("*"):
         print(f"正在处理文件：{file.name}")
         return_file = processCsvToStix(file)
@@ -243,6 +301,13 @@ if __name__ == '__main__':
             print(f"生成文件为空！{file.name} 文件处理失败！")
         else:
             print(f"{file.name} 文件处理成功！")
+
+    # input_file = Path("./dataset_file/SDN_data_set_zscores.xlsx")
+    # return_file = processCsvToStix(input_file)
+    # if Path.stat(return_file).st_size == 0:
+    #     print(f"生成文件为空！{input_file.name} 文件处理失败！")
+    # else:
+    #     print(f"{input_file.name} 文件处理成功！")
 
     # 结束时间和内存使用情况
     finish_time = time.time()

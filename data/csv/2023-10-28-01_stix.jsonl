@@ -1,9 +1,9 @@
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--1e276324-9ad6-4aa8-92bb-927736c20725",
-    "created": "2024-11-11T15:17:48.531922Z",
-    "modified": "2024-11-11T15:17:48.531922Z",
+    "id": "observed-data--91b00db9-f6e8-4afc-b090-455e922a99ce",
+    "created": "2024-11-12T10:21:12.686942Z",
+    "modified": "2024-11-12T10:21:12.686942Z",
     "first_observed": "2023-10-28T01:33:38.069547Z",
     "last_observed": "2023-10-28T01:33:38.069547Z",
     "number_observed": 1,
@@ -23,7 +23,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--3798a1ca-3cd6-5559-b1fd-86bb90d259be",
+            "id": "network-traffic--b70616a8-07fa-5116-8e73-e1ccb552557d",
             "src_ref": "ipv4-addr--980a23d7-903d-5806-b90e-8b8a85e4b349",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 17123,
@@ -32,7 +32,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--f174b60b-b3b2-49b3-883c-0ab5b197ea87": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -40,23 +46,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--494e2771-895d-4b67-988a-4dd63004c954",
-    "created": "2024-11-11T15:17:48.533012Z",
-    "modified": "2024-11-11T15:17:48.533012Z",
+    "id": "attack-pattern--b8412a16-81a0-40df-95e9-b7aa3ff58f40",
+    "created": "2024-11-12T10:21:12.687942Z",
+    "modified": "2024-11-12T10:21:12.687942Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--546d8770-1d32-4ced-95da-1134f4e5a5e0",
-    "created": "2024-11-11T15:17:48.53401Z",
-    "modified": "2024-11-11T15:17:48.53401Z",
+    "id": "observed-data--827596b9-6e06-4b33-8e64-4aec22a42074",
+    "created": "2024-11-12T10:21:12.688942Z",
+    "modified": "2024-11-12T10:21:12.688942Z",
     "first_observed": "2023-10-28T01:33:38.070437Z",
     "last_observed": "2023-10-28T01:33:38.070437Z",
     "number_observed": 1,
@@ -76,7 +88,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--959895bb-1c4b-5bda-b28f-9c697ed26fc9",
+            "id": "network-traffic--0655e928-bba5-5441-ae65-f3b4005e5488",
             "src_ref": "ipv4-addr--980a23d7-903d-5806-b90e-8b8a85e4b349",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 17123,
@@ -86,7 +98,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--eccbadcb-abd9-4146-a536-8ff64285967b": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -94,23 +112,29 @@
             "id": "artifact--a7bb497d-3e4a-5349-86db-855887731a39",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwLjExOyBydjo0Ny4wKSBHZWNrby8yMDEwMDEwMSBGaXJlZm94LzQ3LjAiLCAiWF9Gb3J3YXJkZWRfRm9yIjogIjE4My4xMzYuMjI1LjI5IiwgIkdFVCI6ICIvIn0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--7a06051b-3460-50f0-8857-399c1c31c391",
+            "value": "/"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--36320c8d-bea3-403a-bd8f-d10fedb01b60",
-    "created": "2024-11-11T15:17:48.534992Z",
-    "modified": "2024-11-11T15:17:48.534992Z",
+    "id": "attack-pattern--280fcb71-8892-477d-b1b2-2fa3063bd5d6",
+    "created": "2024-11-12T10:21:12.689942Z",
+    "modified": "2024-11-12T10:21:12.689942Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--71091352-55c3-464b-8690-0149dc6a28de",
-    "created": "2024-11-11T15:17:48.536007Z",
-    "modified": "2024-11-11T15:17:48.536007Z",
+    "id": "observed-data--363e5ac6-c9d7-4907-819f-d14fd494d168",
+    "created": "2024-11-12T10:21:12.690942Z",
+    "modified": "2024-11-12T10:21:12.690942Z",
     "first_observed": "2023-10-28T01:41:53.530999Z",
     "last_observed": "2023-10-28T01:41:53.530999Z",
     "number_observed": 1,
@@ -130,7 +154,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--00feca25-0d9b-51ec-9db4-ea94ff385d18",
+            "id": "network-traffic--7e07f925-9345-580e-8178-05419796df19",
             "src_ref": "ipv4-addr--8e385065-2e1b-571d-b0a9-8e102cf318df",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 56274,
@@ -139,7 +163,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--b9e007d1-e299-4bb3-a5de-c7582460e886": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -147,23 +177,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--3f8ac515-9beb-448d-b0cc-ed1351d2879c",
-    "created": "2024-11-11T15:17:48.536007Z",
-    "modified": "2024-11-11T15:17:48.536007Z",
+    "id": "attack-pattern--96c5c9e5-7b52-492f-b920-d295139f78cd",
+    "created": "2024-11-12T10:21:12.692447Z",
+    "modified": "2024-11-12T10:21:12.692447Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--00a87a51-9b49-4388-9fb2-b0d5fca1cf02",
-    "created": "2024-11-11T15:17:48.537598Z",
-    "modified": "2024-11-11T15:17:48.537598Z",
+    "id": "observed-data--3810d673-ec20-48d7-833e-db53e02e778a",
+    "created": "2024-11-12T10:21:12.693449Z",
+    "modified": "2024-11-12T10:21:12.693449Z",
     "first_observed": "2023-10-28T01:41:53.533145Z",
     "last_observed": "2023-10-28T01:41:53.533145Z",
     "number_observed": 1,
@@ -183,7 +219,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--c6089b35-b181-577b-8190-81ea4a21f511",
+            "id": "network-traffic--cfac6faf-9510-54f3-8f4c-82829be2f974",
             "src_ref": "ipv4-addr--8e385065-2e1b-571d-b0a9-8e102cf318df",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 56274,
@@ -193,7 +229,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--b56d7684-45e4-41da-9139-f652f4374db0": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -201,23 +243,29 @@
             "id": "artifact--f8e484e9-4513-52f5-934e-80b2b5b2a69f",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJYX0ZvcndhcmRlZF9Gb3IiOiAiMTQxLjk4LjExLjUyIiwgIkdFVCI6ICIvIn0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--7a06051b-3460-50f0-8857-399c1c31c391",
+            "value": "/"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--c29c8475-e91e-441f-a7d0-3e5603391646",
-    "created": "2024-11-11T15:17:48.537598Z",
-    "modified": "2024-11-11T15:17:48.537598Z",
+    "id": "attack-pattern--188d50d8-1e0c-428a-96be-e7b83a99988d",
+    "created": "2024-11-12T10:21:12.693449Z",
+    "modified": "2024-11-12T10:21:12.693449Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--9ffd500a-abf0-4d5c-899a-0cc5ddc78a78",
-    "created": "2024-11-11T15:17:48.539654Z",
-    "modified": "2024-11-11T15:17:48.539654Z",
+    "id": "observed-data--385ed843-138a-41ff-829d-8c8e14b8b92d",
+    "created": "2024-11-12T10:21:12.69545Z",
+    "modified": "2024-11-12T10:21:12.69545Z",
     "first_observed": "2023-10-28T01:54:40.755176Z",
     "last_observed": "2023-10-28T01:54:40.755176Z",
     "number_observed": 1,
@@ -237,7 +285,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--904b0320-e021-5017-941b-4a7701892737",
+            "id": "network-traffic--ec963a06-dffb-5492-b4d5-5cdc4aa28688",
             "src_ref": "ipv4-addr--f7791e7d-1288-5aee-abe4-14992d095360",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 33757,
@@ -246,7 +294,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--88b50aa1-f681-4995-aeae-a281d5b421c2": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -254,23 +308,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--409ad8f0-5573-4207-81f7-bee3a1012323",
-    "created": "2024-11-11T15:17:48.54044Z",
-    "modified": "2024-11-11T15:17:48.54044Z",
+    "id": "attack-pattern--165cf768-d8bd-465a-9cb0-4af4e1abbef9",
+    "created": "2024-11-12T10:21:12.696456Z",
+    "modified": "2024-11-12T10:21:12.696456Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--09d80192-9bca-437a-9742-5788bc5a84e5",
-    "created": "2024-11-11T15:17:48.541139Z",
-    "modified": "2024-11-11T15:17:48.541139Z",
+    "id": "observed-data--f9c4f2a5-1ad0-4dec-a50e-bff5c7ea7924",
+    "created": "2024-11-12T10:21:12.697454Z",
+    "modified": "2024-11-12T10:21:12.697454Z",
     "first_observed": "2023-10-28T01:54:40.755938Z",
     "last_observed": "2023-10-28T01:54:40.755938Z",
     "number_observed": 1,
@@ -290,7 +350,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--cdd71008-4f65-5601-ba67-b4a7e516fcdd",
+            "id": "network-traffic--5141c470-47d8-5b2b-a19f-d45e73092f8f",
             "src_ref": "ipv4-addr--f7791e7d-1288-5aee-abe4-14992d095360",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 33757,
@@ -300,7 +360,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--243bc8ae-88b4-4570-9144-025e37877401": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -308,23 +374,29 @@
             "id": "artifact--91835015-0fca-5072-8aa5-0c416ba98481",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIxODAuMTAxLjI0NC4xMiIsICJHRVQiOiAiLyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--7a06051b-3460-50f0-8857-399c1c31c391",
+            "value": "/"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--46a53ec1-fe51-46b2-b0f6-7a78526188f7",
-    "created": "2024-11-11T15:17:48.541748Z",
-    "modified": "2024-11-11T15:17:48.541748Z",
+    "id": "attack-pattern--72c3e7c3-66a6-464a-9629-7453591f296a",
+    "created": "2024-11-12T10:21:12.698454Z",
+    "modified": "2024-11-12T10:21:12.698454Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--863f6dfc-453a-41e9-a53b-cb7f2f360c78",
-    "created": "2024-11-11T15:17:48.542973Z",
-    "modified": "2024-11-11T15:17:48.542973Z",
+    "id": "observed-data--9e0962f9-83c8-4402-a122-597cc7263234",
+    "created": "2024-11-12T10:21:12.69945Z",
+    "modified": "2024-11-12T10:21:12.69945Z",
     "first_observed": "2023-10-28T01:54:41.048613Z",
     "last_observed": "2023-10-28T01:54:41.048613Z",
     "number_observed": 1,
@@ -344,7 +416,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--013ccd1d-7894-502c-aa8d-c3ad8bb97dd1",
+            "id": "network-traffic--09df0349-8f00-5957-a58b-c70c32508311",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 23682,
@@ -353,7 +425,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--ed84554c-5c9e-47f7-8b8a-9e36d5d3b9f7": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -361,23 +439,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--656d1763-485e-4884-bca3-9ed4e8ecebad",
-    "created": "2024-11-11T15:17:48.54356Z",
-    "modified": "2024-11-11T15:17:48.54356Z",
+    "id": "attack-pattern--ccc4b595-e618-4ff6-a774-771c55866a1b",
+    "created": "2024-11-12T10:21:12.700454Z",
+    "modified": "2024-11-12T10:21:12.700454Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--aa060d08-ce14-4284-a08a-3038b051d362",
-    "created": "2024-11-11T15:17:48.544464Z",
-    "modified": "2024-11-11T15:17:48.544464Z",
+    "id": "observed-data--bb35cf19-ce1b-40c7-bc28-8f8e41826321",
+    "created": "2024-11-12T10:21:12.700454Z",
+    "modified": "2024-11-12T10:21:12.700454Z",
     "first_observed": "2023-10-28T01:54:41.049495Z",
     "last_observed": "2023-10-28T01:54:41.049495Z",
     "number_observed": 1,
@@ -397,7 +481,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--2e371519-f4c3-5561-a04d-9b586d40af63",
+            "id": "network-traffic--ae260c1a-2118-57af-a27f-6bac25665c86",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 23682,
@@ -407,7 +491,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--8f6881ed-cb3d-4199-bce7-ceab065727b9": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -415,23 +505,29 @@
             "id": "artifact--3ebb7e2d-b96e-5cff-8962-efdc7c969c80",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC41MyIsICJHRVQiOiAiLyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--7a06051b-3460-50f0-8857-399c1c31c391",
+            "value": "/"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--5a1a3454-93e3-481b-a880-600f9d184416",
-    "created": "2024-11-11T15:17:48.544973Z",
-    "modified": "2024-11-11T15:17:48.544973Z",
+    "id": "attack-pattern--d61513aa-2bd1-42b2-aba5-b020ef9d1499",
+    "created": "2024-11-12T10:21:12.702064Z",
+    "modified": "2024-11-12T10:21:12.702064Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--8c35d2f8-745b-4fa8-a3dc-7a8493f88d17",
-    "created": "2024-11-11T15:17:48.546241Z",
-    "modified": "2024-11-11T15:17:48.546241Z",
+    "id": "observed-data--343bb4c9-1a11-4878-8246-6687349a787e",
+    "created": "2024-11-12T10:21:12.703067Z",
+    "modified": "2024-11-12T10:21:12.703067Z",
     "first_observed": "2023-10-28T01:54:41.141111Z",
     "last_observed": "2023-10-28T01:54:41.141111Z",
     "number_observed": 1,
@@ -451,7 +547,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--225f47ab-c68d-516d-8a93-8e826d641bac",
+            "id": "network-traffic--84e8b307-4748-5979-a19b-7feb00e1ed0f",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 27028,
@@ -460,7 +556,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--bf0eb758-c867-4551-a4b0-b227972b52f3": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -468,23 +570,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--aa8a728b-cce3-476d-8903-04fd732d4131",
-    "created": "2024-11-11T15:17:48.54675Z",
-    "modified": "2024-11-11T15:17:48.54675Z",
+    "id": "attack-pattern--f1f32252-74f9-4c69-9811-46fc87bbd2f5",
+    "created": "2024-11-12T10:21:12.704334Z",
+    "modified": "2024-11-12T10:21:12.704334Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--51c8292c-b720-4662-be58-3a0891200340",
-    "created": "2024-11-11T15:17:48.547814Z",
-    "modified": "2024-11-11T15:17:48.547814Z",
+    "id": "observed-data--53a498bd-c183-49b8-85c0-f1b8f9d1591f",
+    "created": "2024-11-12T10:21:12.705334Z",
+    "modified": "2024-11-12T10:21:12.705334Z",
     "first_observed": "2023-10-28T01:54:41.141889Z",
     "last_observed": "2023-10-28T01:54:41.141889Z",
     "number_observed": 1,
@@ -504,7 +612,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--b5c692ca-cd35-51f8-a97a-b00c435b785e",
+            "id": "network-traffic--20f94e17-9d61-5f28-9c3d-62e7949af210",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 27028,
@@ -514,7 +622,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--7fdb3a30-fe3c-498e-ac40-c8590aab59b1": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -522,23 +636,29 @@
             "id": "artifact--e0b15f6f-39cd-53f3-9508-81414a7d4d0a",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC41MyIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS9jYjQ5NDYyZDJiNzRlZGEzOWNkMWVhY2I0NjVkZTE4Ni5qcyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--c8f20b27-a806-56e9-ad50-3c22844ee735",
+            "value": "/nopathsource/cb49462d2b74eda39cd1eacb465de186.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--3c70f1e5-1553-4403-b8c1-1f5a539b8b31",
-    "created": "2024-11-11T15:17:48.548355Z",
-    "modified": "2024-11-11T15:17:48.548355Z",
+    "id": "attack-pattern--076f8fd3-67ce-460e-8df6-b939b807b8b4",
+    "created": "2024-11-12T10:21:12.706338Z",
+    "modified": "2024-11-12T10:21:12.706338Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--5de84d05-8085-45af-bca9-df2f120d3a3f",
-    "created": "2024-11-11T15:17:48.549432Z",
-    "modified": "2024-11-11T15:17:48.549432Z",
+    "id": "observed-data--e82a2aa0-cb89-42b9-b7fd-9d7a23505a4c",
+    "created": "2024-11-12T10:21:12.707338Z",
+    "modified": "2024-11-12T10:21:12.707338Z",
     "first_observed": "2023-10-28T01:54:41.179644Z",
     "last_observed": "2023-10-28T01:54:41.179644Z",
     "number_observed": 1,
@@ -558,7 +678,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--215ed83a-2343-5c0f-be7a-068fcdecf1a0",
+            "id": "network-traffic--7325e10b-bc0b-53dc-9591-60cf8473b10b",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 47902,
@@ -567,7 +687,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--d7d8e65f-7c60-459d-a290-1e74d5e120e9": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -575,23 +701,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--07c17ead-834d-4d37-8f13-0c616c4127a9",
-    "created": "2024-11-11T15:17:48.549955Z",
-    "modified": "2024-11-11T15:17:48.549955Z",
+    "id": "attack-pattern--51d5232d-0f25-42ea-9fea-b1b51d9f561b",
+    "created": "2024-11-12T10:21:12.708338Z",
+    "modified": "2024-11-12T10:21:12.708338Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--d4442750-00fa-47e6-b7c9-9f76070b9527",
-    "created": "2024-11-11T15:17:48.551044Z",
-    "modified": "2024-11-11T15:17:48.551044Z",
+    "id": "observed-data--82498744-99f9-4c90-896e-cd5d70f513d4",
+    "created": "2024-11-12T10:21:12.709337Z",
+    "modified": "2024-11-12T10:21:12.709337Z",
     "first_observed": "2023-10-28T01:54:41.181826Z",
     "last_observed": "2023-10-28T01:54:41.181826Z",
     "number_observed": 1,
@@ -611,7 +743,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--3bb161cc-9a93-5a16-81bb-b59c13e48056",
+            "id": "network-traffic--790ebf91-15fd-59eb-b842-938e570129af",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 47902,
@@ -621,7 +753,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--d5ca66e4-e45e-4a05-93d4-e8f2158c3b04": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -629,23 +767,29 @@
             "id": "artifact--98c92045-8a78-5011-9108-6330e3e78c4a",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC40NSIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS81YjU4NDdkNzg1ZWY5OTQ4MzRmM2QwOTFjOGVhOWE0NS92aHRtbC9sYXRlc3Qvdmh0bWwyLmNzcz92PTIwMTgwODIyIn0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--383fe400-bb08-5e18-b7f2-88b66e85b793",
+            "value": "/nopathsource/5b5847d785ef994834f3d091c8ea9a45/vhtml/latest/vhtml2.css"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--3303b812-c50c-4d76-940a-52eea015e2f9",
-    "created": "2024-11-11T15:17:48.55157Z",
-    "modified": "2024-11-11T15:17:48.55157Z",
+    "id": "attack-pattern--4cb5dc7e-2f52-443b-ad9e-89c7f03bcc48",
+    "created": "2024-11-12T10:21:12.710338Z",
+    "modified": "2024-11-12T10:21:12.710338Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--e171caa8-960d-40e0-8e6b-1743f99798f3",
-    "created": "2024-11-11T15:17:48.552744Z",
-    "modified": "2024-11-11T15:17:48.552744Z",
+    "id": "observed-data--b4dc9d2f-2aee-423b-93ce-f2e270b44686",
+    "created": "2024-11-12T10:21:12.711337Z",
+    "modified": "2024-11-12T10:21:12.711337Z",
     "first_observed": "2023-10-28T01:54:41.18909Z",
     "last_observed": "2023-10-28T01:54:41.18909Z",
     "number_observed": 1,
@@ -665,7 +809,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--17e60150-5a7c-5c2c-893c-3880b7b47de9",
+            "id": "network-traffic--28babc4b-5c2c-55eb-95a5-5ad709cc47c0",
             "src_ref": "ipv4-addr--a78783aa-f864-53ee-a0bb-eb696a3db514",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 47706,
@@ -674,7 +818,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--23e03dd3-bf21-4aa2-b120-2e339368daab": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -682,23 +832,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--f041a198-0024-478f-b01a-b5c740beb5df",
-    "created": "2024-11-11T15:17:48.55325Z",
-    "modified": "2024-11-11T15:17:48.55325Z",
+    "id": "attack-pattern--97406450-af79-41f9-bb75-2d8de18dbf44",
+    "created": "2024-11-12T10:21:12.71284Z",
+    "modified": "2024-11-12T10:21:12.71284Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--c4e1a327-2c9b-4dbd-b7d3-7777e8293239",
-    "created": "2024-11-11T15:17:48.554279Z",
-    "modified": "2024-11-11T15:17:48.554279Z",
+    "id": "observed-data--56255bab-a266-4fad-ba95-5f8d9baacd05",
+    "created": "2024-11-12T10:21:12.713841Z",
+    "modified": "2024-11-12T10:21:12.713841Z",
     "first_observed": "2023-10-28T01:54:41.189305Z",
     "last_observed": "2023-10-28T01:54:41.189305Z",
     "number_observed": 1,
@@ -718,7 +874,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--b97f6445-d5c0-5989-8249-397a418d4afe",
+            "id": "network-traffic--b36585b3-9770-5293-9c77-1172f31cca6c",
             "src_ref": "ipv4-addr--32d6bd8d-093e-5175-baf1-80c50fc4b8c6",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 30842,
@@ -727,7 +883,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--c47d3af5-59f2-4e14-86ec-83f5b2a47ad9": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -735,23 +897,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--9d6cdc96-716e-4cb4-8d07-1950a5379c60",
-    "created": "2024-11-11T15:17:48.554795Z",
-    "modified": "2024-11-11T15:17:48.554795Z",
+    "id": "attack-pattern--6bed69f0-fe5e-40cc-8418-c7fbf9f7084d",
+    "created": "2024-11-12T10:21:12.714843Z",
+    "modified": "2024-11-12T10:21:12.714843Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--8b48493f-30a6-40b3-bebe-a5a523964878",
-    "created": "2024-11-11T15:17:48.555328Z",
-    "modified": "2024-11-11T15:17:48.555328Z",
+    "id": "observed-data--d189b3f5-ee6c-4c48-81c4-26d483d5642f",
+    "created": "2024-11-12T10:21:12.715843Z",
+    "modified": "2024-11-12T10:21:12.715843Z",
     "first_observed": "2023-10-28T01:54:41.189915Z",
     "last_observed": "2023-10-28T01:54:41.189915Z",
     "number_observed": 1,
@@ -771,7 +939,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--2cf0ae54-6951-53d0-bc69-b372df760768",
+            "id": "network-traffic--c33f3d31-42ea-5623-8beb-ecc36a5066a0",
             "src_ref": "ipv4-addr--a78783aa-f864-53ee-a0bb-eb696a3db514",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 47706,
@@ -781,7 +949,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--41abc9cc-56d4-42a7-bc7d-c8e4d2faa76a": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -789,23 +963,29 @@
             "id": "artifact--9bf75ef8-0c57-5237-9d97-6e5a6c8abdbe",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC44NCIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS81YjU4NDdkNzg1ZWY5OTQ4MzRmM2QwOTFjOGVhOWE0NS9xaWRpYW5fYjJiL2IyYl9ncmF5X2NhbnRvbmZhaXIvc3RhdGljL2Nzcy9jb21tb24uY3NzIn0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--9bc88701-98f2-5fd9-ae61-edabddcd0f10",
+            "value": "/nopathsource/5b5847d785ef994834f3d091c8ea9a45/qidian_b2b/b2b_gray_cantonfair/static/css/common.css"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--43898250-28d1-4b1c-ba9c-d78089e91c46",
-    "created": "2024-11-11T15:17:48.556335Z",
-    "modified": "2024-11-11T15:17:48.556335Z",
+    "id": "attack-pattern--3a01aedd-81cf-4a12-ab0a-f762463724b3",
+    "created": "2024-11-12T10:21:12.716843Z",
+    "modified": "2024-11-12T10:21:12.716843Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--18c2e883-6aad-4c7d-9bf5-b0ce71a21322",
-    "created": "2024-11-11T15:17:48.557335Z",
-    "modified": "2024-11-11T15:17:48.557335Z",
+    "id": "observed-data--74a7f779-d81b-4aac-b19d-d140f7127112",
+    "created": "2024-11-12T10:21:12.717843Z",
+    "modified": "2024-11-12T10:21:12.717843Z",
     "first_observed": "2023-10-28T01:54:41.1901Z",
     "last_observed": "2023-10-28T01:54:41.1901Z",
     "number_observed": 1,
@@ -825,7 +1005,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--5ff81631-37a5-59c2-b8ea-0965e066adb4",
+            "id": "network-traffic--68ca7010-8711-5ace-b24e-926c69f7c665",
             "src_ref": "ipv4-addr--32d6bd8d-093e-5175-baf1-80c50fc4b8c6",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 30842,
@@ -835,7 +1015,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--0fc1a7bb-1b89-4fb4-9347-def13b53234c": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -843,23 +1029,29 @@
             "id": "artifact--f80844ba-13f5-59c7-9053-c673374820c1",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC45NSIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS9kY2VkNzBiMTJkMTdlOWI4ZDg2ZTUyYTAzNjY2MWFkYS5jc3MifQ=="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--8e7cf291-0eb6-5bb6-b654-cfc1862e47d0",
+            "value": "/nopathsource/dced70b12d17e9b8d86e52a036661ada.css"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--d3e1326e-b3d8-4274-a097-d01d88ccdebd",
-    "created": "2024-11-11T15:17:48.558339Z",
-    "modified": "2024-11-11T15:17:48.558339Z",
+    "id": "attack-pattern--46ff82ee-a212-4348-899d-f6716ece2c68",
+    "created": "2024-11-12T10:21:12.718581Z",
+    "modified": "2024-11-12T10:21:12.718581Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--985da3e1-5b50-408b-80aa-7d2e6b90ecc6",
-    "created": "2024-11-11T15:17:48.558339Z",
-    "modified": "2024-11-11T15:17:48.558339Z",
+    "id": "observed-data--62d8001a-8022-4941-8bf1-ff15616cce41",
+    "created": "2024-11-12T10:21:12.719586Z",
+    "modified": "2024-11-12T10:21:12.719586Z",
     "first_observed": "2023-10-28T01:54:41.19277Z",
     "last_observed": "2023-10-28T01:54:41.19277Z",
     "number_observed": 1,
@@ -879,7 +1071,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--20810d87-1fce-5f65-b205-a1610e82253d",
+            "id": "network-traffic--f979c2cb-4d81-5e5e-b687-6535458f52ca",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 51129,
@@ -888,7 +1080,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--7d57d1bc-c513-49e4-a8e4-7de1e681518e": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -896,23 +1094,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--7985138c-d511-4902-8f56-6a154433dde8",
-    "created": "2024-11-11T15:17:48.559851Z",
-    "modified": "2024-11-11T15:17:48.559851Z",
+    "id": "attack-pattern--d50acf93-06f4-4cc4-a42e-23db595fc81c",
+    "created": "2024-11-12T10:21:12.720586Z",
+    "modified": "2024-11-12T10:21:12.720586Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--34b4985d-76fd-4859-b79b-72539aed637f",
-    "created": "2024-11-11T15:17:48.56089Z",
-    "modified": "2024-11-11T15:17:48.56089Z",
+    "id": "observed-data--26414480-ec97-47e3-87c5-cfe3c62a7e4f",
+    "created": "2024-11-12T10:21:12.722091Z",
+    "modified": "2024-11-12T10:21:12.722091Z",
     "first_observed": "2023-10-28T01:54:41.193568Z",
     "last_observed": "2023-10-28T01:54:41.193568Z",
     "number_observed": 1,
@@ -932,7 +1136,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--5ab6da57-39bd-5c3b-92fe-d181eccfef85",
+            "id": "network-traffic--453f604b-49e4-5b87-a09f-4aa0d2dbf2d9",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 51129,
@@ -942,7 +1146,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--d4cc2856-229d-4bb3-833f-12f728112b74": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -950,23 +1160,29 @@
             "id": "artifact--eb4f7b23-e562-5e65-984c-c40bb69fe0a6",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC4xMDEiLCAiR0VUIjogIi9ub3BhdGhzb3VyY2UvNWI1ODQ3ZDc4NWVmOTk0ODM0ZjNkMDkxYzhlYTlhNDUvcWlkaWFuX2IyYi9iMmJfZ3JheV9jYW50b25mYWlyLzIwMjIwMjE2L3N0YXRpYy9jc3MvYmFzZS5jc3M/dj0yMDIzMDMxMCJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--fc9ef1f5-3e1f-508c-bec4-b125be4e784f",
+            "value": "/nopathsource/5b5847d785ef994834f3d091c8ea9a45/qidian_b2b/b2b_gray_cantonfair/20220216/static/css/base.css"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--36c7506b-af72-42be-b808-4e86ddbe033d",
-    "created": "2024-11-11T15:17:48.56089Z",
-    "modified": "2024-11-11T15:17:48.56089Z",
+    "id": "attack-pattern--dc84fa1a-c549-44b7-aff7-f5ac4d4e9b36",
+    "created": "2024-11-12T10:21:12.722091Z",
+    "modified": "2024-11-12T10:21:12.722091Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--31c447d4-a282-4da5-bb30-dfa7c4b8d3e3",
-    "created": "2024-11-11T15:17:48.561892Z",
-    "modified": "2024-11-11T15:17:48.561892Z",
+    "id": "observed-data--ddd9c7ce-833f-4279-b2cc-bbd0efbff107",
+    "created": "2024-11-12T10:21:12.7241Z",
+    "modified": "2024-11-12T10:21:12.7241Z",
     "first_observed": "2023-10-28T01:54:41.19449Z",
     "last_observed": "2023-10-28T01:54:41.19449Z",
     "number_observed": 1,
@@ -986,7 +1202,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--0f6587fc-cd07-5d1f-a381-1c7ae421d4ec",
+            "id": "network-traffic--639db140-c112-5a64-b4af-5cb087e56e50",
             "src_ref": "ipv4-addr--fe9248d7-bd94-5534-8365-00cb679bf267",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 24310,
@@ -995,7 +1211,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--55511a46-ff05-4619-858d-15bc5cfa000a": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1003,23 +1225,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--926803ff-2e43-4787-b205-df6965093757",
-    "created": "2024-11-11T15:17:48.5629Z",
-    "modified": "2024-11-11T15:17:48.5629Z",
+    "id": "attack-pattern--7de3fb6a-c7ab-4cb7-bd20-102f3ba7475f",
+    "created": "2024-11-12T10:21:12.7241Z",
+    "modified": "2024-11-12T10:21:12.7241Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--d859d492-300f-4c5e-97b6-aab74f2720e3",
-    "created": "2024-11-11T15:17:48.563899Z",
-    "modified": "2024-11-11T15:17:48.563899Z",
+    "id": "observed-data--d66dff1a-1f67-488d-b805-9c677246ea35",
+    "created": "2024-11-12T10:21:12.726102Z",
+    "modified": "2024-11-12T10:21:12.726102Z",
     "first_observed": "2023-10-28T01:54:41.19516Z",
     "last_observed": "2023-10-28T01:54:41.19516Z",
     "number_observed": 1,
@@ -1039,7 +1267,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--ec69238f-6f52-5110-a816-b896adfba2d4",
+            "id": "network-traffic--199293a4-120b-5b8f-b8be-8684d3afb872",
             "src_ref": "ipv4-addr--fe9248d7-bd94-5534-8365-00cb679bf267",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 24310,
@@ -1049,7 +1277,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--4452d613-85c2-476f-8e75-3038df3e9072": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1057,23 +1291,29 @@
             "id": "artifact--ea10f83e-091c-5618-a4f8-ab996ecf240e",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC4xMTciLCAiR0VUIjogIi9ub3BhdGhzb3VyY2UvNWI1ODQ3ZDc4NWVmOTk0ODM0ZjNkMDkxYzhlYTlhNDUvcWlkaWFuX2IyYi9iMmJfZ3JheV9jYW50b25mYWlyLzIwMjIwMjE2L3N0YXRpYy9jc3MvbG9naW5wYWdlLmNzcz92PTIwMjMwMzEwIn0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--079dc3dd-3e3d-52f5-9ae6-dc312c480c8b",
+            "value": "/nopathsource/5b5847d785ef994834f3d091c8ea9a45/qidian_b2b/b2b_gray_cantonfair/20220216/static/css/loginpage.css"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--1ca3082b-785f-400e-accd-3662f56eae4c",
-    "created": "2024-11-11T15:17:48.5649Z",
-    "modified": "2024-11-11T15:17:48.5649Z",
+    "id": "attack-pattern--b1f26745-51f1-4302-8fbc-1b8365b0790d",
+    "created": "2024-11-12T10:21:12.727101Z",
+    "modified": "2024-11-12T10:21:12.727101Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--5b4b42f2-8ed2-44b3-965d-597a73467f96",
-    "created": "2024-11-11T15:17:48.565983Z",
-    "modified": "2024-11-11T15:17:48.565983Z",
+    "id": "observed-data--57cc12ee-9688-41fd-88ce-c0aaa9c7975e",
+    "created": "2024-11-12T10:21:12.728102Z",
+    "modified": "2024-11-12T10:21:12.728102Z",
     "first_observed": "2023-10-28T01:54:41.246781Z",
     "last_observed": "2023-10-28T01:54:41.246781Z",
     "number_observed": 1,
@@ -1093,7 +1333,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--7b5bb372-6be8-5168-aa0a-4296035eb54d",
+            "id": "network-traffic--1f2eeb8d-9c10-561e-a72b-2bf5e7961d9a",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 31464,
@@ -1102,7 +1342,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--53b5685d-19d7-4f5f-9701-9adf63795fa1": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1110,23 +1356,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--b50e00f0-8e1d-45f7-9f86-54baf2db5917",
-    "created": "2024-11-11T15:17:48.565983Z",
-    "modified": "2024-11-11T15:17:48.565983Z",
+    "id": "attack-pattern--22ec0e77-496c-4e67-bf4d-db8be5d3fe26",
+    "created": "2024-11-12T10:21:12.729101Z",
+    "modified": "2024-11-12T10:21:12.729101Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--b8c68669-3b40-472e-8734-5197548eea58",
-    "created": "2024-11-11T15:17:48.567004Z",
-    "modified": "2024-11-11T15:17:48.567004Z",
+    "id": "observed-data--04029fd0-ceae-4c0b-ba76-05fb63acf8c6",
+    "created": "2024-11-12T10:21:12.730102Z",
+    "modified": "2024-11-12T10:21:12.730102Z",
     "first_observed": "2023-10-28T01:54:41.247489Z",
     "last_observed": "2023-10-28T01:54:41.247489Z",
     "number_observed": 1,
@@ -1146,7 +1398,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--fd4d6170-a69c-559a-ad3a-14e978e4e82f",
+            "id": "network-traffic--d91628be-6006-531b-88ea-b7199cd4a1b3",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 31464,
@@ -1156,7 +1408,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--e0766a9d-7d1c-43a2-b130-a245c7ded5e2": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1164,23 +1422,29 @@
             "id": "artifact--70916b44-2014-5106-8640-7b60cc5eeace",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC41MyIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS9iY2I3YzMyMmZlMjI0ZDc3MWQzZDc0YTM1MjU4NzYyYi42LjAuanMifQ=="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--7fdb0415-3bdf-547d-9114-d49a59b50f21",
+            "value": "/nopathsource/bcb7c322fe224d771d3d74a35258762b.6.0.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--95b8bc02-0d3f-441e-a85b-ed8dea6c7f61",
-    "created": "2024-11-11T15:17:48.56798Z",
-    "modified": "2024-11-11T15:17:48.56798Z",
+    "id": "attack-pattern--12d7b9e6-b56f-4c31-943e-22781a90935a",
+    "created": "2024-11-12T10:21:12.731101Z",
+    "modified": "2024-11-12T10:21:12.731101Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--fa7566a0-cb0d-4653-a679-b89676210edf",
-    "created": "2024-11-11T15:17:48.569013Z",
-    "modified": "2024-11-11T15:17:48.569013Z",
+    "id": "observed-data--eaad36c1-20fd-4057-a82c-da7805365208",
+    "created": "2024-11-12T10:21:12.732101Z",
+    "modified": "2024-11-12T10:21:12.732101Z",
     "first_observed": "2023-10-28T01:54:41.277969Z",
     "last_observed": "2023-10-28T01:54:41.277969Z",
     "number_observed": 1,
@@ -1200,7 +1464,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--66a844d7-d30c-5a27-954c-43bc2a674fcc",
+            "id": "network-traffic--80971459-3bf4-514d-9b65-f0407105517c",
             "src_ref": "ipv4-addr--32d6bd8d-093e-5175-baf1-80c50fc4b8c6",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 34494,
@@ -1209,7 +1473,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--5c8cbbd6-9ee2-46b1-b51e-fc1e3da3b806": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1217,23 +1487,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--33f6dcb9-a509-44f5-a88d-0acb506daa9c",
-    "created": "2024-11-11T15:17:48.570007Z",
-    "modified": "2024-11-11T15:17:48.570007Z",
+    "id": "attack-pattern--61257497-93cb-451e-a357-adbd44735260",
+    "created": "2024-11-12T10:21:12.732606Z",
+    "modified": "2024-11-12T10:21:12.732606Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--3f42ce84-5ee1-4b94-865f-43c875afd62a",
-    "created": "2024-11-11T15:17:48.570007Z",
-    "modified": "2024-11-11T15:17:48.570007Z",
+    "id": "observed-data--d43de107-65e6-436f-8ea7-4adde0742e58",
+    "created": "2024-11-12T10:21:12.734159Z",
+    "modified": "2024-11-12T10:21:12.734159Z",
     "first_observed": "2023-10-28T01:54:41.278758Z",
     "last_observed": "2023-10-28T01:54:41.278758Z",
     "number_observed": 1,
@@ -1253,7 +1529,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--919dfc81-631f-5c8f-8703-8d378f745a03",
+            "id": "network-traffic--88ad1c25-1217-56d6-9db4-8e55d9f44a89",
             "src_ref": "ipv4-addr--32d6bd8d-093e-5175-baf1-80c50fc4b8c6",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 34494,
@@ -1263,7 +1539,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--bef21ac6-494d-4407-8f24-0586cbad213a": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1271,23 +1553,29 @@
             "id": "artifact--3d0246c7-4ea2-5c77-aca4-565708837cc6",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC45NSIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS9lYjZkM2ZkMzQ0YzhhZjg1YzlmZmM1YWFiNzQ5MjMwZi5qcyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--f3bf0744-321b-5264-9e0c-7a31eba4b4fe",
+            "value": "/nopathsource/eb6d3fd344c8af85c9ffc5aab749230f.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--6f6fe42f-5516-4509-a39c-8313dec32c3c",
-    "created": "2024-11-11T15:17:48.571289Z",
-    "modified": "2024-11-11T15:17:48.571289Z",
+    "id": "attack-pattern--ab2b92f6-2a7d-4eef-9686-557ab2cbe8d8",
+    "created": "2024-11-12T10:21:12.735161Z",
+    "modified": "2024-11-12T10:21:12.735161Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--43c18659-27ef-464b-8fe8-4331e617d18e",
-    "created": "2024-11-11T15:17:48.57227Z",
-    "modified": "2024-11-11T15:17:48.57227Z",
+    "id": "observed-data--8abb541b-322d-4b00-8f00-5291cdc111ee",
+    "created": "2024-11-12T10:21:12.736161Z",
+    "modified": "2024-11-12T10:21:12.736161Z",
     "first_observed": "2023-10-28T01:54:41.28453Z",
     "last_observed": "2023-10-28T01:54:41.28453Z",
     "number_observed": 1,
@@ -1307,7 +1595,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--0132e848-0ef4-54d4-b43c-cbcdabe9ab9d",
+            "id": "network-traffic--79fe0c6e-a328-5043-b9a5-6eb83e8539c2",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 54711,
@@ -1316,7 +1604,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--3a8d4d60-6c24-46c2-b5e9-6729361da2a7": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1324,23 +1618,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--0d007e9b-3a5e-46f5-ba0a-e7e0348abaae",
-    "created": "2024-11-11T15:17:48.57329Z",
-    "modified": "2024-11-11T15:17:48.57329Z",
+    "id": "attack-pattern--725ea9c0-e929-45e0-9a43-c78f3941b75e",
+    "created": "2024-11-12T10:21:12.737161Z",
+    "modified": "2024-11-12T10:21:12.737161Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--cfc95d50-706f-4b34-bd42-95778ee6bf5a",
-    "created": "2024-11-11T15:17:48.574284Z",
-    "modified": "2024-11-11T15:17:48.574284Z",
+    "id": "observed-data--9b643631-176a-4f14-9387-1e77ce28d6ef",
+    "created": "2024-11-12T10:21:12.738161Z",
+    "modified": "2024-11-12T10:21:12.738161Z",
     "first_observed": "2023-10-28T01:54:41.284795Z",
     "last_observed": "2023-10-28T01:54:41.284795Z",
     "number_observed": 1,
@@ -1360,7 +1660,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--62da5c95-7dcb-59bf-b06f-44bbb35626e2",
+            "id": "network-traffic--5d486805-1f23-533b-b791-5a929cf75e04",
             "src_ref": "ipv4-addr--fe9248d7-bd94-5534-8365-00cb679bf267",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 27688,
@@ -1369,7 +1669,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--e2924423-d9c5-4fa9-9440-3c13b576712f": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1377,23 +1683,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--6dac25d0-6143-4766-8b8f-5da72426ff6a",
-    "created": "2024-11-11T15:17:48.575288Z",
-    "modified": "2024-11-11T15:17:48.575288Z",
+    "id": "attack-pattern--1d0908df-259a-4d81-8e01-499d77977e0f",
+    "created": "2024-11-12T10:21:12.739161Z",
+    "modified": "2024-11-12T10:21:12.739161Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--60d536cd-99f8-4fb9-a1d3-2767f5bc747a",
-    "created": "2024-11-11T15:17:48.575288Z",
-    "modified": "2024-11-11T15:17:48.575288Z",
+    "id": "observed-data--9b09a222-bd1c-4a78-9ec2-9c14aba2441d",
+    "created": "2024-11-12T10:21:12.740161Z",
+    "modified": "2024-11-12T10:21:12.740161Z",
     "first_observed": "2023-10-28T01:54:41.285292Z",
     "last_observed": "2023-10-28T01:54:41.285292Z",
     "number_observed": 1,
@@ -1413,7 +1725,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--10484403-ed32-5add-8b20-8497a9cde3b0",
+            "id": "network-traffic--9b36bb80-1ec2-5e9c-bb16-b16234246e46",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 54711,
@@ -1423,7 +1735,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--cf45c721-2b3e-40a6-b17c-526f84014ac4": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1431,23 +1749,29 @@
             "id": "artifact--0f30b2d3-2c88-556f-914d-169864bd2e73",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC4xMDEiLCAiR0VUIjogIi9ub3BhdGhzb3VyY2UvZWFlNzk1NDNhZGEwNzQzYzk1ZjgyOTA1Yjc2ZDE5MmUuanMifQ=="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--ceb34c01-3985-5ae5-a1b7-2c7c7dc08801",
+            "value": "/nopathsource/eae79543ada0743c95f82905b76d192e.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--b46b9d69-2d00-4e5a-8757-806cb587d020",
-    "created": "2024-11-11T15:17:48.57628Z",
-    "modified": "2024-11-11T15:17:48.57628Z",
+    "id": "attack-pattern--795d3556-7056-4660-a8f9-c837351f9c72",
+    "created": "2024-11-12T10:21:12.741161Z",
+    "modified": "2024-11-12T10:21:12.741161Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--90446e47-5732-47bd-80b7-21dc6fcd3851",
-    "created": "2024-11-11T15:17:48.577269Z",
-    "modified": "2024-11-11T15:17:48.577269Z",
+    "id": "observed-data--422ab096-6564-42cc-8feb-104995a4001a",
+    "created": "2024-11-12T10:21:12.742161Z",
+    "modified": "2024-11-12T10:21:12.742161Z",
     "first_observed": "2023-10-28T01:54:41.285583Z",
     "last_observed": "2023-10-28T01:54:41.285583Z",
     "number_observed": 1,
@@ -1467,7 +1791,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--7ce44cac-47ba-53aa-8547-7fa305664916",
+            "id": "network-traffic--05910c77-e150-528e-a02a-bbef641f6b39",
             "src_ref": "ipv4-addr--fe9248d7-bd94-5534-8365-00cb679bf267",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 27688,
@@ -1477,7 +1801,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--8d79af5d-0243-454f-952c-626459bc8245": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1485,23 +1815,29 @@
             "id": "artifact--00ffe066-ac3e-5f32-87f1-cd72d415d629",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC4xMTciLCAiR0VUIjogIi9ub3BhdGhzb3VyY2UvNDRkOWVmOWY3M2Y0N2Y5OTM4OGJkNjRkOGQwZjY1MmEuanMifQ=="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--3066c95c-a392-57f1-a15a-21a52302058d",
+            "value": "/nopathsource/44d9ef9f73f47f99388bd64d8d0f652a.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--840adb07-e817-49fb-9375-ed9af8f6a52c",
-    "created": "2024-11-11T15:17:48.57827Z",
-    "modified": "2024-11-11T15:17:48.57827Z",
+    "id": "attack-pattern--d1bd91fb-336a-4644-8796-104d13f83f6e",
+    "created": "2024-11-12T10:21:12.742666Z",
+    "modified": "2024-11-12T10:21:12.742666Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--d48d879e-772c-44a6-aadb-735a383b9487",
-    "created": "2024-11-11T15:17:48.57827Z",
-    "modified": "2024-11-11T15:17:48.57827Z",
+    "id": "observed-data--bdedf319-4e1a-4cd0-a758-624913c66ee8",
+    "created": "2024-11-12T10:21:12.743667Z",
+    "modified": "2024-11-12T10:21:12.743667Z",
     "first_observed": "2023-10-28T01:54:41.320194Z",
     "last_observed": "2023-10-28T01:54:41.320194Z",
     "number_observed": 1,
@@ -1521,7 +1857,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--bc800326-88dc-5751-a071-5bdb2c0c6f75",
+            "id": "network-traffic--d9c735e3-28c8-5a67-84a4-31b037cb0517",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 33944,
@@ -1530,7 +1866,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--cf5faa4c-63d8-469b-b114-7d1fa6b9230b": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1538,23 +1880,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--eb4ace8c-7c93-4a35-b631-3d633b9bcba0",
-    "created": "2024-11-11T15:17:48.57996Z",
-    "modified": "2024-11-11T15:17:48.57996Z",
+    "id": "attack-pattern--f8c623ef-d6f6-4633-970b-59547bc70359",
+    "created": "2024-11-12T10:21:12.744669Z",
+    "modified": "2024-11-12T10:21:12.744669Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--d39d8c44-8179-4a6a-949d-dd84299478d3",
-    "created": "2024-11-11T15:17:48.58102Z",
-    "modified": "2024-11-11T15:17:48.58102Z",
+    "id": "observed-data--ac455b31-73db-491c-b13a-883c57a4d110",
+    "created": "2024-11-12T10:21:12.745669Z",
+    "modified": "2024-11-12T10:21:12.745669Z",
     "first_observed": "2023-10-28T01:54:41.320959Z",
     "last_observed": "2023-10-28T01:54:41.320959Z",
     "number_observed": 1,
@@ -1574,7 +1922,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--031513b4-b1b0-5e0a-b8a8-dbc108870fd7",
+            "id": "network-traffic--7e24240d-1e2b-5443-b2f3-506ba2d60d45",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 33944,
@@ -1584,7 +1932,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--856fdf6c-f9c9-4d5d-9cdc-a63a367de3ad": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1592,23 +1946,29 @@
             "id": "artifact--4ed8597e-9496-53c2-b4dc-c42374629a06",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC41MyIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS9kYTcyNDMxNTkxYzRkZmVhOTc4MWUwMzVlNDEwYWYyZS5qcyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--175c376c-5a62-54ff-9ba7-1f8b94c50eb3",
+            "value": "/nopathsource/da72431591c4dfea9781e035e410af2e.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--1b49adf9-466d-48df-910c-fe05c2022b18",
-    "created": "2024-11-11T15:17:48.58102Z",
-    "modified": "2024-11-11T15:17:48.58102Z",
+    "id": "attack-pattern--02d23d9d-ccfa-4dec-8def-5b229e0e37a0",
+    "created": "2024-11-12T10:21:12.746669Z",
+    "modified": "2024-11-12T10:21:12.746669Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--771b7bef-269b-4078-95a2-1a98bcc82ef1",
-    "created": "2024-11-11T15:17:48.582007Z",
-    "modified": "2024-11-11T15:17:48.582007Z",
+    "id": "observed-data--c860ced1-d48e-48a0-b23c-33ececa0f7f4",
+    "created": "2024-11-12T10:21:12.747669Z",
+    "modified": "2024-11-12T10:21:12.747669Z",
     "first_observed": "2023-10-28T01:54:41.333424Z",
     "last_observed": "2023-10-28T01:54:41.333424Z",
     "number_observed": 1,
@@ -1628,7 +1988,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--2262f471-9267-5dcd-9a40-59207567bd67",
+            "id": "network-traffic--846c635d-0cc2-5370-b23f-88f0c6ad657e",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 53221,
@@ -1637,7 +1997,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--35d4a093-3792-44f4-9625-db69caac0025": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1645,23 +2011,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--7ccd9a1c-f5e5-46d8-ba50-062d31d95b78",
-    "created": "2024-11-11T15:17:48.583012Z",
-    "modified": "2024-11-11T15:17:48.583012Z",
+    "id": "attack-pattern--e457058c-e552-45f7-8032-6a9751c81018",
+    "created": "2024-11-12T10:21:12.748669Z",
+    "modified": "2024-11-12T10:21:12.748669Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--f2dd2828-33dc-4cbb-9a15-dfc9260152e0",
-    "created": "2024-11-11T15:17:48.584017Z",
-    "modified": "2024-11-11T15:17:48.584017Z",
+    "id": "observed-data--901f8468-bce4-4f18-bc3a-df35dee1ac60",
+    "created": "2024-11-12T10:21:12.750669Z",
+    "modified": "2024-11-12T10:21:12.750669Z",
     "first_observed": "2023-10-28T01:54:41.335574Z",
     "last_observed": "2023-10-28T01:54:41.335574Z",
     "number_observed": 1,
@@ -1681,7 +2053,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--f0b88040-a5d8-514e-a9a7-d7fc4eae9a69",
+            "id": "network-traffic--6a51bf3c-42ae-5e5e-b0b9-86d540ce66a6",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 53221,
@@ -1691,7 +2063,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--175e0939-ffce-466f-8d71-fb9bfb851af9": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1699,23 +2077,29 @@
             "id": "artifact--bafa83a2-e5b4-5038-9300-63711b1ffe65",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC40NSIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS9mZDQ3NWE1NDU3NmE2NmZkZjc4YTA1YmU2NmY4M2NmNy5qcyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--72e3d85d-3af0-5df6-8d29-e684ff050a40",
+            "value": "/nopathsource/fd475a54576a66fdf78a05be66f83cf7.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--bd8cf8f3-0581-4b59-8029-955deea07051",
-    "created": "2024-11-11T15:17:48.585015Z",
-    "modified": "2024-11-11T15:17:48.585015Z",
+    "id": "attack-pattern--d772fb9e-1dd0-4b9b-b19e-d1ea727ec639",
+    "created": "2024-11-12T10:21:12.750669Z",
+    "modified": "2024-11-12T10:21:12.750669Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--8f7f550c-7be5-4333-801b-cbb14ffb45fb",
-    "created": "2024-11-11T15:17:48.586014Z",
-    "modified": "2024-11-11T15:17:48.586014Z",
+    "id": "observed-data--33900cbe-7520-46c9-a872-c5d436633fe6",
+    "created": "2024-11-12T10:21:12.752174Z",
+    "modified": "2024-11-12T10:21:12.752174Z",
     "first_observed": "2023-10-28T01:54:41.336952Z",
     "last_observed": "2023-10-28T01:54:41.336952Z",
     "number_observed": 1,
@@ -1735,7 +2119,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--28e9927e-ba12-5953-833c-0197d4576bdd",
+            "id": "network-traffic--8c057718-0117-52e5-9cc0-4f8a779d7cbe",
             "src_ref": "ipv4-addr--a78783aa-f864-53ee-a0bb-eb696a3db514",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 53236,
@@ -1744,7 +2128,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--dca337f8-8885-4951-9f7a-544351c1d140": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1752,23 +2142,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--23196a5f-12bf-423d-aaa9-b650b8176f17",
-    "created": "2024-11-11T15:17:48.586014Z",
-    "modified": "2024-11-11T15:17:48.586014Z",
+    "id": "attack-pattern--2bc22fb3-f12a-48f6-87b8-548015b3bbf6",
+    "created": "2024-11-12T10:21:12.753193Z",
+    "modified": "2024-11-12T10:21:12.753193Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--293cd058-eeb3-4f45-9d6d-dbe2b7873aa3",
-    "created": "2024-11-11T15:17:48.587023Z",
-    "modified": "2024-11-11T15:17:48.587023Z",
+    "id": "observed-data--bebd21cf-5f12-4389-8723-0636f456bc19",
+    "created": "2024-11-12T10:21:12.754193Z",
+    "modified": "2024-11-12T10:21:12.754193Z",
     "first_observed": "2023-10-28T01:54:41.337766Z",
     "last_observed": "2023-10-28T01:54:41.337766Z",
     "number_observed": 1,
@@ -1788,7 +2184,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--e80f46ea-a599-5e2a-b474-d0821813f4ec",
+            "id": "network-traffic--211ef193-612a-5606-9026-bfc4f22b2fcf",
             "src_ref": "ipv4-addr--a78783aa-f864-53ee-a0bb-eb696a3db514",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 53236,
@@ -1798,7 +2194,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--00f24872-913b-4ec6-986b-1d9af228356b": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1806,23 +2208,29 @@
             "id": "artifact--6f6af2a6-a69f-53a3-aabe-a07dff5e0f3d",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC44NCIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS85NTQxZDYxYzMwN2FiMTY3OWEzNWZkOGU2N2Y4NGYxYy5qcyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--080f3144-586b-50c2-ba0d-40d5faafcd1a",
+            "value": "/nopathsource/9541d61c307ab1679a35fd8e67f84f1c.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--9267816d-2221-4dee-a346-96d86ee026ed",
-    "created": "2024-11-11T15:17:48.588109Z",
-    "modified": "2024-11-11T15:17:48.588109Z",
+    "id": "attack-pattern--40493da2-37b8-4fcf-97bc-4879ff9fcb9a",
+    "created": "2024-11-12T10:21:12.755195Z",
+    "modified": "2024-11-12T10:21:12.755195Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--5e3b6ab1-e305-4e73-9ffd-6c4d0de1b554",
-    "created": "2024-11-11T15:17:48.589042Z",
-    "modified": "2024-11-11T15:17:48.589042Z",
+    "id": "observed-data--b02fbd2d-b6bd-4238-ad88-80ebb3a157d7",
+    "created": "2024-11-12T10:21:12.756194Z",
+    "modified": "2024-11-12T10:21:12.756194Z",
     "first_observed": "2023-10-28T01:54:41.389307Z",
     "last_observed": "2023-10-28T01:54:41.389307Z",
     "number_observed": 1,
@@ -1842,7 +2250,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--23e6289e-2f67-5c65-b676-3566f5156e5e",
+            "id": "network-traffic--c896de57-818c-5bde-a7b9-b79f50952e37",
             "src_ref": "ipv4-addr--32d6bd8d-093e-5175-baf1-80c50fc4b8c6",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 37950,
@@ -1851,7 +2259,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--80f5d977-dc93-417b-b381-e90733053a66": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1859,23 +2273,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--89aed9a8-5021-4881-ba1d-98fa03f378f3",
-    "created": "2024-11-11T15:17:48.590022Z",
-    "modified": "2024-11-11T15:17:48.590022Z",
+    "id": "attack-pattern--310ae61c-4ecd-4722-8c7b-7305f343f754",
+    "created": "2024-11-12T10:21:12.757195Z",
+    "modified": "2024-11-12T10:21:12.757195Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--147621be-2616-43e8-887d-edcc7dbe9efa",
-    "created": "2024-11-11T15:17:48.590022Z",
-    "modified": "2024-11-11T15:17:48.590022Z",
+    "id": "observed-data--1aab872e-92bc-4849-b41f-8ecfb93b3b9a",
+    "created": "2024-11-12T10:21:12.758195Z",
+    "modified": "2024-11-12T10:21:12.758195Z",
     "first_observed": "2023-10-28T01:54:41.390095Z",
     "last_observed": "2023-10-28T01:54:41.390095Z",
     "number_observed": 1,
@@ -1895,7 +2315,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--f363b9d7-5f59-5373-a038-fd517b2706ed",
+            "id": "network-traffic--99acc869-9e8c-5419-a47c-610706b6873f",
             "src_ref": "ipv4-addr--32d6bd8d-093e-5175-baf1-80c50fc4b8c6",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 37950,
@@ -1905,7 +2325,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--e9aa407a-cee1-45ec-8052-06deac370b4c": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1913,23 +2339,29 @@
             "id": "artifact--c6f1c83a-b960-508f-a54d-f0bdbedf9a4f",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC45NSIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS9kZWQ2ZmZmYjE3NTVlNTdjMTE1ZDMyYzQ5NzA3NDUzOS5qcyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--7c01de00-5dd6-5b87-ac80-c70462e3ef9d",
+            "value": "/nopathsource/ded6fffb1755e57c115d32c497074539.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--6878e970-934f-42df-b11f-4a75a03df4c0",
-    "created": "2024-11-11T15:17:48.591295Z",
-    "modified": "2024-11-11T15:17:48.591295Z",
+    "id": "attack-pattern--d9350f64-cad9-4e10-b7c7-e2a9c2a7fea5",
+    "created": "2024-11-12T10:21:12.759195Z",
+    "modified": "2024-11-12T10:21:12.759195Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--abb89392-9c2d-43e8-85db-7c9a34c8c3a0",
-    "created": "2024-11-11T15:17:48.592331Z",
-    "modified": "2024-11-11T15:17:48.592331Z",
+    "id": "observed-data--3f3ebe8e-da3f-405f-9b51-42d12ecdf54d",
+    "created": "2024-11-12T10:21:12.760198Z",
+    "modified": "2024-11-12T10:21:12.760198Z",
     "first_observed": "2023-10-28T01:54:41.3917Z",
     "last_observed": "2023-10-28T01:54:41.3917Z",
     "number_observed": 1,
@@ -1949,7 +2381,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--19e90a7b-5f96-5e9b-a60b-9f001ba0b2f5",
+            "id": "network-traffic--c4b11003-44a4-58ca-a631-1eedbf54e650",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 36158,
@@ -1958,7 +2390,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--238a7ddf-2ef4-403d-b850-f76e27415591": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -1966,23 +2404,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--99145824-3b79-49fa-a2e7-9e7281d6f02b",
-    "created": "2024-11-11T15:17:48.593254Z",
-    "modified": "2024-11-11T15:17:48.593254Z",
+    "id": "attack-pattern--486c6669-be21-48e4-9bd7-509d719ad3f1",
+    "created": "2024-11-12T10:21:12.761197Z",
+    "modified": "2024-11-12T10:21:12.761197Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--1fa45ca9-50e7-4eea-bd7b-febdd479a303",
-    "created": "2024-11-11T15:17:48.594302Z",
-    "modified": "2024-11-11T15:17:48.594302Z",
+    "id": "observed-data--648e2243-14f1-4a13-97e5-996c090eb23a",
+    "created": "2024-11-12T10:21:12.762194Z",
+    "modified": "2024-11-12T10:21:12.762194Z",
     "first_observed": "2023-10-28T01:54:41.392384Z",
     "last_observed": "2023-10-28T01:54:41.392384Z",
     "number_observed": 1,
@@ -2002,7 +2446,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--87c6e4b7-df73-540d-80da-50248568306c",
+            "id": "network-traffic--5f8294a7-ef46-53ba-97dd-46ec51fe2068",
             "src_ref": "ipv4-addr--7d6ecde5-449c-5156-91dc-a183f90669ff",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 36158,
@@ -2012,7 +2456,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--e72f32c3-131d-419d-b1bd-f9fa6e9e2b7b": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2020,23 +2470,29 @@
             "id": "artifact--2ea9945a-db74-580a-8ac3-0bb6052a33bb",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC41MyIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS8yMzc5NTM2ODA1ZmNhZDY2MTc2YTNhNmRkNTYzZTZjMS5qcyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--9e8c62e2-e8fc-51f2-ba6b-d53863a74c91",
+            "value": "/nopathsource/2379536805fcad66176a3a6dd563e6c1.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--f76f32ff-4754-4ed5-828b-b6aef9192315",
-    "created": "2024-11-11T15:17:48.594302Z",
-    "modified": "2024-11-11T15:17:48.594302Z",
+    "id": "attack-pattern--f0d78a37-5b7a-4d0f-ace1-5d0170e9155c",
+    "created": "2024-11-12T10:21:12.763313Z",
+    "modified": "2024-11-12T10:21:12.763313Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--1551b757-7903-491c-80a3-3fd53d9a87c8",
-    "created": "2024-11-11T15:17:48.595356Z",
-    "modified": "2024-11-11T15:17:48.595356Z",
+    "id": "observed-data--6e336872-c9d7-4888-bc8c-e660867a15bb",
+    "created": "2024-11-12T10:21:12.764863Z",
+    "modified": "2024-11-12T10:21:12.764863Z",
     "first_observed": "2023-10-28T01:54:41.397338Z",
     "last_observed": "2023-10-28T01:54:41.397338Z",
     "number_observed": 1,
@@ -2056,7 +2512,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--5c3b06d8-22b5-5d7a-a8a1-ac9155873426",
+            "id": "network-traffic--65f989ef-2a2b-52b2-8d42-6eb7e2c911da",
             "src_ref": "ipv4-addr--fe9248d7-bd94-5534-8365-00cb679bf267",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 31181,
@@ -2065,7 +2521,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--0c007785-41ce-42ac-9734-cd351287eb92": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2073,23 +2535,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--453c710b-a8cb-43b0-9b07-a880fdbc0a56",
-    "created": "2024-11-11T15:17:48.596344Z",
-    "modified": "2024-11-11T15:17:48.596344Z",
+    "id": "attack-pattern--8ab538d4-0849-4dc8-9ec5-f85f826fc6ae",
+    "created": "2024-11-12T10:21:12.765867Z",
+    "modified": "2024-11-12T10:21:12.765867Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--8501b66c-b90e-46ad-bc3c-f91a7f61f440",
-    "created": "2024-11-11T15:17:48.597326Z",
-    "modified": "2024-11-11T15:17:48.597326Z",
+    "id": "observed-data--d8b6f737-c651-46b1-ad7a-edad991c3862",
+    "created": "2024-11-12T10:21:12.766867Z",
+    "modified": "2024-11-12T10:21:12.766867Z",
     "first_observed": "2023-10-28T01:54:41.398175Z",
     "last_observed": "2023-10-28T01:54:41.398175Z",
     "number_observed": 1,
@@ -2109,7 +2577,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--e938efb1-fe86-5f13-a038-733129e906cc",
+            "id": "network-traffic--a0ee6181-ecc0-5d07-834b-97e0155495eb",
             "src_ref": "ipv4-addr--fe9248d7-bd94-5534-8365-00cb679bf267",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 31181,
@@ -2119,7 +2587,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--d4bca18d-d127-4eef-bdbe-05f1bd17859a": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2127,23 +2601,29 @@
             "id": "artifact--a080a01a-ffa0-5cd9-a46a-3c9b6f67a73e",
             "mime_type": "HTTP_POST",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC4xMTciLCAiR0VUIjogIi9jYWxsYmFja19mZWVkYmFjayIsICJQT1NUIjogIntcImhvc3RcIjpcIndlYnJ0Y1wiLFwiZGF0YVwiOlwiMTI5LjIxMS4xNjYuMTQyXCJ9In0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--8d72458a-223d-5a18-a6e9-50ca0d47089c",
+            "value": "/callback_feedback"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--e588590c-87b7-43ba-8e7e-8325e7dfe6e7",
-    "created": "2024-11-11T15:17:48.598327Z",
-    "modified": "2024-11-11T15:17:48.598327Z",
+    "id": "attack-pattern--5c182e55-bf9d-4713-b8ff-b327d290b639",
+    "created": "2024-11-12T10:21:12.767867Z",
+    "modified": "2024-11-12T10:21:12.767867Z",
     "name": "HTTP POST\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--c66697cf-ab95-4006-80b9-95faa22ebc1d",
-    "created": "2024-11-11T15:17:48.598327Z",
-    "modified": "2024-11-11T15:17:48.598327Z",
+    "id": "observed-data--767c7069-0f4f-433b-872a-5f05c64b91f8",
+    "created": "2024-11-12T10:21:12.768867Z",
+    "modified": "2024-11-12T10:21:12.768867Z",
     "first_observed": "2023-10-28T01:54:41.39821Z",
     "last_observed": "2023-10-28T01:54:41.39821Z",
     "number_observed": 1,
@@ -2163,7 +2643,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--a9c4bf61-8255-5265-adc1-e257b6b52f31",
+            "id": "network-traffic--e5b79fe3-6c89-587c-be6e-a35228bb9d52",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 58489,
@@ -2172,7 +2652,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--aa851243-0166-4fa6-9ddc-dc56e3875c7a": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2180,23 +2666,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--9ee73da1-b15b-429f-b2bf-7cca8aa49263",
-    "created": "2024-11-11T15:17:48.599914Z",
-    "modified": "2024-11-11T15:17:48.599914Z",
+    "id": "attack-pattern--6226cd19-81a3-4d3f-9a48-beb2c6a36ec6",
+    "created": "2024-11-12T10:21:12.769867Z",
+    "modified": "2024-11-12T10:21:12.769867Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--f11fb11b-30eb-4fda-89fc-ff0301620b8f",
-    "created": "2024-11-11T15:17:48.600078Z",
-    "modified": "2024-11-11T15:17:48.600078Z",
+    "id": "observed-data--2e7d0fa6-6467-4be4-8ff9-33cb8e5c8c04",
+    "created": "2024-11-12T10:21:12.77087Z",
+    "modified": "2024-11-12T10:21:12.77087Z",
     "first_observed": "2023-10-28T01:54:41.398912Z",
     "last_observed": "2023-10-28T01:54:41.398912Z",
     "number_observed": 1,
@@ -2216,7 +2708,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--7aa50bf1-2567-5b98-9169-d20a82359186",
+            "id": "network-traffic--d2995e32-fabc-5a22-b618-f84ad409d541",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 58489,
@@ -2226,7 +2718,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--45bdb9b3-00fd-4435-b964-167bfb91438d": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2234,23 +2732,29 @@
             "id": "artifact--7f6708f8-3983-57aa-82d1-9650698d60ad",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC4xMDEiLCAiR0VUIjogIi9ub3BhdGhzb3VyY2UvMTUwY2FiNGZkZGQ2ODcwZDJjNGVmMjJjN2IwNGEyMzYuanMifQ=="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--4fff45aa-0e58-513a-a113-cee0b83f58e4",
+            "value": "/nopathsource/150cab4fddd6870d2c4ef22c7b04a236.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--dba65fa2-d883-4b83-bfb4-5e07af9c26fb",
-    "created": "2024-11-11T15:17:48.601187Z",
-    "modified": "2024-11-11T15:17:48.601187Z",
+    "id": "attack-pattern--f88b8066-d65d-4e82-8e52-c930b23da01b",
+    "created": "2024-11-12T10:21:12.771869Z",
+    "modified": "2024-11-12T10:21:12.771869Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--63f33b3c-aaaa-458f-bd2c-69279ed04f3d",
-    "created": "2024-11-11T15:17:48.602123Z",
-    "modified": "2024-11-11T15:17:48.602123Z",
+    "id": "observed-data--2070b9f3-7050-40de-990b-c8fdf124d0b5",
+    "created": "2024-11-12T10:21:12.772381Z",
+    "modified": "2024-11-12T10:21:12.772381Z",
     "first_observed": "2023-10-28T01:54:41.456108Z",
     "last_observed": "2023-10-28T01:54:41.456108Z",
     "number_observed": 1,
@@ -2270,7 +2774,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--fe785b27-41ad-5c4f-a3b2-9cf756cd8f24",
+            "id": "network-traffic--2e077d2d-00a1-5cab-94f0-cb71a88e8a3f",
             "src_ref": "ipv4-addr--a78783aa-f864-53ee-a0bb-eb696a3db514",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 56977,
@@ -2279,7 +2783,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--b63f88db-ccb7-483a-9b69-f49f7d891206": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2287,23 +2797,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--6427a5ae-b90a-4e88-8be8-d1f8d1365da8",
-    "created": "2024-11-11T15:17:48.603097Z",
-    "modified": "2024-11-11T15:17:48.603097Z",
+    "id": "attack-pattern--149c9b8f-d1ba-469a-89c7-16ea4d2ae038",
+    "created": "2024-11-12T10:21:12.773766Z",
+    "modified": "2024-11-12T10:21:12.773766Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--199d6a1b-f1f2-4d33-826e-2dde4899de4a",
-    "created": "2024-11-11T15:17:48.604143Z",
-    "modified": "2024-11-11T15:17:48.604143Z",
+    "id": "observed-data--785cf99a-19de-41d4-b9a8-decd646a0f14",
+    "created": "2024-11-12T10:21:12.774772Z",
+    "modified": "2024-11-12T10:21:12.774772Z",
     "first_observed": "2023-10-28T01:54:41.456863Z",
     "last_observed": "2023-10-28T01:54:41.456863Z",
     "number_observed": 1,
@@ -2323,7 +2839,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--454b95a1-7021-5a26-8256-fa152c75465d",
+            "id": "network-traffic--7ef1c4d4-2c51-50d8-87b7-a7dbfb06a1c3",
             "src_ref": "ipv4-addr--a78783aa-f864-53ee-a0bb-eb696a3db514",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 56977,
@@ -2333,7 +2849,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--8ac8e050-a6a0-4b15-a77b-9be90718a913": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2341,23 +2863,29 @@
             "id": "artifact--2a31d1ac-2b46-568d-ba35-0b44630160b5",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC44NCIsICJHRVQiOiAiL25vcGF0aHNvdXJjZS8zMmY4MDg0ZmEwZDQxZDA3YzlhNGNhODkyODA1MWE1YS5qcyJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--339a8aa4-08fa-5aec-998d-50ef2cc311cd",
+            "value": "/nopathsource/32f8084fa0d41d07c9a4ca8928051a5a.js"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--17a8471e-be91-410c-a07b-6d66fc11a339",
-    "created": "2024-11-11T15:17:48.604143Z",
-    "modified": "2024-11-11T15:17:48.604143Z",
+    "id": "attack-pattern--4900cc5a-529e-47ff-8b09-afe8ab7c07b8",
+    "created": "2024-11-12T10:21:12.775769Z",
+    "modified": "2024-11-12T10:21:12.775769Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--0342c3f8-81ea-4b28-a559-f3e9af6640f0",
-    "created": "2024-11-11T15:17:48.605132Z",
-    "modified": "2024-11-11T15:17:48.605132Z",
+    "id": "observed-data--d1cb2c7d-2f61-4a29-b97c-aa5b05b6fa8d",
+    "created": "2024-11-12T10:21:12.776769Z",
+    "modified": "2024-11-12T10:21:12.776769Z",
     "first_observed": "2023-10-28T01:54:41.847521Z",
     "last_observed": "2023-10-28T01:54:41.847521Z",
     "number_observed": 1,
@@ -2377,7 +2905,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--b94ea1f0-6d91-5757-a262-e79a3ab25ca2",
+            "id": "network-traffic--e479b6c9-8ab2-5802-bfcc-55d2d52c47c1",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 28747,
@@ -2386,7 +2914,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--e640d6da-230d-42ad-b62f-92317e6bb209": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2394,23 +2928,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--ee140d67-a25d-4577-9928-55919cabba4a",
-    "created": "2024-11-11T15:17:48.60614Z",
-    "modified": "2024-11-11T15:17:48.60614Z",
+    "id": "attack-pattern--62da9cec-657a-4058-9ae4-e5ab43159028",
+    "created": "2024-11-12T10:21:12.777769Z",
+    "modified": "2024-11-12T10:21:12.777769Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--5084b89b-1bb6-47bd-91f5-e4d7ca0b0edc",
-    "created": "2024-11-11T15:17:48.607161Z",
-    "modified": "2024-11-11T15:17:48.607161Z",
+    "id": "observed-data--c86e63b8-1c14-47cb-81e2-cd916e2f87f8",
+    "created": "2024-11-12T10:21:12.778768Z",
+    "modified": "2024-11-12T10:21:12.778768Z",
     "first_observed": "2023-10-28T01:54:41.848291Z",
     "last_observed": "2023-10-28T01:54:41.848291Z",
     "number_observed": 1,
@@ -2430,7 +2970,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--969aa281-da31-5a9b-becd-edf58cfc55cb",
+            "id": "network-traffic--622d532b-af97-5926-95bd-6fbca1a14950",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 28747,
@@ -2440,7 +2980,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--da76527f-83c2-423b-9c74-06eb3019a235": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2448,23 +2994,29 @@
             "id": "artifact--bd29741e-91a2-5eb1-a5ac-335da2e79347",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC4xMDEiLCAiR0VUIjogIi9wdWJsaWMvYXBpL2Vudi9jb250ZXh0In0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--40e2006f-5967-5a01-80ae-5963b763edf7",
+            "value": "/public/api/env/context"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--c1064cbb-de0e-40c2-8ca5-f20c9445ba17",
-    "created": "2024-11-11T15:17:48.608165Z",
-    "modified": "2024-11-11T15:17:48.608165Z",
+    "id": "attack-pattern--92b66d2c-4981-4a6c-99ba-3a91021013f1",
+    "created": "2024-11-12T10:21:12.779769Z",
+    "modified": "2024-11-12T10:21:12.779769Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--bb18a140-9fc5-41ce-aa7d-e054a969cbc6",
-    "created": "2024-11-11T15:17:48.608165Z",
-    "modified": "2024-11-11T15:17:48.608165Z",
+    "id": "observed-data--12533adb-8ed4-40ec-a2d3-e44baa2dd5ac",
+    "created": "2024-11-12T10:21:12.780769Z",
+    "modified": "2024-11-12T10:21:12.780769Z",
     "first_observed": "2023-10-28T01:54:42.124903Z",
     "last_observed": "2023-10-28T01:54:42.124903Z",
     "number_observed": 1,
@@ -2484,7 +3036,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--9730a1cf-3595-534b-a9c5-8ff358aa9624",
+            "id": "network-traffic--259fbe7b-b2b4-5002-8eda-7ff43f4ec1c2",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 38492,
@@ -2493,7 +3045,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--3d14188a-f9ad-4bb5-be80-195fcb1e358d": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2501,23 +3059,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--a3d85098-41c1-4d95-a350-cde08fea76c8",
-    "created": "2024-11-11T15:17:48.609727Z",
-    "modified": "2024-11-11T15:17:48.609727Z",
+    "id": "attack-pattern--fd6e976d-fa02-42a6-9fc5-12db3085e10a",
+    "created": "2024-11-12T10:21:12.780769Z",
+    "modified": "2024-11-12T10:21:12.780769Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--06e057ca-5726-4d08-b4f4-1cf353fb5986",
-    "created": "2024-11-11T15:17:48.610848Z",
-    "modified": "2024-11-11T15:17:48.610848Z",
+    "id": "observed-data--570b2d5e-7283-4bd9-a9e6-7571ff291037",
+    "created": "2024-11-12T10:21:12.783311Z",
+    "modified": "2024-11-12T10:21:12.783311Z",
     "first_observed": "2023-10-28T01:54:42.125712Z",
     "last_observed": "2023-10-28T01:54:42.125712Z",
     "number_observed": 1,
@@ -2537,7 +3101,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--e34abc41-a7d6-579f-9bf7-07e073e4b7cb",
+            "id": "network-traffic--a56f456a-2b4d-5d17-a8ac-ffe6d5dadfc3",
             "src_ref": "ipv4-addr--9747faa4-de76-5f9c-bd21-ba0fdd4ffb82",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 38492,
@@ -2547,7 +3111,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--b4e1a9d0-0d96-42c7-8aa5-b3ce017d6017": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2555,23 +3125,29 @@
             "id": "artifact--064fe2ab-36ac-50b3-a944-218527aaa965",
             "mime_type": "HTTP_POST",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIkNvb2tpZSI6ICJfZ2NsX2F1PTEuMS4xNDQyNjQ3Mzk0LjE2OTg0NTgwODI7IF9nYT1HQTEuMS44MjcyMDA1OTcuMTY5ODQ1ODA4MjsgX2dhXzZSUUY4OUVaR0w9R1MxLjEuMTY5ODQ1ODA4MS4xLjAuMTY5ODQ1ODA4Mi41OS4wLjAiLCAiWF9Gb3J3YXJkZWRfRm9yIjogIjIyMC4xOTYuMTYwLjEwMSIsICJHRVQiOiAiL2NhbGxiYWNrX2ZlZWRiYWNrIiwgIlBPU1QiOiAie1wiaG9zdFwiOlwibWVzc2FnZV9kYW5nZGFuZ19jb21cIixcImRhdGFcIjp7XCJmdW5jdGlvbklEXCI6XCJtc2dfZGV0YWlsXCIsXCJyZXF1ZXN0VGltZVwiOlwiMjAyMy0xMC0yOCAwOTo1NDo0MVwiLFwicmVzcG9uc2VUaW1lXCI6XCIyMDIzLTEwLTI4IDA5OjU0OjQxXCIsXCJlbGFwc2VUaW1lXCI6MC4wMDAzMjgwNjM5NjQ4NDM3NSxcInJlc3VsdFwiOjAsXCJlcnJvckNvZGVcIjozMDIsXCJlcnJvck1lc3NhZ2VcIjpcImN1c3RvbWVyX2lkXHU2ODNjXHU1ZjBmXHU0ZTBkXHU2YjYzXHU3ODZlXCIsXCJxdWVyeUluZm9cIjp7XCJjdXN0b21lcl9pZFwiOlwibzRQMDBUd2VlYmljd2poUzcyTldldz09XCIsXCJkYXRhX3R5cGVcIjpcImpzb25wXCIsXCJwYWdlaW5kZXhcIjpcIjFcIixcIm1vZHVsZVwiOlwiMVwiLFwicGFnZXNpemVcIjpcIjEwXCIsXCJfXCI6XCIxNTk2NzcyMTk4NTI3XCIsXCJjYWxsYmFja1wiOlwibWVzc2FnZV9kYW5nZGFuZ19jb21cIn0sXCJkYXRhXCI6W10sXCJwYWdlY291bnRcIjowfX0ifQ=="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--8d72458a-223d-5a18-a6e9-50ca0d47089c",
+            "value": "/callback_feedback"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--f3221324-58f3-4441-83b3-8501f631e847",
-    "created": "2024-11-11T15:17:48.610848Z",
-    "modified": "2024-11-11T15:17:48.610848Z",
+    "id": "attack-pattern--ef299ab6-c01c-49a9-af61-98d3195310e3",
+    "created": "2024-11-12T10:21:12.783311Z",
+    "modified": "2024-11-12T10:21:12.783311Z",
     "name": "HTTP POST\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--e3642291-cf5a-4dec-896f-fabc43b39e70",
-    "created": "2024-11-11T15:17:48.611854Z",
-    "modified": "2024-11-11T15:17:48.611854Z",
+    "id": "observed-data--436d1043-efb7-4a46-858b-0f2ee9567ed9",
+    "created": "2024-11-12T10:21:12.785313Z",
+    "modified": "2024-11-12T10:21:12.785313Z",
     "first_observed": "2023-10-28T01:54:42.128695Z",
     "last_observed": "2023-10-28T01:54:42.128695Z",
     "number_observed": 1,
@@ -2591,7 +3167,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--c024bb92-6fbb-53ca-9174-8d064a68a28c",
+            "id": "network-traffic--41e58f1b-c1c9-51f0-a272-1e9378f6b69e",
             "src_ref": "ipv4-addr--a78783aa-f864-53ee-a0bb-eb696a3db514",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 32550,
@@ -2600,7 +3176,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--426cc2b0-6456-4d7e-83ae-bdeef3a47a2e": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2608,23 +3190,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--76305aed-23f7-442d-b84c-b19072dad2eb",
-    "created": "2024-11-11T15:17:48.612848Z",
-    "modified": "2024-11-11T15:17:48.612848Z",
+    "id": "attack-pattern--1f01704e-beb7-4780-9fbd-a6bb054d77bd",
+    "created": "2024-11-12T10:21:12.786313Z",
+    "modified": "2024-11-12T10:21:12.786313Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--a3206358-1114-4cc9-8c8c-800559a61d84",
-    "created": "2024-11-11T15:17:48.613844Z",
-    "modified": "2024-11-11T15:17:48.613844Z",
+    "id": "observed-data--46e2fa6b-94f3-49b8-a03c-a24867d6aa41",
+    "created": "2024-11-12T10:21:12.787313Z",
+    "modified": "2024-11-12T10:21:12.787313Z",
     "first_observed": "2023-10-28T01:54:42.129451Z",
     "last_observed": "2023-10-28T01:54:42.129451Z",
     "number_observed": 1,
@@ -2644,7 +3232,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--bdb53815-2d0a-5144-a107-04230ba81898",
+            "id": "network-traffic--2f5ae7af-cd46-50fc-af25-d5c4fef117d6",
             "src_ref": "ipv4-addr--a78783aa-f864-53ee-a0bb-eb696a3db514",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 32550,
@@ -2654,7 +3242,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--6e9eca4a-530a-453f-a582-4b36e6049b06": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2662,23 +3256,29 @@
             "id": "artifact--6f4e2c6d-e231-5ca7-852c-3108435bc859",
             "mime_type": "HTTP_POST",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIkNvb2tpZSI6ICJfZ2NsX2F1PTEuMS4xNDQyNjQ3Mzk0LjE2OTg0NTgwODI7IF9nYT1HQTEuMS44MjcyMDA1OTcuMTY5ODQ1ODA4MjsgX2dhXzZSUUY4OUVaR0w9R1MxLjEuMTY5ODQ1ODA4MS4xLjAuMTY5ODQ1ODA4Mi41OS4wLjAiLCAiWF9Gb3J3YXJkZWRfRm9yIjogIjIyMC4xOTYuMTYwLjg0IiwgIkdFVCI6ICIvY2FsbGJhY2tfZmVlZGJhY2siLCAiUE9TVCI6ICJ7XCJob3N0XCI6XCJsb2dpbl9zaW5hX2NvbV9jblwiLFwiZGF0YVwiOntcInJldGNvZGVcIjpcIjYxMDJcIixcInJlYXNvblwiOlwiXCJ9fSJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--8d72458a-223d-5a18-a6e9-50ca0d47089c",
+            "value": "/callback_feedback"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--6ebafcdf-dc9d-41ee-9fbf-69a727606dca",
-    "created": "2024-11-11T15:17:48.614851Z",
-    "modified": "2024-11-11T15:17:48.614851Z",
+    "id": "attack-pattern--597a3434-666b-4445-84da-e807f34a9657",
+    "created": "2024-11-12T10:21:12.788313Z",
+    "modified": "2024-11-12T10:21:12.788313Z",
     "name": "HTTP POST\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--7d316201-2d56-4a8f-9ec6-2e5731810019",
-    "created": "2024-11-11T15:17:48.614851Z",
-    "modified": "2024-11-11T15:17:48.614851Z",
+    "id": "observed-data--1a3484a3-ceaf-4d63-834c-749b51dcbdb0",
+    "created": "2024-11-12T10:21:12.789313Z",
+    "modified": "2024-11-12T10:21:12.789313Z",
     "first_observed": "2023-10-28T01:54:42.15785Z",
     "last_observed": "2023-10-28T01:54:42.15785Z",
     "number_observed": 1,
@@ -2698,7 +3298,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--df707816-73cc-528e-b3cc-67de7dfd7654",
+            "id": "network-traffic--adcc8ed9-3619-5bb7-be25-4d2bf07a0a1b",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 34021,
@@ -2707,7 +3307,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--f3081b67-72dc-4fdc-a3cd-8d2daa332b3e": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2715,23 +3321,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--56fb3599-c20d-4dba-9884-9e085b545f21",
-    "created": "2024-11-11T15:17:48.615876Z",
-    "modified": "2024-11-11T15:17:48.615876Z",
+    "id": "attack-pattern--990ec528-eccf-44b4-bcdd-370e1b396446",
+    "created": "2024-11-12T10:21:12.790313Z",
+    "modified": "2024-11-12T10:21:12.790313Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--a61086b5-eab0-4fb9-87e1-2e8cfdb349bb",
-    "created": "2024-11-11T15:17:48.616846Z",
-    "modified": "2024-11-11T15:17:48.616846Z",
+    "id": "observed-data--d4d732bb-96c7-4d5d-b4e8-a2a3d7f63f93",
+    "created": "2024-11-12T10:21:12.791313Z",
+    "modified": "2024-11-12T10:21:12.791313Z",
     "first_observed": "2023-10-28T01:54:42.160122Z",
     "last_observed": "2023-10-28T01:54:42.160122Z",
     "number_observed": 1,
@@ -2751,7 +3363,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--a0b8e88a-7d3d-51e4-8944-4f5a781b699e",
+            "id": "network-traffic--f205e711-9abe-5af0-b96a-47151388f117",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 34021,
@@ -2761,7 +3373,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--4fc289c0-bf65-462e-ab33-8ac2549cfbe4": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2769,23 +3387,29 @@
             "id": "artifact--1738a5aa-bed2-5c51-9215-944bb49a8285",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIkNvb2tpZSI6ICJfZ2NsX2F1PTEuMS4xNDQyNjQ3Mzk0LjE2OTg0NTgwODI7IF9nYT1HQTEuMS44MjcyMDA1OTcuMTY5ODQ1ODA4MjsgX2dhXzZSUUY4OUVaR0w9R1MxLjEuMTY5ODQ1ODA4MS4xLjAuMTY5ODQ1ODA4Mi41OS4wLjAiLCAiWF9Gb3J3YXJkZWRfRm9yIjogIjIyMC4xOTYuMTYwLjQ1IiwgIkdFVCI6ICIvYXBpL2F1dGgvbG9naW4vdXNlcmluZm8vcHVibGljP2luZHVzdHJ5U2l0ZUlkPSJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--b5540443-c8f9-5e9d-b6fb-0daae2dc7abe",
+            "value": "/api/auth/login/userinfo/public"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--a4d5663f-6b6d-46ec-b32f-1683da6abc5d",
-    "created": "2024-11-11T15:17:48.617832Z",
-    "modified": "2024-11-11T15:17:48.617832Z",
+    "id": "attack-pattern--da1fd028-e6e3-45cb-8fcc-1e15489d90c3",
+    "created": "2024-11-12T10:21:12.792316Z",
+    "modified": "2024-11-12T10:21:12.792316Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--aa1ec2db-eded-4f72-ac94-1afbec8de544",
-    "created": "2024-11-11T15:17:48.618852Z",
-    "modified": "2024-11-11T15:17:48.618852Z",
+    "id": "observed-data--8fed3976-7810-46be-8b6e-4602c4d27005",
+    "created": "2024-11-12T10:21:12.792823Z",
+    "modified": "2024-11-12T10:21:12.792823Z",
     "first_observed": "2023-10-28T01:54:42.177474Z",
     "last_observed": "2023-10-28T01:54:42.177474Z",
     "number_observed": 1,
@@ -2805,7 +3429,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--b3570f89-452d-5efc-aacf-c74c9b3cb680",
+            "id": "network-traffic--86ca0ff8-4deb-584c-9228-fca60876800f",
             "src_ref": "ipv4-addr--32d6bd8d-093e-5175-baf1-80c50fc4b8c6",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 17634,
@@ -2814,7 +3438,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--0c61afac-1f3c-469f-97a8-55ef9963d91a": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2822,23 +3452,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--58d67a8f-0a3c-44d1-ae51-e64b64ce7f39",
-    "created": "2024-11-11T15:17:48.619834Z",
-    "modified": "2024-11-11T15:17:48.619834Z",
+    "id": "attack-pattern--ecea8f20-8fa2-4158-a887-c6f55667cea3",
+    "created": "2024-11-12T10:21:12.793828Z",
+    "modified": "2024-11-12T10:21:12.793828Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--fec5702a-c2ce-4898-998c-d07d328171b6",
-    "created": "2024-11-11T15:17:48.620524Z",
-    "modified": "2024-11-11T15:17:48.620524Z",
+    "id": "observed-data--8cc6ed49-39ef-4f72-aea1-f447712dc2cb",
+    "created": "2024-11-12T10:21:12.794826Z",
+    "modified": "2024-11-12T10:21:12.794826Z",
     "first_observed": "2023-10-28T01:54:42.17825Z",
     "last_observed": "2023-10-28T01:54:42.17825Z",
     "number_observed": 1,
@@ -2858,7 +3494,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--42e35174-eac2-5a54-903e-53dfd65ed924",
+            "id": "network-traffic--5ba631a8-b2e0-5e40-b726-cc814dd17aa1",
             "src_ref": "ipv4-addr--32d6bd8d-093e-5175-baf1-80c50fc4b8c6",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 17634,
@@ -2868,7 +3504,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--c696c387-eea5-4df5-b22d-40287cd0d4b7": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2876,23 +3518,29 @@
             "id": "artifact--6bfdcca7-124a-555c-bbb9-5c64a9ab9e95",
             "mime_type": "HTTP_POST",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIkNvb2tpZSI6ICJfZ2NsX2F1PTEuMS4xNDQyNjQ3Mzk0LjE2OTg0NTgwODI7IF9nYT1HQTEuMS44MjcyMDA1OTcuMTY5ODQ1ODA4MjsgX2dhXzZSUUY4OUVaR0w9R1MxLjEuMTY5ODQ1ODA4MS4xLjAuMTY5ODQ1ODA4Mi41OS4wLjAiLCAiWF9Gb3J3YXJkZWRfRm9yIjogIjIyMC4xOTYuMTYwLjk1IiwgIkdFVCI6ICIvY2FsbGJhY2tfZmVlZGJhY2siLCAiUE9TVCI6ICJ7XCJob3N0XCI6XCJ3d3dfdGFvYmFvX2NvbVwiLFwiZGF0YVwiOntcImlwXCI6XCIyMjAuMTk2LjE2MC4xNDRcIn19In0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--8d72458a-223d-5a18-a6e9-50ca0d47089c",
+            "value": "/callback_feedback"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--610aae0a-e052-4ced-b9f4-77c6ee42dd76",
-    "created": "2024-11-11T15:17:48.620524Z",
-    "modified": "2024-11-11T15:17:48.620524Z",
+    "id": "attack-pattern--3da67ebe-741a-48bb-87cc-504217f0df9d",
+    "created": "2024-11-12T10:21:12.795824Z",
+    "modified": "2024-11-12T10:21:12.795824Z",
     "name": "HTTP POST\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--25383e00-b278-4306-a69c-a40d20f4b3fc",
-    "created": "2024-11-11T15:17:48.621678Z",
-    "modified": "2024-11-11T15:17:48.621678Z",
+    "id": "observed-data--87676888-7aa0-4dc9-af24-e879aedf59c1",
+    "created": "2024-11-12T10:21:12.796824Z",
+    "modified": "2024-11-12T10:21:12.796824Z",
     "first_observed": "2023-10-28T01:54:42.239258Z",
     "last_observed": "2023-10-28T01:54:42.239258Z",
     "number_observed": 1,
@@ -2912,7 +3560,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--1291b77b-d60c-5960-bead-6665db9f7b2a",
+            "id": "network-traffic--3b4dc805-2816-5047-83b9-7486288c2d39",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 37431,
@@ -2921,7 +3569,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--30db02d9-bed8-4713-bbfe-47b289b67f21": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2929,23 +3583,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--262c9c96-a235-42e1-9c6a-a75f8b7f7491",
-    "created": "2024-11-11T15:17:48.62262Z",
-    "modified": "2024-11-11T15:17:48.62262Z",
+    "id": "attack-pattern--af79cb7e-39cc-4c56-a64b-3a61982dbdfb",
+    "created": "2024-11-12T10:21:12.797824Z",
+    "modified": "2024-11-12T10:21:12.797824Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--3c9f2fc4-e697-4246-b5e0-6c870ed0a6ee",
-    "created": "2024-11-11T15:17:48.623616Z",
-    "modified": "2024-11-11T15:17:48.623616Z",
+    "id": "observed-data--f21112dc-3fd2-4e70-b0d2-f2fe71c75942",
+    "created": "2024-11-12T10:21:12.798824Z",
+    "modified": "2024-11-12T10:21:12.798824Z",
     "first_observed": "2023-10-28T01:54:42.241502Z",
     "last_observed": "2023-10-28T01:54:42.241502Z",
     "number_observed": 1,
@@ -2965,7 +3625,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--98ea68e0-7b6c-5911-b8e8-19b52824dc4d",
+            "id": "network-traffic--5236cc9d-4377-543e-841a-5dbca5ba6284",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 37431,
@@ -2975,7 +3635,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--0e3ba6a3-7440-4bdc-b41c-8304cf023f6e": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -2983,23 +3649,29 @@
             "id": "artifact--1738a5aa-bed2-5c51-9215-944bb49a8285",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIkNvb2tpZSI6ICJfZ2NsX2F1PTEuMS4xNDQyNjQ3Mzk0LjE2OTg0NTgwODI7IF9nYT1HQTEuMS44MjcyMDA1OTcuMTY5ODQ1ODA4MjsgX2dhXzZSUUY4OUVaR0w9R1MxLjEuMTY5ODQ1ODA4MS4xLjAuMTY5ODQ1ODA4Mi41OS4wLjAiLCAiWF9Gb3J3YXJkZWRfRm9yIjogIjIyMC4xOTYuMTYwLjQ1IiwgIkdFVCI6ICIvYXBpL2F1dGgvbG9naW4vdXNlcmluZm8vcHVibGljP2luZHVzdHJ5U2l0ZUlkPSJ9"
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--b5540443-c8f9-5e9d-b6fb-0daae2dc7abe",
+            "value": "/api/auth/login/userinfo/public"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--22732e52-7b2e-441e-aca4-1fc00d65b63d",
-    "created": "2024-11-11T15:17:48.624614Z",
-    "modified": "2024-11-11T15:17:48.624614Z",
+    "id": "attack-pattern--c2f8f319-5086-4f55-b98e-95fb7dff0c8e",
+    "created": "2024-11-12T10:21:12.799824Z",
+    "modified": "2024-11-12T10:21:12.799824Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--f24902bc-af69-4515-a0bb-180e18873e2d",
-    "created": "2024-11-11T15:17:48.625606Z",
-    "modified": "2024-11-11T15:17:48.625606Z",
+    "id": "observed-data--03c81cca-8e4c-4398-90a8-2cfaa00d8cfc",
+    "created": "2024-11-12T10:21:12.800824Z",
+    "modified": "2024-11-12T10:21:12.800824Z",
     "first_observed": "2023-10-28T01:54:42.552834Z",
     "last_observed": "2023-10-28T01:54:42.552834Z",
     "number_observed": 1,
@@ -3019,7 +3691,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--e77902ca-062e-5532-a651-d8e95530f7ee",
+            "id": "network-traffic--f27e06de-43ec-5583-a9d7-f6af86ae19e1",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 47966,
@@ -3028,7 +3700,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--6c419cec-976c-44e4-ba11-3a56beb82451": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -3036,23 +3714,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--67257a80-1ff3-423e-b2fa-dcefd086df79",
-    "created": "2024-11-11T15:17:48.625606Z",
-    "modified": "2024-11-11T15:17:48.625606Z",
+    "id": "attack-pattern--7c24a906-d58f-4e99-b6cf-d3196619a344",
+    "created": "2024-11-12T10:21:12.802329Z",
+    "modified": "2024-11-12T10:21:12.802329Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--5f90dd78-44f3-405c-b34e-f8ece59c78e4",
-    "created": "2024-11-11T15:17:48.627579Z",
-    "modified": "2024-11-11T15:17:48.627579Z",
+    "id": "observed-data--65133472-f501-4980-98df-cd130238899b",
+    "created": "2024-11-12T10:21:12.803336Z",
+    "modified": "2024-11-12T10:21:12.803336Z",
     "first_observed": "2023-10-28T01:54:42.581377Z",
     "last_observed": "2023-10-28T01:54:42.581377Z",
     "number_observed": 1,
@@ -3072,7 +3756,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--2b68f7cc-9608-56da-a2c6-ab715d0b34bc",
+            "id": "network-traffic--22239375-78d4-5115-a5a1-95ae476271cd",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 47966,
@@ -3082,7 +3766,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--dbdab1b6-acd2-42d8-9e99-b6d8e7b3b2d1": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -3090,23 +3780,29 @@
             "id": "artifact--287f8ca5-581e-5360-ba46-5a9cd54b34cc",
             "mime_type": "HTTP_POST",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIkNvb2tpZSI6ICJfZ2NsX2F1PTEuMS4xNDQyNjQ3Mzk0LjE2OTg0NTgwODI7IF9nYT1HQTEuMS44MjcyMDA1OTcuMTY5ODQ1ODA4MjsgX2dhXzZSUUY4OUVaR0w9R1MxLjEuMTY5ODQ1ODA4MS4xLjAuMTY5ODQ1ODA4Mi41OS4wLjA7IF9naWQ9R0ExLjEuNzE1OTUwMjk2LjE2OTg0NTgwODI7IF9kY19ndG1fVUEtNzI1NjUwMDctMT0xOyBfdWV0c2lkPWY2MjU2Y2QwNzUzNDExZWVhOGNiYWJkMDM2N2VhZjIzOyBfdWV0dmlkPWY2MjViMDUwNzUzNDExZWU5ZTJmMzk0OGU1NDVmMDNmIiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC40NSIsICJHRVQiOiAiL2NhbGxiYWNrX2ZlZWRiYWNrIiwgIlBPU1QiOiAie1wiaG9zdFwiOlwiaGFva2FuX2JhaWR1X2NvbVwiLFwiZGF0YVwiOntcImVycm5vXCI6MCxcImVycm9yXCI6XCJcdTYyMTBcdTUyOWZcIixcImZpbmdlcnByaW50XCI6XCJcIixcImRhdGFcIjp7XCJjb21tb25EYXRhXCI6e1wiY2xpZW50SXBcIjpcIlwiLFwiaXNMb2dpblwiOmZhbHNlLFwiaXNXaWZpXCI6ZmFsc2UsXCJsb2dJZFwiOlwiMzI4MjIwOTI1NVwiLFwiY29tbW9uX2xpZFwiOlwiYzRjNWNhYTc5NWFkNDIxYmQ2ZWNmNWJiM2M2Y2E5OWZcIixcInB2aWRcIjpcImFiY2M2NjVlOTk4NTEzYWZcIixcInNyY2hJZFwiOlwiMGY3Mjg3ZTgxNDdhMGEyZFwiLFwiaXNCb3hcIjpmYWxzZSxcImlzQm94TGl0ZVwiOmZhbHNlLFwiaXNCb3hQcm9cIjpmYWxzZSxcImlzSGFueXVcIjpmYWxzZSxcImlzQW5kcm9pZFwiOmZhbHNlLFwiaXNJb3NcIjpmYWxzZSxcImlzUGNcIjp0cnVlLFwiaXNIdHRwc1wiOjEsXCJib3hTaWRcIjpbXSxcImJveFZlcnNpb25cIjowLFwic3RhdGljSG9zdFwiOlwiaHR0cHM6Ly9zdi5iZHN0YXRpYy5jb20vXCIsXCJhcGlIb3N0XCI6XCJodHRwczovL2hhb2thbi5iYWlkdS5jb20vXCIsXCJpc0luaXRlZFwiOnRydWV9LFwiZXJybm9cIjowLFwiYXBpRGF0YVwiOntcInJlcXVlc3RJbmZvXCI6W10sXCJsb2dpbl9zdGF0dXNcIjowLFwidGFiX2luZm9cIjp7XCJ0YWJcIjpbe1wicGFnZVwiOlwicmVjb21tZW5kXCIsXCJuYW1lXCI6XCJcdTYzYThcdTgzNTBcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH0se1wicGFnZVwiOlwicHJvamVjdGlvbl9oYWxsXCIsXCJuYW1lXCI6XCJcdTY1M2VcdTY2MjBcdTUzODVcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH0se1wicGFnZVwiOlwieWluZ3NoaVwiLFwibmFtZVwiOlwiXHU1ZjcxXHU4OWM2XCIsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcIm5ld1RpcFwiOjB9LHtcInBhZ2VcIjpcInlpbnl1ZVwiLFwibmFtZVwiOlwiXHU5N2YzXHU0ZTUwXCIsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcIm5ld1RpcFwiOjB9LHtcInBhZ2VcIjpcInZsb2dcIixcIm5hbWVcIjpcIlZMT0dcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH0se1wicGFnZVwiOlwieW91eGlcIixcIm5hbWVcIjpcIlx1NmUzOFx1NjIwZlwiLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJuZXdUaXBcIjowfSx7XCJwYWdlXCI6XCJnYW94aWFvXCIsXCJuYW1lXCI6XCJcdTY0MWVcdTdiMTFcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH0se1wicGFnZVwiOlwiem9uZ3lpXCIsXCJuYW1lXCI6XCJcdTdlZmNcdTgyN2FcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH0se1wicGFnZVwiOlwieXVsZVwiLFwibmFtZVwiOlwiXHU1YTMxXHU0ZTUwXCIsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcIm5ld1RpcFwiOjB9LHtcInBhZ2VcIjpcImRvbmdtYW5cIixcIm5hbWVcIjpcIlx1NTJhOFx1NmYyYlwiLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJuZXdUaXBcIjowfSx7XCJwYWdlXCI6XCJzaGVuZ2h1b1wiLFwibmFtZVwiOlwiXHU3NTFmXHU2ZDNiXCIsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcIm5ld1RpcFwiOjB9LHtcInBhZ2VcIjpcImd1YW5nY2hhbmd3dVwiLFwibmFtZVwiOlwiXHU1ZTdmXHU1NzNhXHU4MjFlXCIsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcIm5ld1RpcFwiOjB9LHtcInBhZ2VcIjpcIm1laXNoaVwiLFwibmFtZVwiOlwiXHU3ZjhlXHU5OGRmXCIsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcIm5ld1RpcFwiOjB9LHtcInBhZ2VcIjpcImNob25nd3VcIixcIm5hbWVcIjpcIlx1NWJhMFx1NzI2OVwiLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJuZXdUaXBcIjowfSx7XCJwYWdlXCI6XCJzYW5ub25nXCIsXCJuYW1lXCI6XCJcdTRlMDlcdTUxOWNcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH0se1wicGFnZVwiOlwianVuc2hpXCIsXCJuYW1lXCI6XCJcdTUxOWJcdTRlOGJcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH0se1wicGFnZVwiOlwic2hlaHVpXCIsXCJuYW1lXCI6XCJcdTc5M2VcdTRmMWFcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH0se1wicGFnZVwiOlwidGl5dVwiLFwibmFtZVwiOlwiXHU0ZjUzXHU4MGIyXCIsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcIm5ld1RpcFwiOjB9LHtcInBhZ2VcIjpcImtlamlcIixcIm5hbWVcIjpcIlx1NzlkMVx1NjI4MFwiLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJuZXdUaXBcIjowfSx7XCJwYWdlXCI6XCJzaGlzaGFuZ1wiLFwibmFtZVwiOlwiXHU2NWY2XHU1YzFhXCIsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcIm5ld1RpcFwiOjB9LHtcInBhZ2VcIjpcInFpY2hlXCIsXCJuYW1lXCI6XCJcdTZjN2RcdThmNjZcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH0se1wicGFnZVwiOlwicWluemlcIixcIm5hbWVcIjpcIlx1NGViMlx1NWI1MFwiLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJuZXdUaXBcIjowfSx7XCJwYWdlXCI6XCJ3ZW5odWFcIixcIm5hbWVcIjpcIlx1NjU4N1x1NTMxNlwiLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJuZXdUaXBcIjowfSx7XCJwYWdlXCI6XCJsdnlvdVwiLFwibmFtZVwiOlwiXHU2NWM1XHU2ZTM4XCIsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcIm5ld1RpcFwiOjB9LHtcInBhZ2VcIjpcIm1pYW9kb25nXCIsXCJuYW1lXCI6XCJcdTc5ZDJcdTYxYzJcIixcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwibmV3VGlwXCI6MH1dLFwiY3VycmVudF90YWJcIjpcInJlY29tbWVuZFwifSxcImN1clZpZGVvTWV0YVwiOntcImlkXCI6XCIzOTcxMTk1Nzg2NDI5NTYwOTQyXCIsXCJ0aXRsZVwiOlwiXHU2Y2ExXHU3NzNjXHU3NzBiXHVmZjAxXHU3MzJiXHU1OTg4XHU0ZTBkXHU3ZWQ5XHU1NDM4XHU1OTc2XHVmZjBjXHU1YzBmXHU1OTc2XHU3MzJiXHU1M2VhXHU4MGZkXHU4ZDgxXHU3MzJiXHU3MjM4XHU3NzYxXHU4OWM5XHVmZjBjXHU1NjJjXHU0ZWQ2XHU3Njg0XHU1OTc2XHU1OTM0XHVmZjAxXCIsXCJwb3N0ZXJcIjpcImh0dHBzOi8vZjcuYmFpZHUuY29tL2l0L3U9MjE0NTg0NDY5NCwzOTUyNDU5OTkwJmZtPTIyMiZhcHA9MTA4JmY9SlBFR0BzXzAsd184MDAsaF8xMDAwLHFfODAsZl9hdXRvXCIsXCJwbGF5Y250XCI6NjE3NzYyLFwiZm1wbGF5Y250XCI6XCI2Mlx1NGUwN1x1NmIyMVx1NjRhZFx1NjUzZVwiLFwicHVibGlzaF90aW1lXCI6MTYzMTc2MjI4MixcImRhdGVcIjpcIlx1NTNkMVx1NWUwM1x1NjVmNlx1OTVmNFx1ZmYxYTIwMjFcdTVlNzQ5XHU2NzA4MTZcdTY1ZTVcIixcInRpbWVfbGVuZ3RoXCI6XCIwMjoyNFwiLFwiZHVyYXRpb25cIjoxNDQsXCI2c19wbGF5X3VybFwiOlwiaHR0cDovL2hpZ2hsaWdodC12aWRlby5jZG4uYmNlYm9zLmNvbS92aWRlby82cy82YmE5ZTUwZS0xNjlkLTExZWMtYjA3NS02YzkyYmY2MWE4YzcubXA0P3ZfZnJvbV9zPWhrYXBwLWhhb2thbi1obmFcIixcInBsYXl1cmxcIjpcImh0dHBzOi8vdmQ0LmJkc3RhdGljLmNvbS9tZGEtbWlmNG1uYXl2am1uaGtzcC9jYWVfaDI2NF9ub3dhdGVybWFyay8xNjMxNzYyNjc1MDQ1NTA2NDQ2L21kYS1taWY0bW5heXZqbW5oa3NwLm1wND92X2Zyb21fcz1oa2FwcC1oYW9rYW4taG5hJmF1dGhfa2V5PTE2OTg0Njg4ODItMC0wLTcxNDE2MzM5Njc1ZTU5NDNiMTc4NTAyMDM5Mjg0NmQ1JmJjZXZvZF9jaGFubmVsPXNlYXJjaGJveF9mZWVkJmNyPTAmY2Q9MCZwZD0xJnB0PTMmbG9naWQ9MzI4MjIwOTI1NSZ2aWQ9Mzk3MTE5NTc4NjQyOTU2MDk0MiZhYnRlc3Q9XCIsXCJjbGFyaXR5VXJsXCI6W3tcImtleVwiOlwic2RcIixcInJhbmtcIjowLFwidGl0bGVcIjpcIlx1NjgwN1x1NmUwNVwiLFwidXJsXCI6XCJodHRwczovL3ZkNC5iZHN0YXRpYy5jb20vbWRhLW1pZjRtbmF5dmptbmhrc3AvY2FlX2gyNjRfbm93YXRlcm1hcmsvMTYzMTc2MjY3NTA0NTUwNjQ0Ni9tZGEtbWlmNG1uYXl2am1uaGtzcC5tcDQ/dl9mcm9tX3M9aGthcHAtaGFva2FuLWhuYSZhdXRoX2tleT0xNjk4NDY4ODgyLTAtMC03MTQxNjMzOTY3NWU1OTQzYjE3ODUwMjAzOTI4NDZkNSZiY2V2b2RfY2hhbm5lbD1zZWFyY2hib3hfZmVlZCZjcj0wJmNkPTAmcGQ9MSZwdD0zJmxvZ2lkPTMyODIyMDkyNTUmdmlkPTM5NzExOTU3ODY0Mjk1NjA5NDImYWJ0ZXN0PVwiLFwidmlkZW9CcHNcIjo1NDgsXCJ2b2RWaWRlb0hXXCI6XCIzNjAkJDY0MFwiLFwidmlkZW9TaXplXCI6OS42LFwidm9kTW9vdlNpemVcIjo2NzcyOCxcInZpZGVvX2NsYXJpdHlfc2NvcmVcIjo1LjY0NjIsXCJnb3BBbGlnblwiOnRydWV9LHtcImtleVwiOlwiaGRcIixcInJhbmtcIjoxLFwidGl0bGVcIjpcIlx1OWFkOFx1NmUwNVwiLFwidXJsXCI6XCJodHRwczovL3ZkNC5iZHN0YXRpYy5jb20vbWRhLW1pZjRtbmF5dmptbmhrc3AvaGQvY2FlX2gyNjRfbm93YXRlcm1hcmsvMTYzMTc2MjY3NTE0NTQxMTMzMi9tZGEtbWlmNG1uYXl2am1uaGtzcC5tcDQ/dl9mcm9tX3M9aGthcHAtaGFva2FuLWhuYSZhdXRoX2tleT0xNjk4NDY4ODgyLTAtMC01MDA5NjEwNzEyM2ZiMzE2NTEyNmI3ZTY4MTlmMTQwZCZiY2V2b2RfY2hhbm5lbD1zZWFyY2hib3hfZmVlZCZjcj0xJmNkPTAmcGQ9MSZwdD0zJmxvZ2lkPTMyODIyMDkyNTUmdmlkPTM5NzExOTU3ODY0Mjk1NjA5NDImYWJ0ZXN0PVwiLFwidmlkZW9CcHNcIjo3MTUsXCJ2b2RWaWRlb0hXXCI6XCI0ODAkJDg1NFwiLFwidmlkZW9TaXplXCI6MTIuNixcInZvZE1vb3ZTaXplXCI6Njc2MDAsXCJ2aWRlb19jbGFyaXR5X3Njb3JlXCI6NS43ODIsXCJnb3BBbGlnblwiOnRydWV9LHtcImtleVwiOlwic2NcIixcInJhbmtcIjoyLFwidGl0bGVcIjpcIlx1OGQ4NVx1NmUwNVwiLFwidXJsXCI6XCJodHRwczovL3ZkNC5iZHN0YXRpYy5jb20vbWRhLW1pZjRtbmF5dmptbmhrc3Avc2MvY2FlX2gyNjRfbm93YXRlcm1hcmsvMTYzMTc2MjY3NTc5Njg4ODEzMy9tZGEtbWlmNG1uYXl2am1uaGtzcC5tcDQ/dl9mcm9tX3M9aGthcHAtaGFva2FuLWhuYSZhdXRoX2tleT0xNjk4NDY4ODgyLTAtMC0wM2E1MGEwYmNiZGRiNGI5M2I5OGYwODE2NmM3NDkwOCZiY2V2b2RfY2hhbm5lbD1zZWFyY2hib3hfZmVlZCZjcj0yJmNkPTAmcGQ9MSZwdD0zJmxvZ2lkPTMyODIyMDkyNTUmdmlkPTM5NzExOTU3ODY0Mjk1NjA5NDImYWJ0ZXN0PVwiLFwidmlkZW9CcHNcIjoxMjEwLFwidm9kVmlkZW9IV1wiOlwiNzIwJCQxMjgwXCIsXCJ2aWRlb1NpemVcIjoyMS4zLFwidm9kTW9vdlNpemVcIjo2NzgzMSxcInZpZGVvX2NsYXJpdHlfc2NvcmVcIjo1Ljk5NjIsXCJnb3BBbGlnblwiOnRydWV9LHtcImtleVwiOlwiMTA4MHBcIixcInJhbmtcIjozLFwidGl0bGVcIjpcIlx1ODRkZFx1NTE0OVwiLFwidXJsXCI6XCJodHRwczovL3ZkNC5iZHN0YXRpYy5jb20vbWRhLW1pZjRtbmF5dmptbmhrc3AvZmhkL2NhZV9oMjY0X25vd2F0ZXJtYXJrLzE2MzE3NjI2NzUxMjc1NDg0ODQvbWRhLW1pZjRtbmF5dmptbmhrc3AubXA0P3ZfZnJvbV9zPWhrYXBwLWhhb2thbi1obmEmYXV0aF9rZXk9MTY5ODQ2ODg4Mi0wLTAtYzE5ZDhiNjg3YzA5MDBmYjFjODg1OTA4YWJkYTM3MzAmYmNldm9kX2NoYW5uZWw9c2VhcmNoYm94X2ZlZWQmY3I9MyZjZD0wJnBkPTEmcHQ9MyZsb2dpZD0zMjgyMjA5MjU1JnZpZD0zOTcxMTk1Nzg2NDI5NTYwOTQyJmFidGVzdD1cIixcInZpZGVvQnBzXCI6MjIzOSxcInZvZFZpZGVvSFdcIjpcIjEwODAkJDE5MjBcIixcInZpZGVvU2l6ZVwiOjM5LjQsXCJ2b2RNb292U2l6ZVwiOjY4MTc3LFwidmlkZW9fY2xhcml0eV9zY29yZVwiOjYuMDkxMSxcImdvcEFsaWduXCI6dHJ1ZX1dLFwidmlkZW9fc3RhdHVzXCI6MCxcInZpZGVvX3JlamVjdFR5cGVcIjpudWxsLFwiaXNfbGlrZVwiOjAsXCJpc19jb2xsZWN0aW9uXCI6bnVsbCxcImxpa2VcIjo0NzY0LFwiaXNfcGF5X2NvbHVtblwiOjAsXCJzY2VuZXNcIjpmYWxzZSxcInZvdGVEaXNhYmxlQ3RybFwiOlwiMFwiLFwiZm1saWtlX251bVwiOlwiNDc2NFwiLFwiY29tbWVudFwiOjIyLFwiZm1jb21tZW50X251bVwiOlwiMjJcIixcImNvbHVtbl9pbmZvXCI6W10sXCJwcmV2aWV3VXJsSHR0cFwiOlwiaHR0cDovL2hpZ2hsaWdodC12aWRlby5jZG4uYmNlYm9zLmNvbS92aWRlby82cy82YmE5ZTUwZS0xNjlkLTExZWMtYjA3NS02YzkyYmY2MWE4YzcubXA0P3ZfZnJvbV9zPWhrYXBwLWhhb2thbi1obmFcIixcImlzTG9uZ1ZpZGVvXCI6ZmFsc2UsXCJmcmFtZV9zcHJpdGVzXCI6XCJcIixcImlzX2ZvcmJpZGRlbl9zaGFyZVwiOjAsXCJzaGFyZUluZm9cIjp7XCJ0eXBlXCI6XCJ1cmxcIn0sXCJjb2xsZWN0aW9uX2luZm9cIjpbXSxcIm91dHN0YW5kX3RhZ1wiOlwiXCJ9LFwibWVkaWFfaW5mb1wiOntcImJhbm5lclwiOjEsXCJ2aWRlb2VuZFwiOjEsXCJub29rXCI6MH0sXCJjYWxsQ3VyVmlkZW9SZWxhdGVcIjoxLFwiaGVhZGVyXCI6e1widGl0bGVcIjpcIlx1NmNhMVx1NzczY1x1NzcwYlx1ZmYwMVx1NzMyYlx1NTk4OFx1NGUwZFx1N2VkOVx1NTQzOFx1NTk3Nlx1ZmYwY1x1NWMwZlx1NTk3Nlx1NzMyYlx1NTNlYVx1ODBmZFx1OGQ4MVx1NzMyYlx1NzIzOFx1Nzc2MVx1ODljOVx1ZmYwY1x1NTYyY1x1NGVkNlx1NzY4NFx1NTk3Nlx1NTkzNFx1ZmYwMSxcdTY0MWVcdTdiMTEsXHU4NDBjXHU1YmEwLFx1NTk3ZFx1NzcwYlx1ODljNlx1OTg5MVwiLFwia2V5d29yZHNcIjpcIlx1NjQxZVx1N2IxMSxcdTg0MGNcdTViYTAsXHU2NDFlXHU3YjExXHU4ZDQ0XHU2NTk5LFx1NjQxZVx1N2IxMVx1NTRhOFx1OGJlMixcdTY0MWVcdTdiMTFcdTc1MzVcdTVmNzEsXHU2NDFlXHU3YjExXHU3NTM1XHU4OWM2XHU1MjY3LFx1NjQxZVx1N2IxMVx1N2VmY1x1ODI3YSxcdTY0MWVcdTdiMTFcdThiZGRcdTk4OTgsXHU2NDFlXHU3YjExXHU1ZTE2XHU1YjUwLFx1NjQxZVx1N2IxMW12LFx1NjQxZVx1N2IxMVx1ODljNlx1OTg5MSxcdTY0MWVcdTdiMTFcdTU3MjhcdTdlYmYsXHU2NDFlXHU3YjExXHU0ZTBiXHU4ZjdkLFx1NjQxZVx1N2IxMVx1ODljMlx1NzcwYixcdTY0MWVcdTdiMTFcdTc2ZjRcdTY0YWQsXHU4ZDQ0XHU2NTk5LFx1NTRhOFx1OGJlMixcdTc1MzVcdTVmNzEsXHU3NTM1XHU4OWM2XHU1MjY3LFx1N2VmY1x1ODI3YSxcdThiZGRcdTk4OTgsXHU1ZTE2XHU1YjUwLG12LFx1ODljNlx1OTg5MSxcdTU3MjhcdTdlYmYsXHU0ZTBiXHU4ZjdkLFx1ODljMlx1NzcwYixcdTc2ZjRcdTY0YWQsXHU2NDFlXHU3YjExLFx1NzMyYixcdTg0MGNcdTViYTAsXHU3MzJiXHU1OTg4XCIsXCJkZXNjcmlwdGlvblwiOlwiXHU2Y2ExXHU3NzNjXHU3NzBiXHVmZjAxXHU3MzJiXHU1OTg4XHU0ZTBkXHU3ZWQ5XHU1NDM4XHU1OTc2XHVmZjBjXHU1YzBmXHU1OTc2XHU3MzJiXHU1M2VhXHU4MGZkXHU4ZDgxXHU3MzJiXHU3MjM4XHU3NzYxXHU4OWM5XHVmZjBjXHU1NjJjXHU0ZWQ2XHU3Njg0XHU1OTc2XHU1OTM0XHVmZjAxLFx1NjcyY1x1ODljNlx1OTg5MVx1NzUzMVx1NmNmMFx1NTRlNVx1NjYyZlx1NTNlYVx1NWMwZlx1NjY5Nlx1NzMyYlx1NTM5Zlx1NTIxYlx1NjNkMFx1NGY5Yiw2MTc3NjJcdTZiMjFcdTY0YWRcdTY1M2UsXHU1OTdkXHU3NzBiXHU4OWM2XHU5ODkxXHU2NjJmXHU3NTMxXHU3NjdlXHU1ZWE2XHU1NmUyXHU5NjFmXHU2MjUzXHU5MDIwXHU3Njg0XHU5NmM2XHU1MTg1XHU2ZGI1XHU1NDhjXHU5ODljXHU1MDNjXHU0ZThlXHU0ZTAwXHU4ZWFiXHU3Njg0XHU0ZTEzXHU0ZTFhXHU3N2VkXHU4OWM2XHU5ODkxXHU4MDVhXHU1NDA4XHU1ZTczXHU1M2YwXCJ9LFwidGFiXCI6W3tcInBhZ2VcIjpcInJlY29tbWVuZFwiLFwibmFtZVwiOlwiXHU2M2E4XHU4MzUwXCIsXCJuZXdUaXBcIjowLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJpY29uX3VybFwiOlwiXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiXCJ9LHtcInBhZ2VcIjpcInByb2plY3Rpb25faGFsbFwiLFwibmFtZVwiOlwiXHU2NTNlXHU2NjIwXHU1Mzg1XCIsXCJuZXdUaXBcIjowLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJpY29uX3VybFwiOm51bGwsXCJzZWxlY3RlZF9pY29uX3VybFwiOm51bGx9LHtcInBhZ2VcIjpcInlpbmdzaGlfbmV3XCIsXCJuYW1lXCI6XCJcdTVmNzFcdTg5YzZcIixcIm5ld1RpcFwiOjAsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcImljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMTAxNjE3NC84MjcxZjEwYzdiOGYucG5nXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDEwMzAwNTcvYWFhMzQzYmFkMGFkLnBuZ1wifSx7XCJwYWdlXCI6XCJ5aW55dWVfbmV3XCIsXCJuYW1lXCI6XCJcdTk3ZjNcdTRlNTBcIixcIm5ld1RpcFwiOjAsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcImljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDk4MDg3NS8zMWE4YjkyY2VjYWYucG5nXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA5OTc1OTAvZTA4ZTdhNDllZDAzLnBuZ1wifSx7XCJwYWdlXCI6XCJ5dW55aW5nX3Zsb2dcIixcIm5hbWVcIjpcIlZMT0dcIixcIm5ld1RpcFwiOjAsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcImljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMTEyNjM4NS84NzA4NWQ2NzFlODMucG5nXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDExMzkyOTcvMWJjZWY1ZjEyZGQxLnBuZ1wifSx7XCJwYWdlXCI6XCJ5b3V4aV9uZXdcIixcIm5hbWVcIjpcIlx1NmUzOFx1NjIwZlwiLFwibmV3VGlwXCI6MCxcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwiaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAxMDQxNjY2LzMxMTRjZjI3ZjliNi5wbmdcIixcInNlbGVjdGVkX2ljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMTA1NTI0Ni9mMDhmZDc2N2VmYWYucG5nXCJ9LHtcInBhZ2VcIjpcImdhb3hpYW9fbmV3XCIsXCJuYW1lXCI6XCJcdTY0MWVcdTdiMTFcIixcIm5ld1RpcFwiOjAsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcImljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDUxMTEyMy9iOTBkNDU4N2Y0ODUucG5nXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA1MzIwNzAvZTE1ZWM0MzhlMzdmLnBuZ1wifSx7XCJwYWdlXCI6XCJ6b25neWlfbmV3XCIsXCJuYW1lXCI6XCJcdTdlZmNcdTgyN2FcIixcIm5ld1RpcFwiOjAsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcImljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMTA5NDQ2OS9lZGY0MWNjMzcyNDYucG5nXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDExMDYzNDIvMzFmMzk2YTZjMjM0LnBuZ1wifSx7XCJwYWdlXCI6XCJ5dWxlX25ld1wiLFwibmFtZVwiOlwiXHU1YTMxXHU0ZTUwXCIsXCJuZXdUaXBcIjowLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJpY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDEwNjgyNzUvZjA4OGU3MGIxYjFhLnBuZ1wiLFwic2VsZWN0ZWRfaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAxMDgzNzAwL2UzODczZTJmNzdiZS5wbmdcIn0se1wicGFnZVwiOlwiZG9uZ21hbl9uZXdcIixcIm5hbWVcIjpcIlx1NTJhOFx1NmYyYlwiLFwibmV3VGlwXCI6MCxcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwiaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwNDgwMTc0LzRhMzE3OGMzNDE3Ny5wbmdcIixcInNlbGVjdGVkX2ljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDQ5ODA3Mi80MzEwZTE1ODc4MzgucG5nXCJ9LHtcInBhZ2VcIjpcInNoZW5naHVvX25ld1wiLFwibmFtZVwiOlwiXHU3NTFmXHU2ZDNiXCIsXCJuZXdUaXBcIjowLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJpY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA4MjA0OTEvODM3YjE3YzBlZWRiLnBuZ1wiLFwic2VsZWN0ZWRfaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwODQzNTc3LzM1NzUxNzRiOTFlNy5wbmdcIn0se1wicGFnZVwiOlwiZ3VhbmdjaHVhbmd3dV9uZXdcIixcIm5hbWVcIjpcIlx1NWU3Zlx1NTczYVx1ODIxZVwiLFwibmV3VGlwXCI6MCxcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwiaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwNTQ0OTU1LzBiZjllODhiNzg0NC5wbmdcIixcInNlbGVjdGVkX2ljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDU2MjU5My85NmY5MmEzOTE4ZGEucG5nXCJ9LHtcInBhZ2VcIjpcIm1laXNoaV9uZXdcIixcIm5hbWVcIjpcIlx1N2Y4ZVx1OThkZlwiLFwibmV3VGlwXCI6MCxcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwiaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwNjYwMjc5L2Q1MjgyYzVlMDIyMy5wbmdcIixcInNlbGVjdGVkX2ljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDY3NTk3Ny9hYjU2ODJmYTgyYmYucG5nXCJ9LHtcInBhZ2VcIjpcImNob25nd3VfbmV3XCIsXCJuYW1lXCI6XCJcdTViYTBcdTcyNjlcIixcIm5ld1RpcFwiOjAsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcImljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDQyODgzNC85MjM0MWFhYzk1NTAucG5nXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA0NjY1OTEvNDdlMGZlMWE4M2E2LnBuZ1wifSx7XCJwYWdlXCI6XCJzYW5ub25nX25ld1wiLFwibmFtZVwiOlwiXHU0ZTA5XHU1MTljXCIsXCJuZXdUaXBcIjowLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJpY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA3NjIxOTIvMzdkNWIwZDNiZDE0LnBuZ1wiLFwic2VsZWN0ZWRfaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwNzc3OTEyLzVlYTQxNjEzZGQxMi5wbmdcIn0se1wicGFnZVwiOlwianVuc2hpX25ld1wiLFwibmFtZVwiOlwiXHU1MTliXHU0ZThiXCIsXCJuZXdUaXBcIjowLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJpY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA1NzUwOTcvNTJiYTQyZmEyZjQxLnBuZ1wiLFwic2VsZWN0ZWRfaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwNTk0MDE5L2VhY2ZiMDI2NzQyNC5wbmdcIn0se1wicGFnZVwiOlwic2hlaHVpX25ld1wiLFwibmFtZVwiOlwiXHU3OTNlXHU0ZjFhXCIsXCJuZXdUaXBcIjowLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJpY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA3OTMwODUvMjcxNDAwZTQ3OTQxLnBuZ1wiLFwic2VsZWN0ZWRfaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwODA0MDg2LzJmZDA2YzEwZmY0Yy5wbmdcIn0se1wicGFnZVwiOlwidGl5dV9uZXdcIixcIm5hbWVcIjpcIlx1NGY1M1x1ODBiMlwiLFwibmV3VGlwXCI6MCxcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwiaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwOTE0NTU4L2Q0MWZjMDRkY2U3Zi5wbmdcIixcInNlbGVjdGVkX2ljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDkyNzE5NC81ZTM0ZjRjMWNkZWQucG5nXCJ9LHtcInBhZ2VcIjpcImtlamlfbmV3XCIsXCJuYW1lXCI6XCJcdTc5ZDFcdTYyODBcIixcIm5ld1RpcFwiOjAsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcImljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDYwNzA0Ny8xY2ZhMDRlMjNkNGIucG5nXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA2MjA3MTQvN2M5NWY5NThiOTQ1LnBuZ1wifSx7XCJwYWdlXCI6XCJzaGlzaGFuZ19uZXdcIixcIm5hbWVcIjpcIlx1NjVmNlx1NWMxYVwiLFwibmV3VGlwXCI6MCxcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwiaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwODYxMTQxLzhjZTI1MzgyMzdiYi5wbmdcIixcInNlbGVjdGVkX2ljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDg4MjkwNi9jOGEyMWI0ZTgzODgucG5nXCJ9LHtcInBhZ2VcIjpcInFpY2hlX25ld1wiLFwibmFtZVwiOlwiXHU2YzdkXHU4ZjY2XCIsXCJuZXdUaXBcIjowLFwic3RhcnRfdGltZVwiOjE2OTg0NTgwODIsXCJlbmRfdGltZVwiOjE2OTg0NTgxNDIsXCJpY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA3MTY1NTMvMDkxMzY4ZGRiZmRlLnBuZ1wiLFwic2VsZWN0ZWRfaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwNzI4OTY3LzJmM2NmZThhNzAzMS5wbmdcIn0se1wicGFnZVwiOlwicWluemlfbmV3XCIsXCJuYW1lXCI6XCJcdTRlYjJcdTViNTBcIixcIm5ld1RpcFwiOjAsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcImljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDc0MDcyMy8zOTA0YWJjNWM1ODEucG5nXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA3NTIwMjYvM2ZjODNkODkzNWU5LnBuZ1wifSx7XCJwYWdlXCI6XCJ3ZW5odWFfbmV3XCIsXCJuYW1lXCI6XCJcdTY1ODdcdTUzMTZcIixcIm5ld1RpcFwiOjAsXCJzdGFydF90aW1lXCI6MTY5ODQ1ODA4MixcImVuZF90aW1lXCI6MTY5ODQ1ODE0MixcImljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDk0MDg2OS82ZGNlZjM4OWU4OWEucG5nXCIsXCJzZWxlY3RlZF9pY29uX3VybFwiOlwiaHR0cHM6Ly9waWMucm1iLmJkc3RhdGljLmNvbS9iYWlkdS1ybWItdmlkZW8tY292ZXItMS8yMDIxLTExLzE2MzgxMDA5NTg3MzYvNjRkNjg4MTViODZhLnBuZ1wifSx7XCJwYWdlXCI6XCJsdnlvdV9uZXdcIixcIm5hbWVcIjpcIlx1NjVjNVx1NmUzOFwiLFwibmV3VGlwXCI6MCxcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwiaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwNjM0MDgwL2UyMDkzODRiOTVlZS5wbmdcIixcInNlbGVjdGVkX2ljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDY0OTY3My8wZjZkZjgzZmQ0ZWIucG5nXCJ9LHtcInBhZ2VcIjpcInl1bnlpbmdfbWlhb2RvbmdcIixcIm5hbWVcIjpcIlx1NzlkMlx1NjFjMlwiLFwibmV3VGlwXCI6MCxcInN0YXJ0X3RpbWVcIjoxNjk4NDU4MDgyLFwiZW5kX3RpbWVcIjoxNjk4NDU4MTQyLFwiaWNvbl91cmxcIjpcImh0dHBzOi8vcGljLnJtYi5iZHN0YXRpYy5jb20vYmFpZHUtcm1iLXZpZGVvLWNvdmVyLTEvMjAyMS0xMS8xNjM4MTAwNjkwMzgzLzViMDhhNTk1OTc5Yi5wbmdcIixcInNlbGVjdGVkX2ljb25fdXJsXCI6XCJodHRwczovL3BpYy5ybWIuYmRzdGF0aWMuY29tL2JhaWR1LXJtYi12aWRlby1jb3Zlci0xLzIwMjEtMTEvMTYzODEwMDcwMTM1OS85ZDM5YjBmZjNmNWEucG5nXCJ9XSxcImVuY3J5cHRcIjoxLFwiZW5jcnB0ZWRWaWRlb01ldGFcIjpcIkhGY0lDa1ZTVjFvTkFnZFdURlJaWDE1Qld3MEFBRmRNVlZ4RlJGY2RYVUZhQWxkYlREc2RRd3BWQkdvU1FsWmRCRFFBWGdNRlZEc0FCd2hYV1NrY0F3WUVCU2tVVzE1UVRUVkJBVk5YRVQwYlVBMFJVR2hBQTFOR1dUSVNYVXhlQW1sREFSTlJEVHNkUUFvRVUyb1NRRmhaVVRRQVhnY0hWRHNBVkYwQ0NTa2NEQVZRQXlrVVZnTlFSRFZCQWdWVkZ6MGJVRnBHVVdoQUFWQkRVRElTVUV3S0RXbERBUk5SRFRzZFFGOEdWbW9TUVFRS1VUUUFYZ0lOQWpzQVZGZFFYaWtjQVF3RlV5a1VDQUZZUkVzWUYwWUlCaFVMRlVwUFMxeEJRaGNHV3pKSU5Gb1BBeHRVQmh3Rkcwa0xHZ1JvR2w4VEtVNGJXbHBFWFFFTkFsTkRXRnBMVzB4Y0JnRURYa3hZWGtFT0dGUUdCd1JCRkJFZVdsbEZVUkpUQ3kwbEpDa25HeXBaR0VKcFgwVlJRZzgzUkZrRUJSb1dLbGxlU3c0cUNFRkJXVVZaUXg0TENRd0tXa0VVWFVOUVdWQmVSMFVXVTFzWEdRQVhCQVlCU3c0WEFGVXBGRm9DV0VJMVFRTlVWVVE5RzFGY0ZBMW9RQUJTUmdSTVMwb0ZIRlpaWHhRZFBob09CUkJMRGdRQVZFUldXRlZhVFZzWUYxSUdBUVJNWFVvcEhBRUdVbFlwRkZzQ1dFWTFRUU1EQVVNOUcxNWRFMTFvUUZBQlJBQmNWMXBFTlVFQVUxQkJXRElTWGtKWkRBUUFPd0JYV3dKZFYwVVdRVjhLRUQ0Q0FnWVNIVndYREVWRlUxUlZYRmRGRmxGREZSUVZCd2dHVjFNRkFRSkxWMWNkT0JnWkNFMXFReFVaUTFSRkFBRWRSQTlxU0NsT0JnNFBIUVZkVWw0VFdCY0hBdzBhUjFkUldFa1hBZ3NGQndaSFYxcGJPMW9YQndNTkdqVWJBMFU3V2xjTUJsRVFYQVJRRzFaRFdBcEtXVVFNVnhoVVYwSlVRMUVMVEZ0V1V3QldGRmtOVUVZWUdRQUtRRGdURXdFS053WlVYRjVYRndWTUJnWUhIZ2hhR0Y0SkZFTkNSUmdaQ0UxQVJBdFhXMHdQSEFFWlJ3OXFTQ2xPR0FOY1d3dFFSa0lHQVFnTlNRc2FCR2dhV3dNVVRBTU9Ea0VFV2xSUEVSOE1BQThEQmhsb0dsVUdFRDRHVlY1Qk5scGFRUVlCQkJ3S0NRY0NhQm9IVVVaUVdWRmFRMTRCQlFKU1FGRllVMXhETlJ0WVVnWllEQWNCWEJnSFZVeEFEUmdQQmd3YkJVZFpSUUpZQXo0SUZRY1lOa2NJWGd3VUVSNUtBQlFHWDFSWVNoMFBEMEVKQUIxY2FsMENERnhmVVZGTlhRSU5EbDlIVEY1S1dGaGVCUUVIVVVaU1YxRmZRQXdCREFKVUYxQlpYMTFGV3dRR0QxVk5WVmdEWFZNTFYxQkFDQkUrRFE4Skd3ZFJXUXNVRUFBY0JBQVhCa3hxVUFJUUJVZ0VHa2haRWxaU1drVkhIZ05WUkU5RVFRdFVVdzBCQUFFUlZBY0hEbFZIVVZkVlhVQlBRbHhTV2taWVdWWlpURndERFFCVFIxaGJVVmhNWFFZWEdrVVdEUThWQVFFUVlVZGFSVTg2RlVVREVCQVdEeFFVRVVOQ1JSb1VCMThYREZkWlF4b09IQmtNRmc4VU93QlhWbGRmS1J3Q1VBWlNWMDFNRWhvWlN3NFhYaE1CRVIxZE5GbzFHME5TVTFzRENoUWNGQjFkVmhnRUdnd3lTQVVSQ0JsWVh3RkJEQUFHRVFNRFdWdGVEQVlSTWtnTEZBeHJYUVJSUVQ0QUNCOFVIVkZIV3dZSENqSklXVU5hQlFJQVZVTldXMWRjUUZ3RUF3SlRRejFCQ2d3VVJGbGNVRk1ZRHc4ZUhoOEVXbDFkRkFWUEF4ZGNTaDlyVTBRSUdENGRXZ0FlQ0VSRkd3OFVEZ1VHQmxnQldsUVFCZ0FWQmpnREVCQUpCQUJlVFZWWVgxQk5XeGtGRzFkWVZsOVRXVU5hQnd3QVVFQUVXMTVjUmdzRkFnNVNSVk5lVkZGSFVRQURVbEpUQXcwQ0hob05hMVplQmhzUEN3dFZCZ3hWUjFVUEZ3NFdPQTRRREZBVFZSVklVVWdFREVoWkVrVlNXa1JISGhOVlJrOVlXbEVPRVZ4ZFZWQkhXd1FNQkZKQVJ4Z09ERWhhRFFJSFZreFVXVjllUVZzTkFBQlhURlZjUlVSWEgxMVJVd2czRVIxRlVrQmREQmtVRVJvRk9BNE1FQVo4WWhSZFYxSllWMHhSWHdBRkZFdFhGd2NERFJvNlhVOVRSVTlZUUZGRVZ4OWJVWHNJR2hjOURoSVFTdzREQVZCSFdVSkZIaHdOVVZwcEJCa0FIQTRjRERaSFZsa1ZFRU5VVWtaRFhRSUhHa1VTRGg0bUJCd09XaGNNRXdjVUN4cEVEa3RmVUU5RlQwTUdBMHBaUzBaVVdBeFhXMTlMU2dFQVFGbFRSVTlETWhKUkZBME1hVU5SRUZGYlJVUlhIRVpaRkYxWENSb1RHQVpUYUJwcVNBTUZXa2tLRVJwQVZFSU9GazhOQ0FVcFJsbFJWMG9ZQ0FoVEJSc0lUVU5jQ2hzSkJSUVlLVVpjVVdwSUZnQUxPQUJIWHdCcVdBZ0NBQm9DR2hnSVJsNXFTRVJYWFZaZlExc0NBZ05XUVZSYVZsbEdXZ1pwR1FvUkFFTUtBUk5kV1Z0WEhnTUxBd2tBSGhwRUcxc1hRVjRZT0E0SEJsbHFSVm9kQ2c4WEdGZ0JWVnBkQmh0TUJna0pVd2hCUVY0NEhnUVhXbGxEVUF3QkFGOU5XVnhLV0ZoWkdRQUdWMHhYWDFkZlJGc0hVMVJVUkZkYlZscERDd05RQUY5RVdBaFdYRVVORWxkVkFnTU9DamdMSFFoYVcxTUxTQklMQmhvV0FWWmFUamdUQkFzRFRoWWJDUVFRQkJGY1hrRVlFVlFGRTBZVFNGSklDd2NTQUZBSUJWVk5VMXhYVVVkY0FSTkFEaEZjWFY1ZlJGZ05BQUZmUTFWY1hsMURXUTBCQkVWWlF4Z09EQkFHZGtWRlJVOVdYMUpFVng5YlVXQU9FUVFCTHo5WFV4WUJEbGRSUlZaU1hGZEZGa05mQXhBT1BRNFNFRXNPQkFSSlEwMU1FUWNSSkZ0YVFEUWNHd3RGVWtOZUFnVUdTMWNYQndNTkdqWlhXVmNWSEJVWE9Cc1dCa1pRRkYxQVQxbGZXbGxMVTFwR0poa0lDUWxLVHgxR1FGTWFXUnBNREEwTVN3NFhSUVJYVFV3VkNSc0NGZzhFUzFjVkJ4TUVFRXNPRjJvU1RRVldValFBWDFFRkEwVlpReHNWQkZkVEZsMUNFd1VTVkR0SEtVWkNVUUpKRndVZEV3a0JBRmNiVlFnWVBVRUtEQlJFV1Z4UVV4Z1BEeDRlSHdSYVhWMFVCVDFCRkFzcFJsZFVVemdkVTFoVE54c0dRMVJDQWdjTUR4VURLVVlGQXdWV1FsZGNVVjlBWGcwRERsOU5VRjFVTkZvRVVGUWJDaHdIV2dvR0ZCQkNYMXNKSFFvZEYwWVlHUUFLUURnVEV3RUtOd1pVWEY1WEZ3Vk1CZ1lISGdoYUdGNEpGRWNQRWh3ZE5sOVFUMXBFVjFkZlhFTlJEQTBFU2tWTVhrcFlSZ2dCQlZkWEZ3SU1Bd3dYWFZZTUJRVk1XUWhYVUVSZkFsWUJVMHhSVmtFS0ZneENXbEk0RmdrUENRWVFCUWxHVXdZSEFnWUZCdzAyVWxCVEExTUNIRnBhVXdwUUNBWkJCUVZUVms0RkhRa0dFQXNhQmdjRFZVWmJEQWNFVjB4VFcxSk9Bd0JRQ0FWZVFsQmZYbDFDVVFJQkJGNUFWMTVlWEVkTEdCZEFEaEVFQVNVWUJrc09CQVJXUlUxTUVRY1JQMTFSVXdnOU5reGRTa0piQkJFU1ZrZFpYa1ZFVng5ZFVWTUlKZ2dVQWtwUFd3VWJCVXRYRndFREpSb0dRbVpmSFJCRFZGRmZUVm9GR1JRUkhBVUxDRGNXQlZWSFh4TU1QaDBFQndjTUZnOERTVXhZV0ZWRVZ3NWJSWGNMSEFZQVJWSUJHMEZRUzBzT1F3VUNFVmRURmdRR1gwVVJURXRLQndoYVhoUmRSazFNRXdFQkJWRVhERVVwRkZaVERCRTFRUUFIVTB4RFFrVWRCd1VXRHhRUEFSVWVGRklwUm1nYVFBTkJUd3dER3dFSVFGeFZTUllPQXp0SEdBMVZHRnNPRTFVRENRa01IMTVZV0E4ZUVoNDdSeE1CVUdrWkJCUUVNUTlhUTExclcxa1FGQlVMRlFVVUcxOXBHVlpEVWw5UVhrZGZBd0FIVlVKVVdsOWNUVjFvR2xzREZFd0REZzVCQkZwVVR4RWZEQUFQQXdZWkdsaEdVMG9YTVFFYUdnUnJSZ3NQSGdBZUYwVWRDRnRlVndsWUNRQUdUaFFjUUYxcERCQVlVMVplVEZFQUF3NWZUVk5EVjBWRlJGY0VEd05OQTFoZlh4WlpEUVVHQVJkUURWOVFRRkFFRFZjRkVRQmRVRnRGVDFaV1V4RWFCVEVFQUJRSFdsQmFXZ1lFRHhVTEhRdGJUV2tCRUFRS1FRc0hWQWNUVlFOSVVVZ1hERWhZRWtWQ1drWkhBZ2dQSEEwSkJnUmZSMU5lWGxwQVhCSkRYd05JVWxkUVdVUlFBUUlPVVVGVFYxSmVSVkFBQnhSTFZ4Y0hBdzBhSzBSR0ZGMUhVMTFlUkZjZlcxRmdEaEVFQVM4L1YxTVdCQVpmUlVWS1ZsRkhXUllaRkJFY0JRc0lPeHdUVVJjTVZFeFBXa3RLQXdaUWVGa0lBeklISFExWFV3SU5CMUJDVFV3UkFSRU1XMnBWQ3hRVEJ4TVJLaHBYV2tRQ1YxdFlTVmhNV0FVWkZBQWFFUzhMQVJJSEZnOUNGUUFFRXpwRVZ4OWRVVk1JS2hJYUJod0FHaFlQQmt0WEZ3Y0REUm8yUmxCY0FoWVZPaDRZRUVzT1cwTUxHVTFNRGhzcUJWMWVVMFZQVVVKRkFRWTJWMXBhQ3hBQ0dnNEhHMHNPVzBNTEdVMU1Dd0VlREJZUEFsQkRWVUpGQVFZMlJGUlBPQllPQWhJRkcwc09CUnBGQmdJTENRMEdTdzVUVndzR0JFSkZIaG9kVVhGZkZCUURBZ0lyQVJ0WUZ3eEZSVU5DUlE0WUJWMWVVemdiRkFORlVsZGRBd01DUlZsRERRZ0ZHQXhhUVJSZFIxTkNSUTRZQ2x0WVd3SWJGVEVKSFJoTERoY0VWVmROVEFRSEdSeFpXMmtPR3djQlJWSXVOQmdYUmhVUUZ3Y0NIeUFiV0gxQ0V3VkRWRVVBQVIxRUQycElLVTRHRGc4ZEJWMVNYaE5ZRndjRERScEhWMUZZU1JjQ0N3VUhCa2RYV2xzN1doY0hBdzBhTlJzRFJUdGFWd3dHVVJCY0JGQWJWa05ZQ2twWlJBeFhHRlJYUWxSRFVRdE1XMVpUQUZZVVdRMVFSaGdaQUFwQU9CTVRBUW8zQmxSY1hsY1hCVXdHQmdjZUNGb1lYZ2tVUTBKRkFRWWxXMXRSTVJ3RkN3aEtUdzlWV1VVQ1dVTUlGUWtZREd0R1JoVWNGUXNVU2s5TEZoa1VEZ1krQ0FnYUZ3QlFVVk1KS2hJR0Job1FTdzRGR2tVR0NROFZEVHdIVWxvVVhRNURHaDRZRUVzT0YwTVZHVU1UUzBvV0JsaFpVd1FCQ0FFSk54d0hVbG9VWFM0OEV3PT1cIixcIm5vbmNlXCI6XCIyYmYwOGM0Y2U3ZjFmYTg0MmU5ZWQ5NWI3ZDc5ZmFhZlwiLFwic2hhcmVfb3JpZ2luX2luZm9cIjpbXSxcImxvZ2lkXCI6XCIzMjgyMjA5MjU1XCIsXCJvcGVuQXBwSW5mb1wiOntcImlzVGhpcmRcIjowfSxcInNlcnZlcl9zaWRzXCI6XCJcIixcInNlcnZlcl9sb2dpZFwiOlwiMzI4MjIwOTI1NVwiLFwiaXNfcGNcIjp0cnVlLFwiY29uZmlnXCI6e1wibW9ub2Nocm9tZVwiOjB9fSxcImNvbmZpZ1wiOntcIm1vbm9jaHJvbWVcIjowfSxcInRpbWVcIjoxNjk4NDU4MDgyLFwiU0NSSVBUX05BTUVcIjpcIi92aWRlb3VpL2luZGV4LnBocFwifX19In0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--8d72458a-223d-5a18-a6e9-50ca0d47089c",
+            "value": "/callback_feedback"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--10546f89-958c-485f-b0f7-f7177a45c228",
-    "created": "2024-11-11T15:17:48.627579Z",
-    "modified": "2024-11-11T15:17:48.627579Z",
+    "id": "attack-pattern--1ddd906a-5a98-4b76-a994-56fabae36e2c",
+    "created": "2024-11-12T10:21:12.804335Z",
+    "modified": "2024-11-12T10:21:12.804335Z",
     "name": "HTTP POST\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--1dc1ac74-4408-4731-ae3b-f5b453696a2e",
-    "created": "2024-11-11T15:17:48.628579Z",
-    "modified": "2024-11-11T15:17:48.628579Z",
+    "id": "observed-data--98c28934-61d6-47e7-82af-154c458a4b27",
+    "created": "2024-11-12T10:21:12.805338Z",
+    "modified": "2024-11-12T10:21:12.805338Z",
     "first_observed": "2023-10-28T01:54:43.763681Z",
     "last_observed": "2023-10-28T01:54:43.763681Z",
     "number_observed": 1,
@@ -3126,7 +3822,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--e8dbd601-d165-54a5-bb10-e9c3256f707b",
+            "id": "network-traffic--e60c3ed3-3b80-574f-bfac-4200bd1a8747",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 42737,
@@ -3135,7 +3831,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--b77219a2-e913-4052-a6f3-e3b5e740306c": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -3143,23 +3845,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--0c94ba4c-08e6-45b5-8175-b42036c9a243",
-    "created": "2024-11-11T15:17:48.628579Z",
-    "modified": "2024-11-11T15:17:48.628579Z",
+    "id": "attack-pattern--108802ce-c873-4eab-9c3b-3a7bdeda191b",
+    "created": "2024-11-12T10:21:12.806335Z",
+    "modified": "2024-11-12T10:21:12.806335Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--53d6536f-e9f1-4d83-9f69-1a89ad436935",
-    "created": "2024-11-11T15:17:48.630178Z",
-    "modified": "2024-11-11T15:17:48.630178Z",
+    "id": "observed-data--31776613-2044-4e48-9399-ddd3cdeccdca",
+    "created": "2024-11-12T10:21:12.807338Z",
+    "modified": "2024-11-12T10:21:12.807338Z",
     "first_observed": "2023-10-28T01:54:43.765878Z",
     "last_observed": "2023-10-28T01:54:43.765878Z",
     "number_observed": 1,
@@ -3179,7 +3887,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--c3255c79-6263-5b4b-a695-215f6c6c6ece",
+            "id": "network-traffic--6defb3bb-e977-5b75-9660-bda7eeb3075d",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 42737,
@@ -3189,7 +3897,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--21240e2d-04b5-4379-9a8f-14adacee752f": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -3197,23 +3911,29 @@
             "id": "artifact--89dcea00-7280-5976-aaf4-f47022ef2748",
             "mime_type": "HTTP_POST",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIkNvb2tpZSI6ICJfZ2NsX2F1PTEuMS4xNDQyNjQ3Mzk0LjE2OTg0NTgwODI7IF9nYT1HQTEuMS44MjcyMDA1OTcuMTY5ODQ1ODA4MjsgX2dhXzZSUUY4OUVaR0w9R1MxLjEuMTY5ODQ1ODA4MS4xLjAuMTY5ODQ1ODA4Mi41OS4wLjA7IF9naWQ9R0ExLjEuNzE1OTUwMjk2LjE2OTg0NTgwODI7IF9kY19ndG1fVUEtNzI1NjUwMDctMT0xOyBfdWV0c2lkPWY2MjU2Y2QwNzUzNDExZWVhOGNiYWJkMDM2N2VhZjIzOyBfdWV0dmlkPWY2MjViMDUwNzUzNDExZWU5ZTJmMzk0OGU1NDVmMDNmIiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC40NSIsICJHRVQiOiAiL2NhbGxiYWNrX2ZlZWRiYWNrIiwgIlBPU1QiOiAie1wiaG9zdFwiOlwidV95X3FxX2NvbVwiLFwiZGF0YVwiOntcImNvZGVcIjowLFwidHNcIjoxNjk4NDU4MDgzMzkxLFwic3RhcnRfdHNcIjoxNjk4NDU4MDgzMzI5LFwidHJhY2VpZFwiOlwiN2VmNTY5MWIzNTQxZDM3NFwiLFwiSEdcIjp7XCJjb2RlXCI6MCxcImRhdGFcIjp7XCJwZnJlZWZsb3dfdXJsXCI6XCJcIixcInB1cmxcIjpcIlwiLFwidmVjdXJsaW5mb1wiOltdfX0sXCJEQlwiOntcImNvZGVcIjoxMDAwfSxcIkFcIjp7XCJjb2RlXCI6MCxcImRhdGFcIjp7XCJleHBpcmF0aW9uXCI6ODY0MDAsXCJmcmVlZmxvd3NpcFwiOltcImh0dHA6Ly82MC4xMi4xMDkuMTYxL2Ftb2JpbGUubXVzaWMudGMucXEuY29tL1wiLFwiaHR0cDovLzEwMS42OS4xNzQuMzIvYW1vYmlsZS5tdXNpYy50Yy5xcS5jb20vXCIsXCJodHRwOi8vMTAxLjY5LjE3NC4zNy9hbW9iaWxlLm11c2ljLnRjLnFxLmNvbS9cIl0sXCJrZWVwYWxpdmVmaWxlXCI6XCJDNDAwMDA0VHNGdVcybVpiUlIubTRhP2d1aWQ9TVMmdmtleT0yMkE4N0QyRjZGMEE1NkY0MjRCMjI3QjEyM0VGOEIwQzY0OUZGQTE4QjY3M0IyQjY4RDE4RTNEMTQ1Q0EwOTkxMzUxMEJBNDVENUQyOEY4RDZCNjVBNUM3NDNGMkMyMkVCQjAyMzMxQ0VCNkZDQzFBJnVpbj0wJmZyb210YWc9M1wiLFwibXNnXCI6XCJva1wiLFwicmV0Y29kZVwiOjAsXCJzZXJ2ZXJjaGVja1wiOlwiYWUzMGJkNmQxNTM2MmNkZDNhNTBjZGMzOTA4ZWY1ZTFcIixcInNpcFwiOltcImh0dHA6Ly82MC4xMi4xMDkuMTYxL2Ftb2JpbGUubXVzaWMudGMucXEuY29tL1wiLFwiaHR0cDovL3dzLnN0cmVhbS5xcW11c2ljLnFxLmNvbS9cIixcImh0dHA6Ly9pc3VyZS5zdHJlYW0ucXFtdXNpYy5xcS5jb20vXCIsXCJodHRwOi8vMTAxLjY5LjE3NC4zMi9hbW9iaWxlLm11c2ljLnRjLnFxLmNvbS9cIixcImh0dHA6Ly8xMDEuNjkuMTc0LjM3L2Ftb2JpbGUubXVzaWMudGMucXEuY29tL1wiXSxcInRlc3RmaWxlMmdcIjpcIkM0MDAwMDNtQWFuNzB6VXk1Ty5tNGE/Z3VpZD1NUyZ2a2V5PUY1NTFCQTdDMUJDNjY1MTBCQUNGRTE0ODQ0M0VGMEVFNjA5NTFGNDhCODMxM0JBOEZFRDVGNzYxNTNBOEU1RDNBNjk2QUUxQ0RGQjY4NTI4NDNBNkI2NDUzNjA0QjQ2ODZEODMzRTY1NkU3OTQ3OTAmdWluPTAmZnJvbXRhZz0zXCIsXCJ0ZXN0ZmlsZXdpZmlcIjpcIkM0MDAwMDNtQWFuNzB6VXk1Ty5tNGE/Z3VpZD1NUyZ2a2V5PUY1NTFCQTdDMUJDNjY1MTBCQUNGRTE0ODQ0M0VGMEVFNjA5NTFGNDhCODMxM0JBOEZFRDVGNzYxNTNBOEU1RDNBNjk2QUUxQ0RGQjY4NTI4NDNBNkI2NDUzNjA0QjQ2ODZEODMzRTY1NkU3OTQ3OTAmdWluPTAmZnJvbXRhZz0zXCIsXCJ1aW5cIjpcIlwiLFwidXNlcmlwXCI6XCIyMjAuMTk2LjE2MC43M1wiLFwidmtleVwiOlwiNkQ1NkFDNzZFMTRENDFCRjlCNUZFQ0RGQzBFNDc3RTY0QTczRjkxQUFEODA1RkNBMUY1RUIyRDdGRUM0MTg4NkY2NzUxQjBFNEYwQTBCRDk5Njc5NkNBQjZENkJBM0U3REE2ODgyREI2MjNDNEM5RlwifX0sXCJCXCI6e1wiY29kZVwiOjAsXCJkYXRhXCI6e1wiaXNQb3N0UGF5XCI6MCxcImxlZnRfbnVtXCI6MCxcIm1lc3NhZ2VcIjpcInN1Y2Nlc3NcIixcIm11c2ljaWRcIjpcIlwiLFwib3JkZXJfbnVtXCI6MCxcInBheVR5cGVcIjowLFwicGhvbmVcIjpcIlwiLFwicmFua2luZm9cIjp7XCJoYXNtb3JlXCI6MSxcImlSYW5rXCI6MCxcImlTY29yZVwiOjAsXCJyYW5rbGlzdFwiOlt7XCJIZWFkXCI6XCJodHRwczovL3d4LnFsb2dvLmNuL21taGVhZC9FVlB0Sko5VHNIeWJLSGR0U2d4TEx6cXdDTHEwZkVZZXNmem1RSDd0WDJ1QnpUektjYTBublEvMTMyXCIsXCJOaWNrXCI6XCJLd2ludmlzaW9uXCIsXCJpUmFua1wiOjEsXCJpU2NvcmVcIjoxNjAsXCJzdHJJRFwiOlwib0s2a293RUFvSzR6N2VTNW93RUZvaWNQN24qKlwifV0sXCJ1aW5cIjowfSxcInJldFwiOjAsXCJ0b3RhbFwiOjAsXCJ1cmxcIjpcIlwiLFwidmFsaWRcIjowLFwidmVjX2l0ZW1cIjpbXSxcInZlY19zZW5kXCI6W119fSxcIkNcIjp7XCJjb2RlXCI6MTAwMCxcImRhdGFcIjp7XCJ1c2VyaXBcIjpcIlwiLFwibmFtZVwiOlwiXCIsXCJmYWNlXCI6XCJcIixcImVuY3J5cHRfdWluXCI6XCJcIixcInN1YmNvZGVcIjowLFwiZXJyb3J0aXBcIjpcIlwiLFwiZmVlZGJhY2t1cmxcIjpcIlwiLFwibGFzdF9sb2dpbl90aW1lXCI6MCxcImZQZXJzb25hbGl0eVwiOjAsXCJpc19zaG93X21saXZlX3RhYlwiOjAsXCJpc19zaG93X3JlY29yZF9lbnRyeVwiOjAsXCJndWlkZV91c2VyXCI6MCxcImxpdmVfdGFiX2F0X2JvdHRvbVwiOjAsXCJhYnRpZF9saXZlX3RhYl9hdF9ib3R0b21cIjpcIlwiLFwibmVlZHNob3dfcG9kY2FzdF90YWJcIjowLFwiaXNVc2VOZXdLZXlcIjowLFwicmVtb3ZlV3Rsb2dpblNES1wiOjAsXCJtdXNpY0tleVwiOlwiXCIsXCJleHBpcmVzSW5cIjowLFwicmVmcmVzaEtleVwiOlwiXCIsXCJmZWVkYmFja1VSTFwiOlwiXCJ9fX19In0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--8d72458a-223d-5a18-a6e9-50ca0d47089c",
+            "value": "/callback_feedback"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--24bfeb70-41f8-4b00-9ac0-0fbd9de5715d",
-    "created": "2024-11-11T15:17:48.631274Z",
-    "modified": "2024-11-11T15:17:48.631274Z",
+    "id": "attack-pattern--2075b388-4ee6-4175-84ec-793396f1e7ba",
+    "created": "2024-11-12T10:21:12.808335Z",
+    "modified": "2024-11-12T10:21:12.808335Z",
     "name": "HTTP POST\u8bf7\u6c42\u8bbf\u95ee"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--3d34c6b0-720e-4cda-9b28-a6d844f40d59",
-    "created": "2024-11-11T15:17:48.632272Z",
-    "modified": "2024-11-11T15:17:48.632272Z",
+    "id": "observed-data--4911fd34-5c89-4b09-b1ec-55d558af55e2",
+    "created": "2024-11-12T10:21:12.809336Z",
+    "modified": "2024-11-12T10:21:12.809336Z",
     "first_observed": "2023-10-28T01:54:45.102189Z",
     "last_observed": "2023-10-28T01:54:45.102189Z",
     "number_observed": 1,
@@ -3233,7 +3953,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--89d85da3-79fa-5231-8734-69ed86396e14",
+            "id": "network-traffic--fccd3abc-400c-5306-9077-b07f0fad2017",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 43965,
@@ -3242,7 +3962,13 @@
                 "T",
                 "C",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--013abda5-e9d0-44ef-94ce-79de4a8ed568": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -3250,23 +3976,29 @@
             "id": "artifact--d7dc037b-892c-5238-af2c-1229ae213ecd",
             "mime_type": "TCP",
             "payload_bin": "e30="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--d4c60b3a-dc22-5dab-93fa-9683d3ef5548",
+            "value": "NULL"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--033e365d-7301-4554-b7d9-cb10ec842638",
-    "created": "2024-11-11T15:17:48.63331Z",
-    "modified": "2024-11-11T15:17:48.63331Z",
+    "id": "attack-pattern--04df72f1-7a65-4385-bd62-c89998a28477",
+    "created": "2024-11-12T10:21:12.810336Z",
+    "modified": "2024-11-12T10:21:12.810336Z",
     "name": "\u5c1d\u8bd5SYN\u63e1\u624b"
 }
 {
     "type": "observed-data",
     "spec_version": "2.1",
-    "id": "observed-data--5e3149b2-2639-4a91-8178-6e5718cc481d",
-    "created": "2024-11-11T15:17:48.634274Z",
-    "modified": "2024-11-11T15:17:48.634274Z",
+    "id": "observed-data--757da5b5-e5fd-45f2-83e2-d31cf7241964",
+    "created": "2024-11-12T10:21:12.811335Z",
+    "modified": "2024-11-12T10:21:12.811335Z",
     "first_observed": "2023-10-28T01:54:45.104446Z",
     "last_observed": "2023-10-28T01:54:45.104446Z",
     "number_observed": 1,
@@ -3286,7 +4018,7 @@
         "2": {
             "type": "network-traffic",
             "spec_version": "2.1",
-            "id": "network-traffic--1b93c1a4-d6e7-53f6-a9fb-9c61f8915bb9",
+            "id": "network-traffic--8d224f8b-4247-5014-826e-f1bd9bd47a5c",
             "src_ref": "ipv4-addr--97fb2e9c-4b64-5197-a1ce-4a3bde3e15bd",
             "dst_ref": "ipv4-addr--3bbdd52d-9302-5ee8-b382-7aa54491cab6",
             "src_port": 43965,
@@ -3296,7 +4028,13 @@
                 "T",
                 "T",
                 "P"
-            ]
+            ],
+            "extensions": {
+                "extension-definition--d896d4bc-187e-407b-b750-951a51350864": {
+                    "device_type": "\u871c\u70b9",
+                    "sub_device_type": "\u5916\u871c\u70b9"
+                }
+            }
         },
         "3": {
             "type": "artifact",
@@ -3304,14 +4042,20 @@
             "id": "artifact--2b3e3d23-f89f-5026-a056-8ba18924f3df",
             "mime_type": "HTTP_GET",
             "payload_bin": "eyJVc2VyX0FnZW50IjogIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwOS4wLjAuMCBTYWZhcmkvNTM3LjM2IiwgIkNvb2tpZSI6ICJfZ2NsX2F1PTEuMS4xNDQyNjQ3Mzk0LjE2OTg0NTgwODI7IF9nYT1HQTEuMS44MjcyMDA1OTcuMTY5ODQ1ODA4MjsgX2dhXzZSUUY4OUVaR0w9R1MxLjEuMTY5ODQ1ODA4MS4xLjAuMTY5ODQ1ODA4Mi41OS4wLjA7IF9naWQ9R0ExLjEuNzE1OTUwMjk2LjE2OTg0NTgwODI7IF9kY19ndG1fVUEtNzI1NjUwMDctMT0xOyBfdWV0c2lkPWY2MjU2Y2QwNzUzNDExZWVhOGNiYWJkMDM2N2VhZjIzOyBfdWV0dmlkPWY2MjViMDUwNzUzNDExZWU5ZTJmMzk0OGU1NDVmMDNmIiwgIlhfRm9yd2FyZGVkX0ZvciI6ICIyMjAuMTk2LjE2MC40NSIsICJHRVQiOiAiL2lzX2h1bWFuIn0="
+        },
+        "4": {
+            "type": "url",
+            "spec_version": "2.1",
+            "id": "url--eb046e00-e1c3-5af9-b486-73ce5e7d8dbf",
+            "value": "/is_human"
         }
     }
 }
 {
     "type": "attack-pattern",
     "spec_version": "2.1",
-    "id": "attack-pattern--cce009d1-bb74-4a30-b4ad-73f63d67107f",
-    "created": "2024-11-11T15:17:48.635258Z",
-    "modified": "2024-11-11T15:17:48.635258Z",
+    "id": "attack-pattern--827bd0f3-a144-44c4-b70f-731e1b73eac9",
+    "created": "2024-11-12T10:21:12.812336Z",
+    "modified": "2024-11-12T10:21:12.812336Z",
     "name": "HTTP GET\u8bf7\u6c42\u8bbf\u95ee"
 }
