@@ -33,3 +33,11 @@ git commit -m "work1 merge main"
 git push origin work1
 ```
 ### 库依赖说明
+使用fabric-sdk-py
+```shell
+pip install fabric-sdk-py
+```
+window编译依赖问题请安装Microsoft Visual C++ 14.0
+最新版本的fabric-sdk-py只支持
+### 问题及说明
+当前版本的

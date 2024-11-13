@@ -8,7 +8,7 @@
 
 #### 1.2 区块链功能架构
 
-![img](docs/imgs/img2.png)
+![img](docs/imgs/img2.png) 
 
 #### 1.3 用户端功能架构
 
