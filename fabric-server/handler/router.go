@@ -28,7 +28,7 @@ func NewRouter(fabricSDK *fabsdk.FabricSDK) *gin.Engine {
     })
 
     // 查询区块信息
-    r.GET("/queryBlock/:blockID", func(c *gin.Context) {
+    r.Any("/queryBlock/:blockID", func(c *gin.Context) {
         blockID := c.Param("blockID")
         id,_:=strconv.Atoi(blockID)
         block, err := fabric.QueryBlockInfo(global.LedgerClient,int64(id))
@@ -36,7 +36,17 @@ func NewRouter(fabricSDK *fabsdk.FabricSDK) *gin.Engine {
             c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
             return
         }
-        c.JSON(http.StatusOK, gin.H{"block": block})
+        c.JSON(http.StatusOK, gin.H{"code":200,"data":block})
+    })
+    //查询区块链信息
+    
+    r.Any("/queryChain", func(c *gin.Context) {
+        info, err := fabric.QueryChainInfo(global.LedgerClient)
+        if err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+            return
+        }
+        c.JSON(http.StatusOK, gin.H{"code":200,"data":info})
     })
 	return r
 }

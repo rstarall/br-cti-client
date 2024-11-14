@@ -1,17 +1,20 @@
 package handler
 
 import (
+	"bytes"
 	"encoding/json"
+	// "encoding/json"
 	"errors"
 	"fmt"
-    "bytes"
+	"strings"
+
+	"github.com/hyperledger/fabric-protos-go/common"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/ledger"
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/logging"
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
-    "github.com/hyperledger/fabric-protos-go/common"
-    "github.com/hyperledger/fabric/common/tools/protolator"
+	"github.com/hyperledger/fabric/common/tools/protolator"
 )
 
 func NewSDK(configPath string) (*fabsdk.FabricSDK, error) {
@@ -84,40 +87,26 @@ func QueryBlockInfo(ledgerClient *ledger.Client, blockID int64) (string, error) 
     }
 
     // 将区块转换为可序列化的格式
-    tree ,err := EncodeProto(block)
+    treeBytes ,err := EncodeProto(block)
     if err != nil {
         return "",errors.New("error encoding block")
     }
-    // // 将字节切片转换为 JSON
-    // var blockMap map[string]interface{}
-    // if err := json.Unmarshal(tree, &blockMap); err != nil {
-    //     return "", errors.New("error converting block bytes to JSON")
-    // }
-    // // 使用 Indent 函数对 JSON 进行美化
-    // prettyJSON, err := json.MarshalIndent(blockMap, "", "  ")
-    // if err != nil {
-    //     return "", errors.New("error indenting JSON")
-    // }
-    // return string(prettyJSON),nil
-    return string(tree),nil
+	jsonStr := strings.ReplaceAll(string(treeBytes), "\t", "")
+    jsonStr = strings.ReplaceAll(jsonStr, "\n", "")
+    return jsonStr,nil
 }
-//查询最新区块
-func QueryLatestBlockInfo(ledgerClient *ledger.Client, blockID int64) ([]byte, error) {
-	
-    // 查询区块
-    block, err := ledgerClient.QueryBlock(0)
-    if err != nil {
-        return nil, err
-    }
 
-    // 将区块转换为可序列化的格式
-    tree ,err := EncodeProto(block)
+//区块链信息
+func QueryChainInfo(ledgerClient *ledger.Client) (string, error) {
+
+    // 查询区块
+    infoResp, err := ledgerClient.QueryInfo()
     if err != nil {
-        return nil,errors.New("error encoding block")
+        return "", err
     }
-    jsonByte,err :=json.Marshal(tree)
+    jsonStr,err := json.Marshal(infoResp)
     if err != nil {
-        return nil,errors.New("error encoding block")
+        return "", err
     }
-    return jsonByte,nil
+    return string(jsonStr),nil
 }

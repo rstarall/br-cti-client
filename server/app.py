@@ -15,6 +15,3 @@ app.register_blueprint(data_blue) #数据处理API
 app.register_blueprint(ml_blue)  #模型API
 app.register_blueprint(user_blue) #用户API
 
-def start_flask_server():
-    #注意：use_reloader=False 防止重载时创建多个事件循环 
-    app.run(host="127.0.0.1",port=5000,debug=False, use_reloader=False)
