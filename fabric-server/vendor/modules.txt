@@ -74,6 +74,15 @@ github.com/hashicorp/hcl/hcl/token
 github.com/hashicorp/hcl/json/parser
 github.com/hashicorp/hcl/json/scanner
 github.com/hashicorp/hcl/json/token
+# github.com/hyperledger/fabric v2.1.1+incompatible
+## explicit
+github.com/hyperledger/fabric/common/tools/protolator
+github.com/hyperledger/fabric/common/tools/protolator/protoext
+github.com/hyperledger/fabric/common/tools/protolator/protoext/commonext
+github.com/hyperledger/fabric/common/tools/protolator/protoext/ledger/rwsetext
+github.com/hyperledger/fabric/common/tools/protolator/protoext/mspext
+github.com/hyperledger/fabric/common/tools/protolator/protoext/ordererext
+github.com/hyperledger/fabric/common/tools/protolator/protoext/peerext
 # github.com/hyperledger/fabric-config v0.0.5
 github.com/hyperledger/fabric-config/protolator
 github.com/hyperledger/fabric-config/protolator/protoext
@@ -85,6 +94,7 @@ github.com/hyperledger/fabric-config/protolator/protoext/peerext
 # github.com/hyperledger/fabric-lib-go v1.0.0
 github.com/hyperledger/fabric-lib-go/healthz
 # github.com/hyperledger/fabric-protos-go v0.0.0-20200707132912-fee30f3ccd23
+## explicit
 github.com/hyperledger/fabric-protos-go/common
 github.com/hyperledger/fabric-protos-go/discovery
 github.com/hyperledger/fabric-protos-go/gossip

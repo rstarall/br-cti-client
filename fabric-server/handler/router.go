@@ -2,10 +2,12 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
-    "strconv"
-    "github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
-    fabric "github.com/righstar2020/br-cti-client/fabric-server/fabric"
+	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
+	fabric "github.com/righstar2020/br-cti-client/fabric-server/fabric"
+	global "github.com/righstar2020/br-cti-client/fabric-server/global"
 )
 func NewRouter(fabricSDK *fabsdk.FabricSDK) *gin.Engine {
 	r := gin.New()
@@ -17,7 +19,7 @@ func NewRouter(fabricSDK *fabsdk.FabricSDK) *gin.Engine {
         for i := 0; i < len(args); i++ {
             params = append(params,[]byte(args[i]))
         }
-        resp, err := fabric.InvokeChaincode(fabricSDK, c.PostForm("chaincodeName"), c.PostForm("function"), params)
+        resp, err := fabric.InvokeChaincode(global.ChannelClient, c.PostForm("chaincodeName"), c.PostForm("function"), params)
         if err != nil {
             c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
             return
@@ -29,7 +31,7 @@ func NewRouter(fabricSDK *fabsdk.FabricSDK) *gin.Engine {
     r.GET("/queryBlock/:blockID", func(c *gin.Context) {
         blockID := c.Param("blockID")
         id,_:=strconv.Atoi(blockID)
-        block, err := fabric.QueryBlockInfo(fabricSDK,int64(id))
+        block, err := fabric.QueryBlockInfo(global.LedgerClient,int64(id))
         if err != nil {
             c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
             return
