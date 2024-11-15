@@ -35,4 +35,29 @@ git push origin work1
 ### 库依赖说明
 使用fabric-go-sdk 2.2.0
 需要使用 go 1.14编译 fabric-server
+IPFS-Toolkit
+```shell
+pip install IPFS-Toolkit
+```
+## Fabric说明
+fabric证书文件夹ordererOrganizations、peerOrganizations
+放在目录fabric-server\config下
+
+## IPFS说明
+修改IPFS默认绑定地址教程:
+https://blog.csdn.net/inthat/article/details/106212948
+```shell
+ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001
+ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
+ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://taigu.xxx.cn:5002", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
+```
+IPFS Web
+http://172.22.232.42:5001/webui
+
+使用SSH端口转发访问
+```shell
+ssh -L 5001:localhost:5001 dev01@172.22.232.42
+```
 ### 问题及说明
