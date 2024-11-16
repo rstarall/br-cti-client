@@ -1,2 +1,2 @@
 
-fabricServerHost = "127.0.0.1:7777"
+fabricServerHost = "http://localhost:7777"

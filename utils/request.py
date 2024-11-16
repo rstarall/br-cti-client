@@ -46,5 +46,7 @@ def request_get(url):
         else:
             print(f"Request failed with status code: {response.status_code}")
             print(f"Response content: {response.content}")
+            return response.json()
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
+        return response.json()
