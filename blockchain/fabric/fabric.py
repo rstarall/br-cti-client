@@ -19,6 +19,7 @@ def checkBlockchainStatus():
     except Exception as e:
       print(e)
       return None,False
+   
 def getBlockByHeight(height):
    try:
       response = request_get(fabricServerHost+"/queryBlock/"+str(height))
