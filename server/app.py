@@ -21,3 +21,6 @@ app.register_blueprint(data_blue) #数据处理API
 app.register_blueprint(ml_blue)  #模型API
 app.register_blueprint(user_blue) #用户API
 
+#一些配置(文件上传大小约束)
+app.config['MAX_CONTENT_LENGTH'] = 100*1024 * 1024 * 1024  # 100GB limit
+

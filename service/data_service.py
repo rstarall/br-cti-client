@@ -5,3 +5,5 @@ class DataService:
         self.tiny_db = TinyDBUtil()
     def processCsvToStix(csv_path):
         pass
+    def saveFileToLocal(file_path):
+        pass
