@@ -2,7 +2,7 @@
     钱包服务
     用户账户生成
 """
-from db.tiny_db import TinyDBUtil
+from db.tiny_db import get_tiny_db_instance
 from blockchain.user.wallet import genUserWallet
 from blockchain.user.signature import ecc_sign_with_password
 from blockchain.user.wallet import checkLocalUserAccountExist
@@ -12,7 +12,7 @@ from blockchain.user.wallet import registerUserAccount
 import base64
 class WalletService:
     def __init__(self):
-        self.tiny_db = TinyDBUtil()
+        self.tiny_db = get_tiny_db_instance()
     def checkUserAccountExist(self):
         """
             检查用户账户是否存在

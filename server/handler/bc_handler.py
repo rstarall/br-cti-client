@@ -40,14 +40,14 @@ def query_block_height():
         # 从请求中获取 height 参数
         height = request.args.get('height', type=int)
         if height is None:
-            return jsonify({'code': 400, 'msg': 'height parameter is required'}), 400
+            return jsonify({'code': 400, 'msg': 'height parameter is required'})
         
         # 调用服务层方法查询区块信息
         block_info, ok = bcService.getBlockByHeight(height)
         if not ok:
-            return jsonify({'code': 502, 'msg': 'blockchain network error','data':block_info}), 502
+            return jsonify({'code': 502, 'msg': 'blockchain network error','data':block_info})
         
-        return jsonify({'code': 200, 'msg': 'success', 'data': block_info}), 200
+        return jsonify({'code': 200, 'msg': 'success', 'data': block_info})
     
     except Exception as e:
-        return jsonify({'code': 500, 'msg': str(e)}), 500
+        return jsonify({'code': 500, 'msg': str(e)})

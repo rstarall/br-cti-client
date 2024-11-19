@@ -3,10 +3,10 @@
     区块链服务
 """
 from blockchain.fabric.fabric import checkBlockchainStatus,getBlockByHeight
-from db.tiny_db import TinyDBUtil
+from db.tiny_db import get_tiny_db_instance
 class BlockchainService:
     def __init__(self):
-        self.tiny_db = TinyDBUtil()
+        self.tiny_db = get_tiny_db_instance()
     def checkBlockchainStatus(self):
         """
             检测区块链服务是否正常

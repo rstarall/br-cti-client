@@ -6,16 +6,35 @@ from concurrent.futures import ThreadPoolExecutor
 import logging
 from utils.file import get_project_root_path
 logging.basicConfig(level=logging.INFO)
+db_instance = None
+def get_tiny_db_instance():
+    """
+        获取tinydb实例
+    """
+    global db_instance
+    if db_instance is None:
+        db_instance = TinyDB(get_project_root_path()+"/db/db.json")
+    return db_instance
+
 class TinyDBUtil:
-    def __init__(self):
-        self.db_path = get_project_root_path()+"/db/db.json"
-        pass
-    def init_db(self): 
+    def __init__(self,db_path):
+        self.db_path = db_path
         data = {"app": "br-cti-client", "version": '1.0'}
-        self.upsert_by_key( "config", data,"version",'1.0')
+        self.upsert_by_key_value( "config", data,"version",'1.0')
         logging.info("init tinydb success.")
         logging.info(f"db path:{self.db_path}")
-    def upsert_by_key(self, table_name, data, fieldName, value):
+    
+    def upsert_by_key_value(self, table_name, data, fieldName, value):
+        """
+            根据key==value寻找主行，然后更新或插入数据
+            param:
+                table_name: 表名
+                data: 数据
+                fieldName: 字段名
+                value: 字段值
+            return:
+                None
+        """
         #为数据增加或更新时间戳
         data['timestamp']=int(round(time.time() * 1000))
         db = TinyDB(self.db_path)
@@ -30,6 +49,31 @@ class TinyDBUtil:
             # 如果没有找到匹配的文档，则插入新数据
             table.insert(data)
             logging.info(f"Inserted new document with {fieldName}={value} as no existing match was found.")
+        db.close()
+
+    def update_single_value(self, table_name, fieldName, value, update_key, update_value):
+        """
+            根据fieldName==value寻找主行，然后更新数据的单个字段
+            param:
+                table_name: 表名
+                fieldName: 字段名
+                value: 字段值
+                update_key: 更新字段名
+                update_value: 更新字段值
+        """
+        db = TinyDB(self.db_path)
+        table = db.table(table_name)
+        query = Query()
+        docs= [doc for doc in table.search(query[fieldName] == value)]
+        # 如果找到了匹配的文档，则更新
+        if docs:
+            for doc in docs:
+                doc[update_key] = update_value
+                table.update(doc, doc_ids=doc.doc_id)
+            logging.info(f"Updated existing document(s) with {fieldName}={value}.")
+        else:
+            # 如果没有找到匹配的文档，则插入新数据
+            logging.info(f"no found document with {fieldName}={value}.")
         db.close()
     def write(self, table_name, data = None):
         db = TinyDB(self.db_path)
