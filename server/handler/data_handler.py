@@ -32,9 +32,11 @@ def upload_file():
         return jsonify({"code":400,'error': 'Invalid file type',"data":None})
 
 
-@data_blue.route('/get_traffic_data_features', methods=['POST','OPTIONS'])
+@data_blue.route('/get_traffic_data_features', methods=['POST'])
 def get_traffic_data_features():
-    data = request.json
+    print(request.json)
+    data = request.get_json()
+    print(data)
     file_hash = data.get('file_hash')
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
@@ -46,17 +48,17 @@ def get_traffic_data_features():
 
 @data_blue.route('/process_data_to_stix', methods=['POST'])
 def process_data_to_stix():
-    data = request.json
+    data = request.get_json()
     file_hash = data.get('file_hash')
     process_config = data
     if not process_config:
         return jsonify({"code":400,'error': 'process_config is required',"data":None})
-    # 检查必要的配置参数
-    required_fields = ['process_id', 'stix_type', 'stix_traffic_features', 
-                      'stix_iocs', 'stix_label', 'stix_compress']
-    for field in required_fields:
-        if field not in process_config:
-            return jsonify({"code":400,'error': f'{field} is required in process_config',"data":None})
+    # # 检查必要的配置参数
+    # required_fields = ['process_id', 'stix_type', 'stix_traffic_features', 
+    #                   'stix_iocs', 'stix_label', 'stix_compress']
+    # for field in required_fields:
+    #     if field not in process_config:
+    #         return jsonify({"code":400,'error': f'{field} is required in process_config',"data":None})
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     features_name,error = data_service.get_traffic_data_features_name(file_hash)
@@ -74,7 +76,7 @@ def process_data_to_stix():
 #查询处理进度
 @data_blue.route('/get_stix_process_progress', methods=['POST'])
 def get_process_progress():
-    data = request.json
+    data = request.get_json()
     file_hash = data.get('file_hash')
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})

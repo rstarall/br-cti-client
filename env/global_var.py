@@ -3,6 +3,7 @@ import os
 fabricServerHost = "http://localhost:7777"
 userWalletPath = "blockchain/wallet"
 uploadFilePath = "data/upload"
+outputDirPath = "data/output"
 
 def getUserWalletAbsolutePath():
     """
@@ -15,6 +16,16 @@ def getUserWalletAbsolutePath():
         os.makedirs(wallet_path)
         
     return wallet_path
+
+def getOutputDirPath():
+    """
+        获取输出文件夹绝对路径
+    """
+    project_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    output_path = os.path.join(project_path, outputDirPath)
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    return output_path
 
 def getUploadFilePath():
     """
