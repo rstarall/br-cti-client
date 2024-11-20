@@ -13,7 +13,7 @@ def get_tiny_db_instance():
     """
     global db_instance
     if db_instance is None:
-        db_instance = TinyDB(get_project_root_path()+"/db/db.json")
+        db_instance = TinyDBUtil(get_project_root_path()+"/db/db.json")
     return db_instance
 
 class TinyDBUtil:

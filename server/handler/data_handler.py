@@ -51,14 +51,29 @@ def process_data_to_stix():
     data = request.get_json()
     file_hash = data.get('file_hash')
     process_config = data
+    print(process_config)
     if not process_config:
         return jsonify({"code":400,'error': 'process_config is required',"data":None})
-    # # 检查必要的配置参数
-    # required_fields = ['process_id', 'stix_type', 'stix_traffic_features', 
+    if file_hash == "":
+        return jsonify({"code":400,'error': 'file_hash is required',"data":None})
+    
+    # 检查必要的配置参数
+    # required_fields = ['file_hash','process_id', 'stix_type', 'stix_traffic_features', 
     #                   'stix_iocs', 'stix_label', 'stix_compress']
-    # for field in required_fields:
-    #     if field not in process_config:
-    #         return jsonify({"code":400,'error': f'{field} is required in process_config',"data":None})
+
+    required_fields = ['file_hash'] #暂时不需要配置
+    required_fields_type = {
+        "file_hash":str,
+        "stix_compress":int
+    }
+    for field in required_fields:
+        if field not in process_config:
+            return jsonify({"code":400,'error': f'{field} is required in process_config',"data":None})
+    #类型转换
+    for field in required_fields_type.keys():
+        if field  in process_config:
+            process_config[field] = required_fields_type[field](process_config[field])
+            
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     features_name,error = data_service.get_traffic_data_features_name(file_hash)

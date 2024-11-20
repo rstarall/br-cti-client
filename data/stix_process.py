@@ -44,6 +44,19 @@ def apply_transformation(value, transformation):
 
 # 构造并返回SDO对象
 def stix_transform(mapping_dict, mapped_columns, row, row_count):
+    """
+        构造并返回SDO对象
+        param:
+            mapping_dict:映射字典
+            mapped_columns:数据集的列名
+            row:数据集的行数据
+            row_count:行索引
+        return:
+            observed_data:ObservedData对象
+            attack_pattern:AttackPattern对象
+            stix_record:额外记录
+    """
+
     observed_objects = {}  # 用于存储生成的SCO对象，以便构造ObservedData对象
     observed_time = []  # 用于存储对象被观测到的时间，以便构造ObservedData对象
     networktraffic_object = {}  # 存储NetworkTraffic需要的属性和对应的属性值
@@ -56,7 +69,10 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
     # 要返回的SDO的对象， 初始化为空
     observed_data = None
     attack_pattern = None
-
+    # 额外记录
+    stix_record = {
+        "ips_list":[]
+    }
     # 根据映射关系生成STIX属性并存储属性值，未知映射关系的统一放入NetworkTraffic的扩展字段
     for field in mapped_columns:
         try:
@@ -74,6 +90,8 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
                 # 存入可能使用到的STIX对象的属性和对应的属性值，用于后续构建STIX对象
                 if stix_type == "IPv4Address":
                     ipv4address_object.append(property_value)
+                    #记录一份到本地数据库
+                    stix_record["ips_list"].append(property_value)
                 elif stix_type == "NetworkTraffic":
                     networktraffic_object[object_property] = property_value
                 elif stix_type == "Artifact":
@@ -220,7 +238,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
     except Exception as e:
         print(f"第 {row_count + 1} 行数据扫描完后构造对象 {create_name} 时出错: {e}")
 
-    return observed_data, attack_pattern  # 返回SDO对象
+    return observed_data, attack_pattern, stix_record# 返回SDO对象
 
 # 数据端服务函数接口：把流量数据集文件转换成stix格式文件
 def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, process_config:dict):
@@ -286,8 +304,11 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
     row_index = 0
     buffer = []  # 缓冲区为压缩行数
     errors = []
+    stix_record_buffer = []
+    ips_record_buffer = {} #dict去重和记录数量
     for k in range(0,batch_count):
         output_file = output_directory + "/" + f"{file_hash}_stix_{k}.jsonl"  # 自动命名生成文件
+        ips_record_output_file = output_directory + "/" + f"ips_stix_record_{k}.jsonl" #记录stix内的ip信息
         with open(output_file, "w") as fp:
             batch_size = stix_compress  
             # 逐行处理数据集
@@ -295,13 +316,15 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
                 row_data = dataset.iloc[row_index]  # 获取行数据
                 row_index += 1
                 try:
-                    observed_data, attack_pattern = stix_transform(mapping_dict, mapped_columns, row_data, i)  # 构造STIX对象
+                    observed_data, attack_pattern,stix_record= stix_transform(mapping_dict, mapped_columns, row_data, i)  # 构造STIX对象
                     if observed_data:
                         # pretty=True为美化打印，JSON 对象会使用缩进和换行，使结构更清晰，便于阅读和调试；
                         # 如果 JSON 数据仅供机器读取或需要更高效的存储，通常建议去掉 pretty=True 以保持紧凑格式；
                         buffer.append(observed_data.serialize(pretty=True) + "\n")
                     if attack_pattern:
                         buffer.append(attack_pattern.serialize(pretty=True) + "\n")
+                    if stix_record:
+                        stix_record_buffer.append(stix_record)
                 except Exception as e:
                     errors.append(f"第 {row_index + 1} 行数据转换失败：{e}")
                     continue
@@ -311,7 +334,24 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
             except Exception as e:
                 print(f"{output_file}写入失败：{e}")
                 errors.append(f"{output_file}写入失败：{e}")
-            buffer.clear()  # 清空缓冲区
+
+            try:
+                for record in stix_record_buffer:
+                    if record["ips_list"]:
+                        for ip in record["ips_list"]:
+                            ips_record_buffer[ip] = ips_record_buffer.get(ip,0) + 1
+                # 写入额外IP记录
+                with open(ips_record_output_file, "w") as fp:
+                    fp.write(json.dumps(ips_record_buffer,indent=4))
+            except Exception as e:
+                print(f"{ips_record_output_file}写入失败：{e}")
+                errors.append(f"{ips_record_output_file}写入失败：{e}")
+
+            # 清空缓冲区
+            stix_record_buffer = []
+            ips_record_buffer = {}
+            buffer.clear() 
+            
             # 更新处理进度
             print(f"已处理 {row_index + 1} 行")
             process_progress += 1
