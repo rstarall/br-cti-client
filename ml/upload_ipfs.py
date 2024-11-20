@@ -30,6 +30,6 @@ def upload_model_to_ipfs(model_path):
 # 示例：上传模型文件
 if __name__ == '__main__':
 
-    model_path = './save/DecisionTreeClassifier-req_8.joblib'  # 需要上传的模型文件路径
+    model_path = './save/DecisionTreeClassifier-req_1.joblib'  # 需要上传的模型文件路径
     ipfs_hash = upload_model_to_ipfs(model_path)
     print(f"Model uploaded to IPFS with hash: {ipfs_hash}")
