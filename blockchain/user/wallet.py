@@ -27,7 +27,12 @@ def checkLocalUserAccountExist():
             if os.path.exists(os.path.join(userWalletPath, wallet_id, 'private_key.pem')):
                 return wallet_id
     return None
-  
+def getLocalUserWalletId():
+    """
+        获取本地用户钱包ID
+        return:用户钱包ID
+    """
+    return checkLocalUserAccountExist()
 
 def getUserWalletId(public_pem: bytes):
     """

@@ -8,6 +8,10 @@ from datetime import datetime
 from service.data_service import DataService
 data_blue = Blueprint('data',__name__,url_prefix='/data') #创建一个蓝图
 data_service = DataService()
+#其他工具函数
+def allowed_file(filename):
+    return True
+    # return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'csv', 'xlsx','json','jsonl','txt'}
 @data_blue.route('/upload_file', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -73,7 +77,7 @@ def process_data_to_stix():
     for field in required_fields_type.keys():
         if field  in process_config:
             process_config[field] = required_fields_type[field](process_config[field])
-            
+
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     features_name,error = data_service.get_traffic_data_features_name(file_hash)
@@ -99,13 +103,65 @@ def get_process_progress():
     return jsonify({"code":200,'msg': 'Get stix process progress successfully', 'data': progress})
 
 
+#查询stix记录表,支持分页
+@data_blue.route('/get_local_stix_records', methods=['GET','POST'])
+def get_local_stix_records():
+    data = {}
+    if request.method == 'GET':
+        data = request.args
+    else:
+        data = request.get_json()
+    file_hash = data.get('file_hash',None)
+    page = data.get('page',None)
+    page_size = data.get('page_size',None)
+    if not file_hash:
+        return jsonify({"code":400,'error': 'file_hash is required',"data":None})
+    if not page or not page_size:
+        all = True
+    else:
+        all = False
+    records = data_service.get_local_stix_records(file_hash,page,page_size,all)
+    if records:
+        return jsonify({"code":200,'msg': 'Get stix records successfully', 'data': records})
+    else:
+        return jsonify({"code":400,'error': 'No stix records found',"data":None})
 
 
+#查询stix文件内容
+@data_blue.route('/get_stix_file_content', methods=['GET','POST'])
+def get_stix_file_content():
+    data = {}
+    if request.method == 'GET':
+        data = request.args
+    else:
+        data = request.get_json()
+    source_file_hash = data.get('source_file_hash',None)
+    stix_file_hash = data.get('stix_file_hash',None)
 
-#其他工具函数
-def allowed_file(filename):
-    return True
-    # return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'csv', 'xlsx'}
+    if not stix_file_hash or not source_file_hash:
+        return jsonify({"code":400,'error': 'stix_file_hash or source_file_hash is required',"data":None})
+    stix_data = data_service.get_local_stix_file_by_hash(source_file_hash,stix_file_hash)
+    #直接返回原始数据
+    return jsonify(stix_data)
 
 
+#处理本地STIX数据，生成本地上链情报
+@data_blue.route('/process_stix_to_cti', methods=['POST'])
+def process_stix_to_cti():
+    data = request.get_json()
+    source_file_hash = data.get('file_hash',None)
+    if not source_file_hash:
+        return jsonify({"code":400,'error': 'file_hash is required',"data":None})
+    #启动线程创建本地情报记录
+    data_service.start_create_local_cti_records_by_hash(source_file_hash)
+    return jsonify({"code":200,'msg': 'start create local cti records by hash', 'data': source_file_hash})
 
+#查询情报处理进度
+@data_blue.route('/get_cti_process_progress', methods=['POST'])
+def get_cti_process_progress():
+    data = request.get_json()
+    source_file_hash = data.get('file_hash',None)
+    if not source_file_hash:
+        return jsonify({"code":400,'error': 'file_hash is required',"data":None})
+    progress = data_service.get_cti_process_progress(source_file_hash)
+    return jsonify({"code":200,'msg': 'Get cti process progress successfully', 'data': progress})

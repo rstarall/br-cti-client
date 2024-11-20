@@ -13,17 +13,34 @@ def get_tiny_db_instance():
     """
     global db_instance
     if db_instance is None:
-        db_instance = TinyDBUtil(get_project_root_path()+"/db/db.json")
+        db_instance = TinyDBUtil()
     return db_instance
 
 class TinyDBUtil:
-    def __init__(self,db_path):
-        self.db_path = db_path
+    def __init__(self):
+        #初始化数据库
+        self.local_db_map = {
+            "default":get_project_root_path()+"/db/db.json",
+            "stix_records":get_project_root_path()+"/db/stix_records.json",
+            "cti_records":get_project_root_path()+"/db/cti_records.json",
+            "stix_process_progress":get_project_root_path()+"/db/stix_process_progress.json",
+            "cti_process_progress":get_project_root_path()+"/db/cti_process_progress.json",
+        }
+        self.db_path = self.local_db_map["default"]
         data = {"app": "br-cti-client", "version": '1.0'}
         self.upsert_by_key_value( "config", data,"version",'1.0')
         logging.info("init tinydb success.")
         logging.info(f"db path:{self.db_path}")
-    
+    def use_database(self,db_name):
+        """
+            使用指定的数据库
+            param:
+                db_name: 数据库名(default,stix_records,cti_records)
+            return:
+                self
+        """
+        self.db_path = self.local_db_map.get(db_name,self.local_db_map["default"])
+        return self
     def upsert_by_key_value(self, table_name, data, fieldName, value):
         """
             根据key==value寻找主行，然后更新或插入数据
@@ -124,6 +141,7 @@ class TinyDBUtil:
         #返回指定数量的结果
         if limit > 0:
             results = results[:limit]
+        
         return results
     
     def read_by_key_value(self, table_name,field_name=None, field_value = None):

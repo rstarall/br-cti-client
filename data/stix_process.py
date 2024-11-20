@@ -9,7 +9,7 @@ import json
 import uuid
 import numpy as np
 import os
-from utils.file import get_project_root_path
+from utils.file import get_project_root_path,get_sha256_hash
 # 调整属性值为合适的数据类型
 def apply_transformation(value, transformation):
     if transformation == "list":
@@ -248,7 +248,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
             data_service:DataService实例
             input_file_path:流量数据集文件路径
             file_hash:流量数据集文件hash
-            process_config:处理进度配置
+            process_config:stix处理配置
         return:
             output_file_path:stix格式文件路径
             error:错误信息
@@ -290,7 +290,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
     # 逐行处理数据集文件，最终生成stix数据文件
     output_directory = data_service.get_stix_output_dir_path(file_hash)
     # 检测是否有数据压缩配置
-    stix_compress = 100 # 默认压缩100行
+    stix_compress = 500 # 默认压缩500行
     if process_config.get("stix_compress",None):
         stix_compress = process_config.get("stix_compress")
     row_length = dataset.shape[0] #数据集行数
@@ -307,57 +307,94 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
     stix_record_buffer = []
     ips_record_buffer = {} #dict去重和记录数量
     for k in range(0,batch_count):
-        output_file = output_directory + "/" + f"{file_hash}_stix_{k}.jsonl"  # 自动命名生成文件
-        ips_record_output_file = output_directory + "/" + f"ips_stix_record_{k}.jsonl" #记录stix内的ip信息
+        batch_size = stix_compress  
+        # 逐行处理数据集
+        for i in range(batch_size):
+            row_data = dataset.iloc[row_index]  # 获取行数据
+            row_index += 1
+            try:
+                observed_data, attack_pattern,stix_record= stix_transform(mapping_dict, mapped_columns, row_data, i)  # 构造STIX对象
+                if observed_data:
+                    # pretty=True为美化打印，JSON 对象会使用缩进和换行，使结构更清晰，便于阅读和调试；
+                    # 如果 JSON 数据仅供机器读取或需要更高效的存储，通常建议去掉 pretty=True 以保持紧凑格式；
+                    buffer.append(observed_data.serialize(pretty=True) + "\n")
+                if attack_pattern:
+                    buffer.append(attack_pattern.serialize(pretty=True) + "\n")
+                if stix_record:
+                    stix_record_buffer.append(stix_record)
+            except Exception as e:
+                errors.append(f"第 {row_index + 1} 行数据转换失败：{e}")
+                continue
+                   
+        #计算数据hash
+        stix_data_hash = ""
+        try:
+            stix_data_hash = get_sha256_hash(json.dumps(buffer).encode())
+        except Exception as e:
+            print(f"数据hash计算失败：{e}")
+            errors.append(f"数据hash计算失败：{e}")
+            return None,f"数据hash计算失败：{e}"
+        output_file = output_directory + "/" + f"{stix_data_hash}.jsonl"  # 自动命名生成文件
+        ips_record_output_file = output_directory + "/" + f"{stix_data_hash}_ioc_ips.json" #记录stix内的ip信息
         with open(output_file, "w") as fp:
-            batch_size = stix_compress  
-            # 逐行处理数据集
-            for i in range(batch_size):
-                row_data = dataset.iloc[row_index]  # 获取行数据
-                row_index += 1
-                try:
-                    observed_data, attack_pattern,stix_record= stix_transform(mapping_dict, mapped_columns, row_data, i)  # 构造STIX对象
-                    if observed_data:
-                        # pretty=True为美化打印，JSON 对象会使用缩进和换行，使结构更清晰，便于阅读和调试；
-                        # 如果 JSON 数据仅供机器读取或需要更高效的存储，通常建议去掉 pretty=True 以保持紧凑格式；
-                        buffer.append(observed_data.serialize(pretty=True) + "\n")
-                    if attack_pattern:
-                        buffer.append(attack_pattern.serialize(pretty=True) + "\n")
-                    if stix_record:
-                        stix_record_buffer.append(stix_record)
-                except Exception as e:
-                    errors.append(f"第 {row_index + 1} 行数据转换失败：{e}")
-                    continue
-         
+            
+            #1.写入stix数据
             try:
                 fp.writelines(buffer)  # 写入数据
             except Exception as e:
                 print(f"{output_file}写入失败：{e}")
                 errors.append(f"{output_file}写入失败：{e}")
 
+            #2.写入额外IP记录
             try:
                 for record in stix_record_buffer:
                     if record["ips_list"]:
                         for ip in record["ips_list"]:
                             ips_record_buffer[ip] = ips_record_buffer.get(ip,0) + 1
-                # 写入额外IP记录
                 with open(ips_record_output_file, "w") as fp:
                     fp.write(json.dumps(ips_record_buffer,indent=4))
             except Exception as e:
                 print(f"{ips_record_output_file}写入失败：{e}")
                 errors.append(f"{ips_record_output_file}写入失败：{e}")
 
+            #3.保存本地stix处理记录
+            try:
+                stix_info = {
+                    "stix_type":"",
+                    "stix_tags":[],
+                    "stix_iocs":[],
+                    "file_hash":file_hash,
+                    "stix_data_hash":stix_data_hash,
+                    "ioc_ips_map":ips_record_buffer,
+                }
+                #暂时使用process_config代替stix_info
+                if process_config:
+                    stix_info["stix_type"] = process_config.get("stix_type","")
+                    stix_info["stix_tags"] = process_config.get("stix_iocs",[]) #tags也设置为iocs
+                    stix_info["stix_iocs"] = process_config.get("stix_iocs",[])
+                current_task_id = k
+                data_service.save_local_stix_process_record(file_hash,output_file,stix_info,current_task_id=current_task_id)
+            except Exception as e:
+                print(f"本地stix处理记录保存失败：{e}")
+                errors.append(f"本地stix处理记录保存失败：{e}")
+
+
             # 清空缓冲区
             stix_record_buffer = []
             ips_record_buffer = {}
             buffer.clear() 
-            
+
             # 更新处理进度
             print(f"已处理 {row_index + 1} 行")
             process_progress += 1
             data_service.update_stix_process_progress(file_hash,process_progress,batch_count)
+    
     # 更新处理结果(处理完成)
-    data_service.update_stix_process_progress(file_hash,batch_count,batch_count)
+    try:
+        data_service.update_stix_process_progress(file_hash,batch_count,batch_count)
+    except Exception as e:
+        print(f"处理进度更新失败：{e}")
+        errors.append(f"处理进度更新失败：{e}")
     return output_directory,errors
 
 
@@ -387,3 +424,4 @@ def start_process_dataset_to_stix(data_service,file_hash:str,process_config:dict
     }
     #更新处理结果
     data_service.update_stix_process_progress(file_hash,result=result,errors=errors)
+    

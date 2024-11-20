@@ -7,6 +7,16 @@ def get_project_root_path():
     """
     return os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
+def get_sha256_hash(data:bytes):
+    """
+        获取数据的sha256哈希值
+        param:
+            data: 数据,bytes类型
+        return:
+            sha256_hash: 数据的sha256哈希值,str类型
+    """
+    return hashlib.sha256(data).hexdigest()
+
 def get_file_sha256_hash(file_path):
     """
         获取文件的sha256哈希值
@@ -108,7 +118,19 @@ def get_file_size(file_path):
     """
     return os.path.getsize(file_path)
 
-
+def save_json_to_file(file_path,data):
+    """
+        保存json数据到文件
+        param:
+            file_path:文件路径
+            data:json数据
+    """
+    #创建文件夹
+    chain_data_dir_path = os.path.dirname(file_path)
+    if not os.path.exists(chain_data_dir_path):
+        os.makedirs(chain_data_dir_path)
+    with open(file_path,"w") as fp:
+        fp.write(json.dumps(data))
 
 def read_all_json_from_path(directory):
     """
