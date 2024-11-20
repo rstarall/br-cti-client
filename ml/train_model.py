@@ -188,5 +188,5 @@ def select_model_based_on_features(df, target_column):
 # 示例调用
 # 假设数据集已加载为 df，目标列名为 'target'
 if __name__ == '__main__':
-    df = pd.read_csv('./dataset/cleaned_titanic_train.csv')
-    train_and_save_model(df, 'Survived')
+    df = pd.read_csv('./dataset/cleaned_dataset.csv')
+    train_and_save_model(df, 'label')

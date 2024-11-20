@@ -106,7 +106,7 @@ def evaluate_model(request_id, model_path, df, target_column):
 
 # 示例调用
 if __name__ == '__main__':
-    df = pd.read_csv('./dataset/cleaned_titanic_train.csv')
+    df = pd.read_csv('./dataset/cleaned_dataset.csv')
     model_path = './save/DecisionTreeClassifier-req_1.joblib'  # 使用训练时的模型路径
     request_id = 'req_1'  # 使用训练时的请求 ID
-    evaluate_model(request_id, model_path, df, 'Survived')
+    evaluate_model(request_id, model_path, df, 'label')

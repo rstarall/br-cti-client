@@ -33,4 +33,4 @@ def clean_data(input_file, output_folder='./dataset'):
 
 # 示例：使用指定的文件名调用函数
 if __name__ == '__main__':
-    clean_data('./Test_dataset/titanic_train.csv')
+    clean_data('./Test_dataset/dataset.csv')
