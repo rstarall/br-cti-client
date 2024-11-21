@@ -372,8 +372,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
                     stix_info["stix_type"] = process_config.get("stix_type","")
                     stix_info["stix_tags"] = process_config.get("stix_iocs",[]) #tags也设置为iocs
                     stix_info["stix_iocs"] = process_config.get("stix_iocs",[])
-                current_task_id = k
-                data_service.save_local_stix_process_record(file_hash,output_file,stix_info,current_task_id=current_task_id)
+                data_service.save_local_stix_process_record(file_hash,output_file,stix_info)
             except Exception as e:
                 print(f"本地stix处理记录保存失败：{e}")
                 errors.append(f"本地stix处理记录保存失败：{e}")
@@ -387,7 +386,8 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
             # 更新处理进度
             print(f"已处理 {row_index + 1} 行")
             process_progress += 1
-            data_service.update_stix_process_progress(file_hash,process_progress,batch_count)
+            current_task_id = k
+            data_service.update_stix_process_progress(file_hash,process_progress,batch_count,current_task_id=current_task_id)
     
     # 更新处理结果(处理完成)
     try:

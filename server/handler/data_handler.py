@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request
+from flask import Flask,jsonify,request,Response
 import logging
 from flask import Blueprint  #导入蓝图模块
 import os
@@ -6,6 +6,7 @@ from env.global_var import getUploadFilePath
 from utils.file import replace_file_name_with_hash,get_date_file_dir,check_file_by_hash
 from datetime import datetime
 from service.data_service import DataService
+import json
 data_blue = Blueprint('data',__name__,url_prefix='/data') #创建一个蓝图
 data_service = DataService()
 #其他工具函数
@@ -128,21 +129,16 @@ def get_local_stix_records():
 
 
 #查询stix文件内容
-@data_blue.route('/get_stix_file_content', methods=['GET','POST'])
-def get_stix_file_content():
-    data = {}
-    if request.method == 'GET':
-        data = request.args
-    else:
-        data = request.get_json()
-    source_file_hash = data.get('source_file_hash',None)
-    stix_file_hash = data.get('stix_file_hash',None)
-
-    if not stix_file_hash or not source_file_hash:
+@data_blue.route('/get_stix_file_content/<source_file_hash>/<stix_file_hash>', methods=['GET'])
+def get_stix_file_content(source_file_hash,stix_file_hash):
+    if source_file_hash == "" or stix_file_hash == "":
         return jsonify({"code":400,'error': 'stix_file_hash or source_file_hash is required',"data":None})
     stix_data = data_service.get_local_stix_file_by_hash(source_file_hash,stix_file_hash)
-    #直接返回原始数据
-    return jsonify(stix_data)
+    if stix_data is not None:
+        # 直接返回json文本
+        return Response(stix_data, content_type='application/json')
+    else:
+        return jsonify({"code":400,'error': 'No stix file found',"data":None})
 
 
 #处理本地STIX数据，生成本地上链情报

@@ -118,7 +118,7 @@ class DataService:
         
         self.stix_process_progress[file_hash] = stix_process_progress
         #保存到tiny_db
-        self.tiny_db.use_database("stix_process_progress").upsert_by_key_value("stix_process_progress",stix_process_progress,"file_hash",file_hash)
+        #self.tiny_db.use_database("stix_process_progress").upsert_by_key_value("stix_process_progress",stix_process_progress,"file_hash",file_hash)
 
     def get_stix_process_progress(self,file_hash):
         """
@@ -129,11 +129,11 @@ class DataService:
                 stix_process_progress: stix转换处理进度
         """
         stix_process_progress = self.stix_process_progress.get(file_hash,None)
-        if stix_process_progress is None:
-            #从tiny_db中获取
-            stix_process_progress = self.tiny_db.use_database("stix_process_progress").read_by_key_value("stix_process_progress",field_name="file_hash",field_value=file_hash)
-            if stix_process_progress is not None:
-                self.stix_process_progress[file_hash] = stix_process_progress
+        # if stix_process_progress is None:
+        #     #从tiny_db中获取
+        #     stix_process_progress = self.tiny_db.use_database("stix_process_progress").read_by_key_value("stix_process_progress",field_name="file_hash",field_value=file_hash)
+        #     if stix_process_progress is not None:
+        #         self.stix_process_progress[file_hash] = stix_process_progress
         return stix_process_progress
     
     def get_history_abort_stix_process_progress(self,file_hash):
@@ -186,14 +186,14 @@ class DataService:
 
         #处理stix_type,stix_tags,stix_iocs
         if stix_info is not None:
-            if "stix_type" in stix_info:
+            if stix_info.get("stix_type") is not None:
                 new_stix_info_record["stix_type"] = stix_info["stix_type"]
-            if "stix_tags" in stix_info:
+            if stix_info.get("stix_tags") is not None:
                 new_stix_info_record["stix_tags"] = stix_info["stix_tags"]
-            if "stix_iocs" in stix_info:
+            if stix_info.get("stix_iocs") is not None:
                 new_stix_info_record["stix_iocs"] = stix_info["stix_iocs"]
         #处理ioc_ips_map
-        if "ioc_ips_map" in stix_info:
+        if stix_info.get("ioc_ips_map") is not None:
             new_stix_info_record["ioc_ips_map"] = stix_info["ioc_ips_map"]
 
         
@@ -201,11 +201,11 @@ class DataService:
         self.tiny_db.use_database("stix_records").upsert_by_key_value("stix_info_records",new_stix_info_record,"file_hash",source_file_hash)
         return new_stix_info_record
     
-    def get_local_stix_records(self,file_hash,page=1,page_size=15,all=False):
+    def get_local_stix_records(self,source_file_hash,page=1,page_size=15,all=False):
         """
             获取本地stix记录表,支持分页
             param:
-                file_hash: 源文件的hash值
+                source_file_hash: 源文件的hash值
                 page: 页码
                 page_size: 每页大小
                 all: 是否获取所有记录
@@ -213,8 +213,7 @@ class DataService:
                 records: 记录列表
         """
         
-        stix_records_list = self.tiny_db.use_database("stix_records").read_sort_by_timestamp("stix_info_records",field_name="file_hash",field_value=file_hash)
-        print("get_local_stix_records results:",stix_records_list)
+        stix_records_list = self.tiny_db.use_database("stix_records").read_sort_by_timestamp("stix_info_records",field_name="source_file_hash",field_value=source_file_hash)
         if not all:
             total_count = len(stix_records_list)
             start_index = (page-1)*page_size #计算起始索引
@@ -270,7 +269,7 @@ class DataService:
             if current_task_id is not None:
                 self.cti_process_progress[source_file_hash]["total_task_list"].remove(current_task_id)
         #保存到tiny_db
-        self.tiny_db.use_database("cti_process_progress").upsert_by_key_value("cti_process_progress",self.cti_process_progress[source_file_hash],"source_file_hash",source_file_hash)
+        #self.tiny_db.use_database("cti_process_progress").upsert_by_key_value("cti_process_progress",self.cti_process_progress[source_file_hash],"source_file_hash",source_file_hash)
 
     def get_cti_process_progress(self,source_file_hash):
         """
@@ -281,11 +280,11 @@ class DataService:
                 cti_process_progress: 情报处理进度
         """
         cti_process_progress = self.cti_process_progress.get(source_file_hash,None)
-        if cti_process_progress is  None:
-            #从tiny_db中获取
-            progress = self.tiny_db.use_database("cti_process_progress").read_by_key_value("cti_process_progress",field_name="task_id",field_value=task_id)
-            if progress is not None:
-                self.cti_process_progress[source_file_hash] = progress
+        # if cti_process_progress is  None:
+        #     #从tiny_db中获取
+        #     progress = self.tiny_db.use_database("cti_process_progress").read_by_key_value("cti_process_progress",field_name="task_id",field_value=task_id)
+        #     if progress is not None:
+        #         self.cti_process_progress[source_file_hash] = progress
         return cti_process_progress
     
     def get_history_abort_cti_process_progress(self,source_file_hash):
