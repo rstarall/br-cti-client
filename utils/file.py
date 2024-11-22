@@ -1,6 +1,7 @@
 import os,json,sys,hashlib
 from datetime import datetime
 
+
 def get_project_root_path():
     """
         获取当前项目根目录绝对路径
@@ -30,6 +31,7 @@ def get_file_sha256_hash(file_path):
             sha256_hash.update(byte_block)
     return sha256_hash.hexdigest()
 
+
 def get_file_md5_hash(file_path):
     """
         获取文件的MD5哈希值
@@ -42,6 +44,7 @@ def get_file_md5_hash(file_path):
         for byte_block in iter(lambda: f.read(64 * 1024 * 1024), b""):
             md5_hash.update(byte_block)
     return md5_hash.hexdigest()
+
 
 def check_file_by_hash(upload_file_path,file_hash):
     """
@@ -61,6 +64,7 @@ def check_file_by_hash(upload_file_path,file_hash):
                 return os.path.join(root, file)
     return None
 
+
 def get_date_file_dir(upload_file_path):
     """
         创建以当前日期(年月日)命名的文件夹
@@ -75,6 +79,7 @@ def get_date_file_dir(upload_file_path):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path, exist_ok=True)
     return dir_path
+
 
 def replace_file_name_with_hash(file_path):
     """
@@ -106,6 +111,7 @@ def replace_file_name_with_hash(file_path):
     os.rename(file_path, new_filepath)
     
     return file_hash,file_size
+
 
 def get_file_size(file_path):
     """

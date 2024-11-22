@@ -2,7 +2,6 @@ import pandas as pd
 import datetime as dt
 import stix2
 import time
-import psutil
 from pathlib import Path
 import base64
 import json
@@ -60,13 +59,13 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
     observed_objects = {}  # 用于存储生成的SCO对象，以便构造ObservedData对象
     observed_time = []  # 用于存储对象被观测到的时间，以便构造ObservedData对象
     networktraffic_object = {}  # 存储NetworkTraffic需要的属性和对应的属性值
-    ipv4address_object = []  # 存储IPv4Address的name属性的值
+    ipv4address_object = []  # 存储IPv4Address的value属性的值
     attackpattern_object = {}  # 存储AttackPattern需要的属性和对应的属性值
     artifact_object = {}  # 存储Artifact需要的属性和对应的属性值
     url_object = {}  # 存储URL对象需要的属性和对应的属性值
     networktraffic_extensions = {}  # 存储NetworkTraffic的扩展字段
 
-    # 要返回的SDO的对象， 初始化为空
+    # 要返回的SDO的对象，初始化为空
     observed_data = None
     attack_pattern = None
     # 额外记录
@@ -132,6 +131,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
                 observed_objects[str(len(observed_objects))] = stix_sco_object  # 添加SCO对象到 observed_objects
 
         # 构造NetworkTraffic对象
+        # 既有NetworkTraffic属性且有IPv4Address对象时：
         if len(networktraffic_object) and len(ipv4address_object):
             create_name = "NetworkTraffic"
             # 判断必需属性是否存在，不存在则进行处理以保证对象创建时不会出错
@@ -140,6 +140,17 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
 
             networktraffic_object["src_ref"] = src_ref
             networktraffic_object["dst_ref"] = dst_ref
+            networktraffic_object["extensions"] = {f"extension-definition--{uuid.uuid4()}": {**networktraffic_extensions}}
+            stix_sco_object = stix2.NetworkTraffic(**networktraffic_object)  # 用**操作符解包字典获取键值对作为参数
+            observed_objects[str(len(observed_objects))] = stix_sco_object  # 添加SCO对象到 observed_objects
+        # 有NetworkTraffic属性但没有IPv4Address对象时：
+        elif len(networktraffic_object):
+            create_name = "NetworkTraffic"
+            # 判断必需属性是否存在，不存在则进行处理以保证对象创建时不会出错
+            if "protocols" not in networktraffic_object:
+                networktraffic_object["protocols"] = ["NULL"]
+
+            networktraffic_object["src_ref"] = f"ipv4-addr--{uuid.uuid4()}"
             networktraffic_object["extensions"] = {f"extension-definition--{uuid.uuid4()}": {**networktraffic_extensions}}
             stix_sco_object = stix2.NetworkTraffic(**networktraffic_object)  # 用**操作符解包字典获取键值对作为参数
             observed_objects[str(len(observed_objects))] = stix_sco_object  # 添加SCO对象到 observed_objects
@@ -208,7 +219,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
                 first_observed = first_observed.isoformat().replace('+00:00', 'Z')
                 last_observed = last_observed.isoformat().replace('+00:00', 'Z')
 
-                number_observed = 1
+                number_observed = 1  # 假设观察到一次
                 observed_data = stix2.ObservedData(
                     first_observed=first_observed,
                     last_observed=last_observed,
@@ -240,6 +251,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count):
 
     return observed_data, attack_pattern, stix_record# 返回SDO对象
 
+
 # 数据端服务函数接口：把流量数据集文件转换成stix格式文件
 def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, process_config:dict):
     """
@@ -254,12 +266,11 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
             error:错误信息
     """
 
-    #读取文件
-    input_file = Path(input_file_path)
+    input_file = Path(input_file_path)  # 传入的要进行处理的数据集
     # 加载映射表，构造映射字典
     try:
-        data_path = get_project_root_path()+"/data"
-        mapping_df = pd.read_csv(data_path+"/feature_mapping.csv")
+        data_path = get_project_root_path()+"/data"  # 获取当前项目根目录绝对路径
+        mapping_df = pd.read_csv(data_path+"/feature_mapping.csv")  # 读取映射表
         mapping_dict = {
             row.dataset_field: {
                 # 列名对应的映射关系
@@ -293,16 +304,18 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
     stix_compress = 500 # 默认压缩500行
     if process_config.get("stix_compress",None):
         stix_compress = process_config.get("stix_compress")
-    row_length = dataset.shape[0] #数据集行数
+    else:
+        stix_compress = 100  # 默认压缩100行
+    row_length = dataset.shape[0]  # 数据集行数
     
     # 计算需要分批写入的次数
     batch_count = row_length // stix_compress
-    #初始化处理进度
+    # 初始化处理进度
     process_progress = 0
     data_service.update_stix_process_progress(file_hash,process_progress,batch_count)
-    #初始化行索引
+    # 初始化行索引
     row_index = 0
-    buffer = []  # 缓冲区为压缩行数
+    buffer = []  # 写入缓冲区，大小为压缩行数
     errors = []
     stix_record_buffer = []
     ips_record_buffer = {} #dict去重和记录数量
@@ -339,8 +352,26 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
         with open(output_file, "w") as fp:
             
             #1.写入stix数据
+            batch_size = stix_compress  
+            # 逐行处理数据集
+            for i in range(batch_size):
+                row_data = dataset.iloc[row_index]  # 获取行数据
+                row_index += 1
+                try:
+                    observed_data, attack_pattern = stix_transform(mapping_dict, mapped_columns, row_data, i)  # 构造STIX对象
+                    if observed_data:
+                        # pretty=True为美化打印，JSON 对象会使用缩进和换行，使结构更清晰，便于阅读和调试；
+                        # 如果 JSON 数据仅供机器读取或需要更高效的存储，通常建议去掉 pretty=True 以保持紧凑格式；
+                        buffer.append(observed_data.serialize(pretty=True) + "\n")
+                    if attack_pattern:
+                        buffer.append(attack_pattern.serialize(pretty=True) + "\n")
+                except Exception as e:
+                    errors.append(f"第 {row_index + 1} 行数据转换失败：{e}")
+                    continue
+
+            # 写入数据
             try:
-                fp.writelines(buffer)  # 写入数据
+                fp.writelines(buffer)
             except Exception as e:
                 print(f"{output_file}写入失败：{e}")
                 errors.append(f"{output_file}写入失败：{e}")

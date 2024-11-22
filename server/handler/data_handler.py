@@ -1,6 +1,6 @@
 from flask import Flask,jsonify,request,Response
 import logging
-from flask import Blueprint  #导入蓝图模块
+from flask import Blueprint  # 导入蓝图模块
 import os
 from env.global_var import getUploadFilePath
 from utils.file import replace_file_name_with_hash,get_date_file_dir,check_file_by_hash
