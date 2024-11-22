@@ -5,13 +5,13 @@ import os
 
 def upload_model_to_ipfs(model_path):
     """
-    上传模型文件至 IPFS，并返回文件的 hash 地址。
+        上传模型文件至 IPFS，并返回文件的 hash 地址。
 
-    参数:
-    model_path (str): 模型文件路径
+        参数:
+        model_path (str): 模型文件路径
 
-    返回:
-    str: 上传后返回的 IPFS hash 地址
+        返回:
+        str: 上传后返回的 IPFS hash 地址
     """
     # 连接到本地或远程的 IPFS 节点
     client = ipfshttpclient.connect('/ip4/127.0.0.1/tcp/5001')  # 本地IPFS节点

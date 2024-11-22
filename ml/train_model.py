@@ -25,10 +25,10 @@ def generate_request_id():
 
 def feature_engineering(df, target_column=None):
     """
-    对清洗后的数据集进行特征工程。
-    参数：
-    df -- 输入的DataFrame数据
-    target_column -- 目标列的列名，如果有目标列的话，应该排除该列进行处理
+        对清洗后的数据集进行特征工程。
+        参数：
+        df -- 输入的DataFrame数据
+        target_column -- 目标列的列名，如果有目标列的话，应该排除该列进行处理
     """
     request_id = generate_request_id()  # 自动生成请求ID
 
@@ -61,10 +61,10 @@ def feature_engineering(df, target_column=None):
 
 def train_and_save_model(df, target_column):
     """
-    训练并保存模型，同时记录训练过程中的每个阶段的进度。
-    参数：
-    df -- 输入的DataFrame数据
-    target_column -- 目标列的列名
+        训练并保存模型，同时记录训练过程中的每个阶段的进度。
+        参数：
+        df -- 输入的DataFrame数据
+        target_column -- 目标列的列名
     """
     request_id = generate_request_id()  # 自动生成请求ID
 
@@ -120,12 +120,12 @@ def train_and_save_model(df, target_column):
 
 def log_progress(request_id, stage, message, training_time=None):
     """
-    记录训练进度和时间，保存请求ID和训练时间。
-    参数：
-    request_id -- 请求 ID，用于标识训练任务
-    stage -- 当前阶段（例如：训练开始、训练完成、评估等）
-    message -- 阶段描述消息
-    training_time -- 训练时间，单位为秒（可选）
+        记录训练进度和时间，保存请求ID和训练时间。
+        参数：
+        request_id -- 请求 ID，用于标识训练任务
+        stage -- 当前阶段（例如：训练开始、训练完成、评估等）
+        message -- 阶段描述消息
+        training_time -- 训练时间，单位为秒（可选）
     """
     # 将进度记录到 TinyDB 中
     progress_table.upsert({
@@ -141,7 +141,7 @@ def log_progress(request_id, stage, message, training_time=None):
 
 def select_model_based_on_features(df, target_column):
     """
-    根据特征选择合适的模型。
+        根据特征选择合适的模型。
     """
     # 获取目标列的数据类型
     target_dtype = df[target_column].dtype

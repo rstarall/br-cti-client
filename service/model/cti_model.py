@@ -47,8 +47,8 @@ cti_info_example = {
     "creator_user_id":"", #创建者用户ID
     "tags":[], #情报标签
     "iocs":[], #情报IOCs
-    "satistic_info":{}, #情报统性信息
-    "stix_data":"", #STIX数据
+    "satistic_info":{}, #情报统性信息(转成[]byte)
+    "stix_data":{}, #STIX数据(转成[]byte)
     "description":"", #情报描述
     "data_size":0, #情报数据大小
     "data_hash":"", #情报数据哈希

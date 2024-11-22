@@ -16,8 +16,8 @@ progress_table = db.table('progress')
 # 记录训练进度和评估信息
 def log_progress(request_id, stage, message, **kwargs):
     """
-    记录训练进度、评估信息和时间。
-    如果相同请求ID已经存在记录，则覆盖记录。
+        记录训练进度、评估信息和时间。
+        如果相同请求ID已经存在记录，则覆盖记录。
     """
     record = {
         'request_id': request_id,
@@ -34,13 +34,13 @@ def log_progress(request_id, stage, message, **kwargs):
 
 def evaluate_model(request_id, model_path, df, target_column):
     """
-    对训练好的模型进行评估，并将结果保存到TinyDB。
+        对训练好的模型进行评估，并将结果保存到TinyDB。
 
-    参数:
-    - request_id: 请求 ID
-    - model_path: 训练好的模型路径
-    - df: 评估用的测试集数据
-    - target_column: 目标列名
+        参数:
+        - request_id: 请求 ID
+        - model_path: 训练好的模型路径
+        - df: 评估用的测试集数据
+        - target_column: 目标列名
     """
     # 从 TinyDB 记录开始评估的时间
     log_progress(request_id, "Model Evaluation", "Evaluation started")

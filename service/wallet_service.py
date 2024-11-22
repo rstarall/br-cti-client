@@ -44,15 +44,25 @@ class WalletService:
     def createLocalUserWallet(self,password:str=None)->tuple[str,bool]:
         """
             生成本地用户账户
-            password:用户密码，不能为空
-            return:用户钱包ID,True or False
+
+            param:
+                - password:用户密码，不能为空
+
+            return:
+                - str:用户钱包ID
+                - bool:True or False
         """
         return genUserWallet(password)
     
     def registerUserAccount(self, wallet_id: str):
         """
             区块链上注册用户账户
-            return:注册结果,True or False
+
+            param:
+                - wallet_id:用户钱包ID
+
+            return:
+                - bool:True or False
         """
         public_pem = self.getPublicKey(wallet_id)
         public_pem = base64.b64decode(public_pem)

@@ -10,3 +10,7 @@ var (
 	ChannelClient *channel.Client
 	LedgerClient *ledger.Client
 )
+//使用一个集成的合约
+var (
+	ChaincodeName = "br-cti-contract"
+)

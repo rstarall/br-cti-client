@@ -4,10 +4,13 @@ fabricServerHost = "http://localhost:7777"
 userWalletPath = "blockchain/wallet"
 uploadFilePath = "data/upload"
 outputDirPath = "data/output"
+mlUploadFilePath = "ml/upload"
+mlOutputDirPath = "ml/output"
 uploadChainDataPath = "blockchain/data/upload"
 def getUserWalletAbsolutePath():
     """
         获取用户钱包绝对路径
+        return: str
     """
     project_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     wallet_path = os.path.join(project_path, userWalletPath)
@@ -19,7 +22,8 @@ def getUserWalletAbsolutePath():
 
 def getOutputDirPath():
     """
-        获取输出文件夹绝对路径
+        获取data client输出文件夹绝对路径
+        return: str
     """
     project_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     output_path = os.path.join(project_path, outputDirPath)
@@ -29,7 +33,8 @@ def getOutputDirPath():
 
 def getUploadFilePath():
     """
-        获取上传文件夹绝对路径
+        获取data client上传文件夹绝对路径
+        return: str
     """
     project_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     upload_path = os.path.join(project_path, uploadFilePath)
@@ -39,10 +44,15 @@ def getUploadFilePath():
 def getUploadChainDataPath():
     """
         获取上传链上数据文件夹绝对路径
+        return: str
     """
     project_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     upload_chain_data_path = os.path.join(project_path, uploadChainDataPath)
     return upload_chain_data_path
+
+
+
+
 def updateFabricServerHost(host: str):
     """
         更新fabric-server地址

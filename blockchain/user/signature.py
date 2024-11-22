@@ -12,16 +12,23 @@ import base64
 
 userWalletPath = getUserWalletAbsolutePath()
 
-def ecc_sign(private_key:ec.EllipticCurvePrivateKey, message: str)->str:
+def ecc_sign(private_key:ec.EllipticCurvePrivateKey, message: str)->tuple[str,bytes]:
+    """
+        对消息进行签名
+        :param private_key:私钥
+        :param message:消息
+        :return 签名结果,消息字节(utf-8编码)
+    """
+    message_bytes = message.encode()#utf-8编码
     # 计算消息的哈希值(SHA256)
     message_hash = hashes.Hash(hashes.SHA256(), backend=default_backend())
-    message_hash.update(message.encode())
+    message_hash.update(message_bytes) 
     digest = message_hash.finalize()
     # 签名,ec.ECDSA(hashes.SHA256())指定签名算法
     # 签名输出为ASN.1 DER格式
     signature = private_key.sign(digest, ec.ECDSA(hashes.SHA256()))
     # 将签名结果编码为Base64
-    return base64.b64encode(signature).decode()
+    return base64.b64encode(signature).decode(),message_bytes
 
 
 

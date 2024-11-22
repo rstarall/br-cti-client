@@ -58,8 +58,10 @@ class DataService:
         file_path = self.get_upload_file_path_by_hash(file_hash)
         #读取文件
         df = pd.read_csv(file_path)
-        #获取文件的行数
+        #初始化处理配置
+        #获取压缩率
         compress_rate = process_config.get("stix_compress",500)
+        #获取文件的行数
         total_step = df.shape[0]//compress_rate
         total_task_list = [i for i in range(total_step)]
         #处理进度保存到全局变量
@@ -74,9 +76,10 @@ class DataService:
             获取stix输出文件夹路径
 
             param:
-                file_hash: 文件的hash值
+                - file_hash: 文件的hash值
+
             return:
-                stix_output_dir_path: stix输出文件夹路径
+                - stix_output_dir_path: stix输出文件夹路径
         """
         output_dir_path = getOutputDirPath() +"/"+ file_hash
         if not os.path.exists(output_dir_path):
@@ -86,15 +89,17 @@ class DataService:
     def update_stix_process_progress(self,file_hash,current_step=None,total_step=None,result=None,errors=None,current_task_id=None,total_task_list=None):
         """
             设置stix转换处理进度
+
             param:
-                file_hash: 文件的hash值
-                current_step: 当前步数
-                total_step: 总步数
-                result: 处理结果(如果处理已完成)   
-                current_task_id: 当前任务ID
-                total_task_list: 总任务列表
+                - file_hash: 文件的hash值
+                - current_step: 当前步数
+                - total_step: 总步数
+                - result: 处理结果(如果处理已完成)   
+                - current_task_id: 当前任务ID
+                - total_task_list: 总任务列表
+
             return:
-                None
+                - None
         """
         stix_process_progress = self.stix_process_progress.get(file_hash,{})
         if current_step is not None and total_step is not None:
@@ -123,10 +128,12 @@ class DataService:
     def get_stix_process_progress(self,file_hash):
         """
             获取stix转换处理进度
+
             param:
-                file_hash: 文件的hash值
+                - file_hash: 文件的hash值
+
             return:
-                stix_process_progress: stix转换处理进度
+                - stix_process_progress: stix转换处理进度
         """
         stix_process_progress = self.stix_process_progress.get(file_hash,None)
         # if stix_process_progress is None:
@@ -139,10 +146,12 @@ class DataService:
     def get_history_abort_stix_process_progress(self,file_hash):
         """
             获取历史中止的stix转换处理进度 ,从tiny_db中获取
+
             param:
-                file_hash: 文件的hash值
+                - file_hash: 文件的hash值
+
             return:
-                stix_process_progress: stix转换处理进度
+                - stix_process_progress: stix转换处理进度
         """
         #从tiny_db中获取
         stix_process_progress = self.tiny_db.use_database("stix_process_progress").read_by_key_value("stix_process_progress",field_name="file_hash",field_value=file_hash)
@@ -154,10 +163,11 @@ class DataService:
         """
             创建保存本地stix处理记录
             保存在tiny_db的stix_info_records表中
+
             param:
-                source_file_hash: 源文件的hash值
-                stix_file_path: stix文件路径
-                stix_info: stix信息记录
+                - source_file_hash: 源文件的hash值
+                - stix_file_path: stix文件路径
+                - stix_info: stix信息记录
         """
         new_stix_info_record = {
             "source_file_hash":source_file_hash,
@@ -204,13 +214,15 @@ class DataService:
     def get_local_stix_records(self,source_file_hash,page=1,page_size=15,all=False):
         """
             获取本地stix记录表,支持分页
+
             param:
-                source_file_hash: 源文件的hash值
-                page: 页码
-                page_size: 每页大小
-                all: 是否获取所有记录
+                - source_file_hash: 源文件的hash值
+                - page: 页码
+                - page_size: 每页大小
+                - all: 是否获取所有记录
+
             return:
-                records: 记录列表
+                - records: 记录列表
         """
         
         stix_records_list = self.tiny_db.use_database("stix_records").read_sort_by_timestamp("stix_info_records",field_name="source_file_hash",field_value=source_file_hash)
@@ -225,11 +237,13 @@ class DataService:
     def get_local_stix_file_by_hash(self,source_file_hash,stix_file_hash):
         """
             根据stix文件的hash值获取本地stix文件路径
+
             param:
-                source_file_hash: 源文件的hash值
-                stix_file_hash: stix文件的hash值
+                - source_file_hash: 源文件的hash值
+                - stix_file_hash: stix文件的hash值
+
             return:
-                stix_data: stix数据,str类型
+                - stix_data: stix数据,str类型
         """
         stix_file_path = getOutputDirPath()+"/"+source_file_hash+"/"+stix_file_hash+".jsonl"
         if os.path.exists(stix_file_path):
@@ -242,12 +256,13 @@ class DataService:
     def update_cti_process_progress(self,source_file_hash,current_step=None,total_step=None,current_task_id=None,total_task_list=None):
         """
             更新情报处理进度
+
             param:
-                source_file_hash: 源文件的hash值
-                current_step: 当前步数
-                total_step: 总步数
-                current_task_id: 当前任务ID
-                total_task_list: 总任务列表
+                - source_file_hash: 源文件的hash值
+                - current_step: 当前步数
+                - total_step: 总步数
+                - current_task_id: 当前任务ID
+                - total_task_list: 总任务列表
         """
         if total_task_list is not None:
             #初始化总任务列表
@@ -274,9 +289,9 @@ class DataService:
     def get_cti_process_progress(self,source_file_hash):
         """
             获取情报处理进度
-            param:
+            :param
                 task_id: 任务ID(source_file_hash)
-            return:
+            :return
                 cti_process_progress: 情报处理进度
         """
         cti_process_progress = self.cti_process_progress.get(source_file_hash,None)
@@ -298,7 +313,7 @@ class DataService:
     def start_create_local_cti_records_by_hash(self,source_file_hash):
         """
             启动线程创建本地情报记录
-            param:
+            :param
                 source_file_hash: 源文件的hash值
         """
         thread = threading.Thread(target=self.create_local_cti_records_by_hash,args=(source_file_hash,))
@@ -307,10 +322,9 @@ class DataService:
     def create_local_cti_records_by_hash(self,source_file_hash):
         """
             根据source_file_hash创建本地情报记录
-
-            param:
+            :param
                 source_file_hash: 源文件的hash值
-            return:
+            :return
                 new_cti_record_list: 新创建的情报记录列表
         """
         #查询数据库
@@ -334,10 +348,11 @@ class DataService:
         """
             创建保存本地情报记录
             保存在tiny_db的cti_info_records表中
+
             param:
-                source_file_hash: 源文件的hash值
-                stix_file_path: stix文件路径
-                stix_info: stix信息记录
+                - source_file_hash: 源文件的hash值
+                - stix_file_path: stix文件路径
+                - stix_info: stix信息记录
         """
         new_cti_info_record = cti_info_example.copy()
         #获取情报ID

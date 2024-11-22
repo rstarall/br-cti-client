@@ -18,13 +18,16 @@ def get_tiny_db_instance():
 
 class TinyDBUtil:
     def __init__(self):
+        data_client_path = get_project_root_path()+"/db/data_client"
+        ml_client_path = get_project_root_path()+"/db/ml_client"
         #初始化数据库
         self.local_db_map = {
             "default":get_project_root_path()+"/db/db.json",
-            "stix_records":get_project_root_path()+"/db/stix_records.json",
-            "cti_records":get_project_root_path()+"/db/cti_records.json",
-            "stix_process_progress":get_project_root_path()+"/db/stix_process_progress.json",
-            "cti_process_progress":get_project_root_path()+"/db/cti_process_progress.json",
+            "stix_records":data_client_path+"/stix_records.json",
+            "cti_records":data_client_path+"/cti_records.json",
+            "stix_process_progress":data_client_path+"/stix_process_progress.json",
+            "cti_process_progress":data_client_path+"/cti_process_progress.json",
+            "ml_records":ml_client_path+"/ml_records.json",
         }
         self.db_path = self.local_db_map["default"]
         data = {"app": "br-cti-client", "version": '1.0'}
@@ -35,7 +38,7 @@ class TinyDBUtil:
         """
             使用指定的数据库
             param:
-                db_name: 数据库名(default,stix_records,cti_records)
+                db_name: 数据库名(default,stix_records,cti_records,ml_records)
             return:
                 self
         """

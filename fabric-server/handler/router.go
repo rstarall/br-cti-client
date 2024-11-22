@@ -13,6 +13,9 @@ func NewRouter(fabricSDK *fabsdk.FabricSDK) *gin.Engine {
     // 调用链代码
     r.POST("/registerUserAccount", RegisterUserAccount)
     r.POST("/getTransactionNonce", GetTransactionNonce)
+    // 调用智能合约
+    r.POST("/queryContract", QueryContract)
+    r.POST("/invokeContract", InvokeContract)
 	return r
 }
 

@@ -11,7 +11,7 @@ def get_training_status(request_id):
     根据请求 ID 获取训练或测试的状态。
 
     参数:
-    - request_id: 请求 ID
+    - request_id: 请求 ID,训练源文件的HASH
 
     返回:
     - 对应请求 ID 的训练状态和测试结果。
