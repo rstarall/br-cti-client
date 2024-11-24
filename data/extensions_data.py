@@ -1,6 +1,6 @@
 import ipaddress
 import requests
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
 
 def ip_to_location(ip:str):
     """
@@ -78,32 +78,41 @@ def ips_to_location_concurrent(ips:dict, max_workers=10):
     ip_location_map = {}
     location_num_map = {}
     errors = []
+    threads = []
+    results = {}
     
-    def process_ip(ip_item):
-        ip, ip_num = ip_item
+    def process_ip(ip, ip_num):
         try:
             location = ip_to_location(ip)
-            return ip, location, ip_num, None
+            results[ip] = (location, ip_num, None)
         except Exception as e:
-            return ip, None, ip_num, f"ip_to_location error:{e}"
+            results[ip] = (None, ip_num, f"ip_to_location error:{e}")
             
-    with ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix='ip_location') as executor:
-        executor._threads.clear()
-        executor._shutdown = True
-        executor._thread_name_prefix = 'ip_location'
+    # 创建并启动线程
+    for index, (ip, ip_num) in enumerate(ips.items()):
+        while len(threads) >= max_workers:
+            for t in threads[:]:
+                if not t.is_alive():
+                    threads.remove(t)
+                    
+        thread = threading.Thread(target=process_ip, args=(ip, ip_num))
+        thread.daemon = True
+        thread.start()
+        threads.append(thread)
+        print(f"启动处理:{index + 1}/{len(ips.keys())}")
         
-        futures = [executor.submit(process_ip, item) for item in ips.items()]
+    # 等待所有线程完成
+    for t in threads:
+        t.join()
         
-        for index, future in enumerate(as_completed(futures)):
-            print(f"已完成:{index + 1}/{len(ips.keys())}")
-            ip, location, ip_num, error = future.result()
+    # 处理结果
+    for ip, (location, ip_num, error) in results.items():
+        if error:
+            errors.append(error)
+            continue
             
-            if error:
-                errors.append(error)
-                continue
-                
-            ip_location_map[ip] = location
-            location_num_map[location] = location_num_map.get(location, 0) + ip_num
+        ip_location_map[ip] = location
+        location_num_map[location] = location_num_map.get(location, 0) + ip_num
             
     return ip_location_map, location_num_map, errors
 
