@@ -3,8 +3,8 @@
     CTI数据结构(链上)
 """
 
-# 攻击类型常量
-ATTACK_TYPE = {
+# 情报类型常量
+CTI_TYPE = {
     "TRAFFIC": 1,    # 恶意流量
     "MALWARE": 2,    # 恶意软件
     "PHISHING": 3,   # 钓鱼地址
@@ -12,16 +12,14 @@ ATTACK_TYPE = {
     "APP_LAYER": 5,  # 应用层攻击
     "OPEN_SOURCE": 6 # 开源情报
 }
-ATTACK_TYPE_NAME = {
-    ATTACK_TYPE["TRAFFIC"]: "恶意流量",
-    ATTACK_TYPE["MALWARE"]: "恶意软件",
-    ATTACK_TYPE["PHISHING"]: "钓鱼地址",
-    ATTACK_TYPE["BOTNET"]: "僵尸网络",
-    ATTACK_TYPE["APP_LAYER"]: "应用层攻击",
-    ATTACK_TYPE["OPEN_SOURCE"]: "开源情报"
+CTI_TYPE_NAME = {
+    CTI_TYPE["TRAFFIC"]: "恶意流量",
+    CTI_TYPE["MALWARE"]: "恶意软件",
+    CTI_TYPE["PHISHING"]: "钓鱼地址",
+    CTI_TYPE["BOTNET"]: "僵尸网络",
+    CTI_TYPE["APP_LAYER"]: "应用层攻击",
+    CTI_TYPE["OPEN_SOURCE"]: "开源情报"
 }
-
-
 # 流量情报类型常量
 CTI_TRAFFIC_TYPE = {
     "5G": 1,         # 5G

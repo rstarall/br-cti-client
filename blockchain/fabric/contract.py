@@ -1,6 +1,6 @@
 from blockchain.fabric import env_vars
-
-#通过Web接口调用fabric-server
+import requests
+#直接调用接口执行合约
 
 def query_contract(function_name:str,args:dict)->dict:
     """
@@ -10,7 +10,7 @@ def query_contract(function_name:str,args:dict)->dict:
         :param args:参数列表
         :return 返回值
     """
-    import requests
+    
     
     # 构造请求参数
     data = {

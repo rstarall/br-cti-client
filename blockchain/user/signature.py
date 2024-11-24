@@ -12,14 +12,14 @@ import base64
 
 userWalletPath = getUserWalletAbsolutePath()
 
-def ecc_sign(private_key:ec.EllipticCurvePrivateKey, message: str)->tuple[str,bytes]:
+def ecc_sign(private_key:ec.EllipticCurvePrivateKey, tx_data: str)->tuple[str,bytes]:
     """
         对消息进行签名
         :param private_key:私钥
         :param message:消息
         :return 签名结果,消息字节(utf-8编码)
     """
-    message_bytes = message.encode()#utf-8编码
+    message_bytes = tx_data.encode() #utf-8编码
     # 计算消息的哈希值(SHA256)
     message_hash = hashes.Hash(hashes.SHA256(), backend=default_backend())
     message_hash.update(message_bytes) 
@@ -32,12 +32,12 @@ def ecc_sign(private_key:ec.EllipticCurvePrivateKey, message: str)->tuple[str,by
 
 
 
-def ecc_sign_with_password(wallet_id: str, password: str, message: str)->str:
+def ecc_sign_with_password(wallet_id: str, password: str, tx_data: str)->str:
     with open(os.path.join(userWalletPath, wallet_id, 'private_key.pem'), 'rb') as f:
         pem_data = f.read()
     #加载并解密私钥
     private_key = load_encrypted_private_key(pem_data, password)
-    return ecc_sign(private_key, message)
+    return ecc_sign(private_key, tx_data)
 
 def load_encrypted_private_key(pem_data: bytes, password: str)->ec.EllipticCurvePrivateKey:
     """
@@ -58,18 +58,3 @@ def load_public_key(pem_data: bytes)->ec.EllipticCurvePublicKey:
     """
     return serialization.load_pem_public_key(pem_data, backend=default_backend())
 
-
-def get_signature_nonce(wallet_id: str, signature: str):
-    """
-        获取签名随机数
-        从fabric-server获取签名随机数
-    """
-    try:
-        response = request_post(fabricServerHost+"/getSignatureNonce", data={"wallet_id": wallet_id,
-                                                                             "signature": signature})
-        if response == None:
-            return None,False
-        return response["data"]["nonce"],True
-    except Exception as e:
-        print(e)
-        return None,False

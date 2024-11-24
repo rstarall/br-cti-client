@@ -6,9 +6,9 @@ from db.tiny_db import get_tiny_db_instance
 from blockchain.user.wallet import genUserWallet
 from blockchain.user.signature import ecc_sign_with_password
 from blockchain.user.wallet import checkLocalUserAccountExist
-from blockchain.user.signature import get_signature_nonce
+from blockchain.fabric.tx import getTransactionNonce
 from blockchain.user.wallet import getUserPublicKey
-from blockchain.user.wallet import registerUserAccount
+from blockchain.fabric.user_onchain import registerUserOnchain
 import base64
 class WalletService:
     def __init__(self):
@@ -33,13 +33,12 @@ class WalletService:
             return:签名结果,base64编码
         """
         return ecc_sign_with_password(wallet_id, password, message)
-    def getSignatureNonce(self, wallet_id: str, password: str, message: str)->tuple[str,bool]:
+    def getSignatureNonce(self, wallet_id: str, password: str, tx_sign: str)->tuple[str,bool]:
         """
             获取签名随机数
             return:签名随机数,True or False
         """
-        signature = self.eccSignature(wallet_id, password, message)
-        return get_signature_nonce(wallet_id, password, signature)
+        return getTransactionNonce(wallet_id, password, tx_sign)
     
     def createLocalUserWallet(self,password:str=None)->tuple[str,bool]:
         """
@@ -54,17 +53,18 @@ class WalletService:
         """
         return genUserWallet(password)
     
-    def registerUserAccount(self, wallet_id: str):
+    def registerOnchainUserAccount(self, wallet_id: str, user_name: str)->tuple[str,bool]:
         """
             区块链上注册用户账户
 
             param:
                 - wallet_id:用户钱包ID
-
+                - user_name:用户名称(可选)
             return:
                 - bool:True or False
         """
-        public_pem = self.getPublicKey(wallet_id)
-        public_pem = base64.b64decode(public_pem)
-        return registerUserAccount(wallet_id, public_pem)
+        #检查本地账户一致性
+        if checkLocalUserAccountExist() != wallet_id:
+            return "local user account not exist",False
+        return registerUserOnchain(wallet_id, user_name)
 

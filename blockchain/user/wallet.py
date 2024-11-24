@@ -48,11 +48,12 @@ def getUserWalletId(public_pem: bytes):
 def getUserPublicKey(wallet_id: str):
     """
         获取用户公钥
-        return:公钥,[]bytes
+        return:公钥,str
     """
     with open(os.path.join(userWalletPath, wallet_id, 'public_key.pem'), 'rb') as f:
         public_pem = f.read()
-    return public_pem
+
+    return str(public_pem)
 
 def genUserWallet(password=None)->tuple[str,bool]:
     """
@@ -104,21 +105,4 @@ def genEccPubAndPriKey(password: str)->tuple[ec.EllipticCurvePrivateKey, bytes, 
 
     return private_key, encrypted_private_pem, public_pem
 
-def registerUserAccount(wallet_id: str, public_pem):
-    """
-        使用公钥注册用户账户
-        执行智能合约
-        invoke fabric-server/registerUserAccount
-        wallet_id:用户钱包ID
-        public_pem:用户公钥,base64编码,解码后为[]bytes
-    """
-    try:
-        response = request_post(fabricServerHost+"/registerUserAccount", data={"wallet_id": wallet_id, 
-                                                                               "public_pem": public_pem})
-        
-        if "error" in response:
-            return response["error"],False
-        return response["data"],True
-    except Exception as e:
-        print(e)
-        return str(e),False
+    

@@ -23,17 +23,28 @@ class TinyDBUtil:
         #初始化数据库
         self.local_db_map = {
             "default":get_project_root_path()+"/db/db.json",
-            "stix_records":data_client_path+"/stix_records.json",
-            "cti_records":data_client_path+"/cti_records.json",
-            "stix_process_progress":data_client_path+"/stix_process_progress.json",
-            "cti_process_progress":data_client_path+"/cti_process_progress.json",
-            "ml_records":ml_client_path+"/ml_records.json",
+            "stix_records":data_client_path+"/stix_records/stix_records.json",
+            "cti_records":data_client_path+"/cti_records/cti_records.json",
+            "ml_records":ml_client_path+"/ml_records/ml_records.json",
+            "stix_process_progress":data_client_path+"/progress/stix_process_progress.json",
+            "cti_process_progress":data_client_path+"/progress/cti_process_progress.json",
+            "ml_process_progress":ml_client_path+"/progress/ml_process_progress.json",
         }
         self.db_path = self.local_db_map["default"]
         data = {"app": "br-cti-client", "version": '1.0'}
         self.upsert_by_key_value( "config", data,"version",'1.0')
         logging.info("init tinydb success.")
         logging.info(f"db path:{self.db_path}")
+    def get_data_client_path(self):
+        """
+            获取data client数据库路径
+        """
+        return get_project_root_path()+"/db/data_client"
+    def get_ml_client_path(self):
+        """
+            获取ml client数据库路径
+        """
+        return get_project_root_path()+"/db/ml_client"
     def use_database(self,db_name):
         """
             使用指定的数据库

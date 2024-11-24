@@ -30,27 +30,26 @@ def createLocalUserWallet():
         return jsonify({'code': 400, 'message': result, 'data': None})
 
 #注册用户账户(链上注册)
-@user_blue.route('/registerUserAccount',methods=['POST'])
-def registerUserAccount():
-    wallet_id,success = wallet_service.registerUserAccount()
-    if not success:
-        return jsonify({'code': 400, 'message': wallet_id, 'data': None})
-    
+@user_blue.route('/registerOnchainUserAccount',methods=['POST'])
+def registerOnchainUserAccount():
+    wallet_id = request.json.get('wallet_id')
+    user_name = request.json.get('user_name','')
+    if not wallet_id:
+        return jsonify({'code': 400, 'message': 'wallet_id is required', 'data': None})
     #注册钱包链上信息
-    result,success = wallet_service.registerUserAccount(wallet_id)
+    result,success = wallet_service.registerOnchainUserAccount(wallet_id,user_name)
     if success:
-        return jsonify({'code': 200, 'message': 'success', 'data': {'wallet_id': wallet_id}})
+        return jsonify({'code': 200, 'message': 'success', 'data': {'wallet_id': result}})
     else:
         #链上注册失败直接返回钱包ID
-        return jsonify({'code': 200, 'message': result, 'data': {'wallet_id': wallet_id}})
+        return jsonify({'code': 200, 'message': result, 'data': {'wallet_id': result}})
 
 #获取交易随机数
 @user_blue.route('/getTransactionNonce',methods=['POST'])
 def getTransactionNonce():
     wallet_id = request.json.get('wallet_id')
-    password = request.json.get('password')
-    message = request.json.get('message')
-    result,success = wallet_service.getSignatureNonce(wallet_id,password,message)
+    tx_sign = request.json.get('tx_sign')
+    result,success = wallet_service.getSignatureNonce(wallet_id,tx_sign)
     if success:
         return jsonify({'code': 200, 'message': 'success', 'data': {'nonce': result}})
     else:

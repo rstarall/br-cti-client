@@ -137,7 +137,17 @@ def save_json_to_file(file_path,data):
         os.makedirs(chain_data_dir_path)
     with open(file_path,"w") as fp:
         fp.write(json.dumps(data))
-
+def load_json_from_file(file_path):
+    """
+        读取json文件
+        param:
+            file_path:文件路径
+        return:
+            json数据
+    """
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return json.load(file)
+    
 def read_all_json_from_path(directory):
     """
         遍历指定目录下所有的json文件，读取内容并以文件名为键存储。

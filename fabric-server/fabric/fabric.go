@@ -1,4 +1,4 @@
-package handler
+package fabric
 
 import (
 	"bytes"
@@ -54,6 +54,27 @@ func CreateLedgerClient(sdk *fabsdk.FabricSDK) (*ledger.Client, error) {
     return ledgerClient, nil
 }
 
+
+
+
+
+//链码执行请求
+func InvokeChaincode(channelClient *channel.Client, chaincodeName, function string, args [][]byte) ([]byte, error) {
+
+    // 构建请求
+    response, err := channelClient.Execute(channel.Request{
+		ChaincodeID: chaincodeName, 
+		Fcn:         function,
+		Args:        args,
+	},)
+    if err != nil {
+        return nil, err
+    }
+
+    return response.Payload, nil
+}
+
+
 //解析区块
 func EncodeProto( input *common.Block) ([]byte,error) {
     var w = new(bytes.Buffer)
@@ -61,20 +82,6 @@ func EncodeProto( input *common.Block) ([]byte,error) {
         return nil,errors.New("error encoding output")
     }
     return w.Bytes(),nil
-}
-
-
-
-//链码执行请求
-func InvokeChaincode(channelClient *channel.Client, chaincodeName, function string, args [][]byte) (string, error) {
-
-    // 构建请求
-    response, err := channelClient.Execute(channel.Request{ChaincodeID: chaincodeName, Fcn: function, Args: args})
-    if err != nil {
-        return "", err
-    }
-
-    return string(response.Payload), nil
 }
 
 //区块查询请求

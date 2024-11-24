@@ -146,11 +146,41 @@ def get_stix_file_content(source_file_hash,stix_file_hash):
 def process_stix_to_cti():
     data = request.get_json()
     source_file_hash = data.get('file_hash',None)
+    cti_type = data.get('cti_type',0)
+    open_source = data.get('open_source',1)
+    cti_description = data.get('cti_description',"")
+    default_value = data.get('default_value',0)
+    print(data)
     if not source_file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
-    #启动线程创建本地情报记录
-    data_service.start_create_local_cti_records_by_hash(source_file_hash)
-    return jsonify({"code":200,'msg': 'start create local cti records by hash', 'data': source_file_hash})
+    
+    #判断类型正确性
+    if type(cti_type) != int:
+        cti_type = 0
+    if type(open_source) != int:
+        open_source = 1 #开源
+    if type(default_value) != int:
+        default_value = 0
+    if type(cti_description) != str:
+        cti_description = ""
+    cti_config = {
+        "cti_type": cti_type,
+        "open_source": open_source,
+        "description": cti_description,
+        "value": default_value
+    }
+    data_service.start_create_local_cti_records_by_hash(source_file_hash, cti_config)
+    
+    #获取当前处理进度
+    data_service.get_cti_process_progress(source_file_hash)
+    return jsonify({
+        "code":200,
+        'msg': 'start create local cti records by hash', 
+        'data': {
+            "current_step": 0,
+            "total_step": 0
+        }
+    })
 
 #查询情报处理进度
 @data_blue.route('/get_cti_process_progress', methods=['POST'])
