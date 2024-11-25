@@ -105,4 +105,31 @@ def genEccPubAndPriKey(password: str)->tuple[ec.EllipticCurvePrivateKey, bytes, 
 
     return private_key, encrypted_private_pem, public_pem
 
+def checkWalletPassword(wallet_id: str, password: str)->bool:
+    """
+        检查钱包密码
+        param:
+            - wallet_id: 钱包ID
+            - password: 钱包密码
+        return:
+            - bool: 密码是否正确
+    """
+    try:
+        # 获取钱包路径
+        userWalletPath = getUserWalletAbsolutePath()
+        walletPath = os.path.join(userWalletPath, wallet_id)
+        
+        # 读取私钥文件
+        with open(os.path.join(walletPath, 'private_key.pem'), 'rb') as f:
+            encrypted_private_pem = f.read()
+            
+        # 尝试使用密码解密私钥
+        serialization.load_pem_private_key(
+            encrypted_private_pem,
+            password=password.encode(),
+            backend=default_backend()
+        )
+        return True
+    except Exception as e:
+        return False
     

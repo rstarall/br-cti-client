@@ -29,6 +29,16 @@ def createLocalUserWallet():
     else:
         return jsonify({'code': 400, 'message': result, 'data': None})
 
+#检查钱包密码
+@user_blue.route('/checkWalletPassword',methods=['POST'])
+def checkWalletPassword():
+    wallet_id = request.json.get('wallet_id')
+    password = request.json.get('password')
+    if not wallet_id or not password:
+        return jsonify({'code': 400, 'message': 'wallet_id or password is required', 'data': None})
+    result = wallet_service.checkWalletPassword(wallet_id, password)
+    return jsonify({'code': 200, 'message': 'success', 'data': result})
+
 #注册用户账户(链上注册)
 @user_blue.route('/registerOnchainUserAccount',methods=['POST'])
 def registerOnchainUserAccount():

@@ -8,7 +8,8 @@ from blockchain.fabric.block import checkBlockchainStatus,getBlockByHeight
 from service.data_service import DataService
 from db.tiny_db import get_tiny_db_instance
 from utils.file import save_json_to_file,load_json_from_file
-from env.global_var import getUploadChainDataPath
+from env.global_var import getUploadChainDataPath,getIpfsAddress
+from blockchain.ipfs.ipfs import upload_file_to_ipfs,download_file_from_ipfs
 import logging
 class BlockchainService:
     def __init__(self):
@@ -29,11 +30,23 @@ class BlockchainService:
             return: (blockInfo,is_ok)
         """
         return getBlockByHeight(height)
+    def getIPFSAddress(self):
+        """
+            获取IPFS地址
+            return: IPFS地址
+        """
+        return getIpfsAddress()
     def uploadStixToIPFS(self,stix_file_path):
         """
             上传stix文件到IPFS
         """
-        pass
+        return upload_file_to_ipfs(stix_file_path)
+    def downloadStixFromIPFS(self,ipfs_hash):
+        """
+            从IPFS下载stix文件
+            return: 文件路径
+        """
+        return download_file_from_ipfs(ipfs_hash)
     def uploadCTIToBCByFileSourceHash(self,source_file_hash:str)->tuple[str,bool]:
         """
             根据源文件hash值上传所有CTI数据到区块链
@@ -108,8 +121,4 @@ class BlockchainService:
             return: 进度信息
         """
         return self.cti_upchain_progress.get(source_file_hash,{})
-    def uploadCTIToBlockchain(self,cti_data:dict)->tuple[str,bool]:
-        """
-            上传CTI数据到区块链
-        """
-        pass
+

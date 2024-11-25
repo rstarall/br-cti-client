@@ -1,7 +1,7 @@
 import ipaddress
 import requests
 import threading
-
+import random
 def ip_to_location(ip:str):
     """
     判断传入的ip地址是否为公网地址，是则返回对应的实际地理位置，否则返回标注“内网”
@@ -63,8 +63,42 @@ def ips_to_location(ips:dict):
         ip_location_map[ip] = location
         location_num_map[location] = location_num_map.get(location,0)+ip_num
     return ip_location_map,location_num_map,errors
-
-def ips_to_location_concurrent(ips:dict, max_workers=10):
+def ips_to_location_mock_random(ips:dict):
+    """
+        将IP地址随机转换为地理位置
+        param:
+            ips: 字典(ip->ip出现数量)
+        return:
+            ip_location_map: 字典(ip->地理位置)
+            location_num_map: 字典(地理位置->位置出现数量)
+            errors: 错误信息列表
+    """
+    ip_location_map = {}
+    location_num_map = {}
+    errors = []
+    
+    # 模拟的地理位置列表
+    locations = [
+        "中国,北京,北京",
+        "中国,上海,上海", 
+        "中国,广东,深圳",
+        "美国,加利福尼亚,旧金山",
+        "日本,东京,东京",
+        "韩国,首尔,首尔",
+        "英国,伦敦,伦敦",
+        "德国,柏林,柏林",
+        "法国,巴黎,巴黎",
+        "俄罗斯,莫斯科,莫斯科"
+    ]
+    
+    for ip, ip_num in ips.items():
+        # 随机选择一个地理位置
+        location = random.choice(locations)
+        ip_location_map[ip] = location
+        location_num_map[location] = location_num_map.get(location, 0) + ip_num
+        
+    return ip_location_map, location_num_map, errors
+def ips_to_location_concurrent(ips:dict, max_workers=10000):
     """
         使用多线程并发将ip字典转换为地理位置字典
         param:

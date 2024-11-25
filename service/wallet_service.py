@@ -7,7 +7,7 @@ from blockchain.user.wallet import genUserWallet
 from blockchain.user.signature import ecc_sign_with_password
 from blockchain.user.wallet import checkLocalUserAccountExist
 from blockchain.fabric.tx import getTransactionNonce
-from blockchain.user.wallet import getUserPublicKey
+from blockchain.user.wallet import getUserPublicKey,checkWalletPassword
 from blockchain.fabric.user_onchain import registerUserOnchain
 import base64
 class WalletService:
@@ -67,4 +67,15 @@ class WalletService:
         if checkLocalUserAccountExist() != wallet_id:
             return "local user account not exist",False
         return registerUserOnchain(wallet_id, user_name)
+
+    def checkWalletPassword(self, wallet_id: str, password: str)->bool:
+        """
+            检查钱包密码
+            param:
+                - wallet_id: 钱包ID
+                - password: 钱包密码
+            return:
+                - bool: 密码是否正确
+        """
+        return checkWalletPassword(wallet_id, password)
 

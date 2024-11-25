@@ -7,7 +7,7 @@ from data.stix_process import start_process_dataset_to_stix
 from utils.file import get_file_sha256_hash
 from service.model.cti_model import cti_info_example,CTI_TYPE,CTI_TYPE_NAME,CTI_TRAFFIC_TYPE,TAGS_LIST,IOCS_LIST
 from service.wallet_service import WalletService
-from data.extensions_data import ips_to_location,ips_to_location_concurrent 
+from data.extensions_data import ips_to_location,ips_to_location_concurrent,ips_to_location_mock_random
 from env.global_var import getUploadChainDataPath
 from utils.file import save_json_to_file,load_json_from_file
 import time
@@ -465,7 +465,7 @@ class DataService:
         """
         #ip_location_map,location_num_map,errors = ips_to_location(ips_map)
         #使用多线程并发处理
-        ip_location_map,location_num_map,errors  = ips_to_location_concurrent(ips_map,max_workers=2)
+        ip_location_map,location_num_map,errors  = ips_to_location_mock_random(ips_map)
         return ip_location_map,location_num_map,errors
     
     def get_local_cti_record_by_id(self,source_file_hash,cti_id):
