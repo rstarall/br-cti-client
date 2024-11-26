@@ -1,10 +1,10 @@
 
 import time
 from tinydb import TinyDB, Query,where
-from tinydb.storages import MemoryStorage
-from concurrent.futures import ThreadPoolExecutor
-import logging
 from utils.file import get_project_root_path
+import logging
+import os
+
 logging.basicConfig(level=logging.INFO)
 db_instance = None
 def get_tiny_db_instance():
@@ -20,26 +20,33 @@ class TinyDBUtil:
     def __init__(self):
         data_client_path = get_project_root_path()+"/db/data_client"
         ml_client_path = get_project_root_path()+"/db/ml_client"
+        progress_path = get_project_root_path()+"/db/progress"
         #初始化数据库
         self.local_db_map = {
             "default":get_project_root_path()+"/db/db.json",
             "stix_records":data_client_path+"/stix_records/stix_records.json",
             "cti_records":data_client_path+"/cti_records/cti_records.json",
             "ml_records":ml_client_path+"/ml_records/ml_records.json",
-            "stix_process_progress":data_client_path+"/progress/stix_process_progress.json",
-            "cti_process_progress":data_client_path+"/progress/cti_process_progress.json",
-            "ml_process_progress":ml_client_path+"/progress/ml_process_progress.json",
+            "stix_process_progress":progress_path+"/stix_process_progress.json",
+            "cti_process_progress":progress_path+"/cti_process_progress.json",
+            "ml_process_progress":progress_path+"/ml_process_progress.json",
         }
+        self.db_name = "default"
         self.db_path = self.local_db_map["default"]
+        self.db_instance_map = {
+            "default":TinyDB(self.db_path)
+        }
         data = {"app": "br-cti-client", "version": '1.0'}
         self.upsert_by_key_value( "config", data,"version",'1.0')
         logging.info("init tinydb success.")
         logging.info(f"db path:{self.db_path}")
+
     def get_data_client_path(self):
         """
             获取data client数据库路径
         """
         return get_project_root_path()+"/db/data_client"
+    
     def get_ml_client_path(self):
         """
             获取ml client数据库路径
@@ -53,8 +60,47 @@ class TinyDBUtil:
             return:
                 self
         """
+        self.db_name = db_name
         self.db_path = self.local_db_map.get(db_name,self.local_db_map["default"])
+        #创建数据库实例
+        self.get_db_instance(db_name)
         return self
+    
+    def open_table(self,table_name):
+        """
+            打开指定的表
+            param:
+                table_name: 表名
+            return:
+                table: 表
+        """
+        return TinyDB(self.db_path).table(table_name)
+    
+    def get_db_instance(self,db_name=None):
+        """
+            获取数据库实例
+        """
+        if db_name is None:
+            if self.db_name is None:
+                raise Exception("db_name is None")
+            db_name = self.db_name
+
+        db = self.db_instance_map.get(db_name,None)
+        if db is None:
+            #判断数据库文件是否存在
+            if not os.path.exists(self.db_path):
+                #创建文件夹
+                db_dir_path = os.path.dirname(self.db_path)
+                if not os.path.exists(db_dir_path):
+                    os.makedirs(db_dir_path)
+                #否则创建文件
+                with open(self.db_path, 'w') as f:
+                    f.write('{}')
+            db = TinyDB(self.db_path)
+            self.db_instance_map[self.db_name] = db
+        return db
+
+
     def upsert_by_key_value(self, table_name, data, fieldName, value):
         """
             根据key==value寻找主行，然后更新或插入数据
@@ -66,12 +112,14 @@ class TinyDBUtil:
             return:
                 None
         """
-        #为数据增加或更新时间戳
-        data['timestamp']=int(round(time.time() * 1000))
-        db = TinyDB(self.db_path)
+       
+        db = self.get_db_instance()
         table = db.table(table_name)
         query = Query()
         doc_ids = [doc.doc_id for doc in table.search(query[fieldName] == value)]
+
+         #为数据增加或更新时间戳
+        data['timestamp']=int(round(time.time() * 1000))
         # 如果找到了匹配的文档，则更新
         if doc_ids:
             table.update(data, doc_ids=doc_ids)
@@ -92,7 +140,7 @@ class TinyDBUtil:
                 update_key: 更新字段名
                 update_value: 更新字段值
         """
-        db = TinyDB(self.db_path)
+        db = self.get_db_instance()
         table = db.table(table_name)
         query = Query()
         docs= [doc for doc in table.search(query[fieldName] == value)]
@@ -106,27 +154,28 @@ class TinyDBUtil:
             # 如果没有找到匹配的文档，则插入新数据
             logging.info(f"no found document with {fieldName}={value}.")
         db.close()
+
     def write(self, table_name, data = None):
-        db = TinyDB(self.db_path)
+        db = self.get_db_instance()
         table = db.table(table_name)
         if data != None:
             table.insert(data)
         db.close()
+
     def clear_table(self, table_name):
-        db = TinyDB(self.db_path)
+        db = self.get_db_instance()
         table = db.table(table_name)
         # 清空表中的数据
         table.truncate()
         db.close()
         
     def timely_write(self, table_name, data):
-        
         #为数据增加时间戳(精确到ms)
         data['timestamp']=int(round(time.time() * 1000))
         return self.write(table_name, data)
+    
     def read(self, table_name, query=None):
-
-        db = TinyDB(self.db_path)
+        db = self.get_db_instance()
         table = db.table(table_name)
         if query:
             result = table.search(query)
@@ -137,7 +186,7 @@ class TinyDBUtil:
     
     def read_sort_by_timestamp(self, table_name, limit = 0,order_by_time = False,  field_name=None, field_value = None):
       
-        db = TinyDB(self.db_path)
+        db = self.get_db_instance()
         table = db.table(table_name)
         
         if field_name:
@@ -159,7 +208,7 @@ class TinyDBUtil:
         return results
     
     def read_by_key_value(self, table_name,field_name=None, field_value = None):
-        db = TinyDB(self.db_path)
+        db = self.get_db_instance()
         table = db.table(table_name)
         results=[]
         if field_name:

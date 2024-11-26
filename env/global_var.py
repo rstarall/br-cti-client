@@ -35,6 +35,14 @@ def getUploadFilePath():
     """获取data client上传文件夹绝对路径"""
     return _get_abs_path(uploadFilePath, True)
 
+def getMlUploadFilePath():
+    """获取ml client上传文件夹绝对路径"""
+    return _get_abs_path(mlUploadFilePath, True)
+
+def getMlOutputDirPath():
+    """获取ml client输出文件夹绝对路径"""
+    return _get_abs_path(mlOutputDirPath, True)
+
 def getUploadChainDataPath():
     """获取上传链上数据文件夹绝对路径"""
     return _get_abs_path(uploadChainDataPath)

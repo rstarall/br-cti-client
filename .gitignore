@@ -4,5 +4,14 @@ data/upload/*
 #忽略输出文件
 data/output/*
 
+#忽略数据库文件
 db/data_client/*
 db/ml_client/*
+db/progress/*
+
+#忽略模型文件
+ml/output/*
+ml/upload/*
+
+# 忽略子项目git
+bc-server/.git/*

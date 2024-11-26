@@ -423,18 +423,20 @@ class DataService:
         #处理create_time
         new_cti_info_record["create_time"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         #处理统计信息
-        new_cti_info_record["satistic_info"] = {}
+        satistic_info={}
         if "ioc_ips_map" in stix_info:
-            new_cti_info_record["satistic_info"]["ioc_ips_map"] = stix_info["ioc_ips_map"]
+            satistic_info["ioc_ips_map"] = stix_info["ioc_ips_map"]
             #处理ioc_locations_map(ip->地理位置)
             #ip转地理位置
             print(f"正在处理ioc_ips_map:{len(stix_info['ioc_ips_map'].keys())}")
             try:
                 ip_location_map,location_num_map,errors = self.process_ips_to_locations(stix_info["ioc_ips_map"])
-                new_cti_info_record["satistic_info"]["ips_locations_map"] = ip_location_map
-                new_cti_info_record["satistic_info"]["ioc_locations_map"] = location_num_map
+                satistic_info["ips_locations_map"] = ip_location_map
+                satistic_info["ioc_locations_map"] = location_num_map
             except Exception as e:
                 logging.error(f"process_ips_to_locations error:{e}")
+        #保存统计信息
+        self.save_cti_statistic_info(source_file_hash,new_cti_info_record["cti_id"],satistic_info)
         #保存到数据库文件夹中
         cti_record_detail_path = ""
         data_client_path = self.tiny_db.get_data_client_path()
@@ -451,7 +453,22 @@ class DataService:
         self.tiny_db.use_database("cti_records").upsert_by_key_value("cti_records",cti_record,"cti_id",new_cti_info_record["cti_id"])
         
         return new_cti_info_record
-    
+    def save_cti_statistic_info(self,source_file_hash,cti_id:str,statistic_info:dict):
+        """
+            保存情报统计信息
+            param:
+                - source_file_hash: 源文件的hash值
+                - cti_id: 情报ID
+                - statistic_info: 统计信息
+        """
+        #保存到数据库文件夹中
+        cti_record_detail_path = ""
+        data_client_path = self.tiny_db.get_data_client_path()
+        if cti_id!=None:
+            cti_record_detail_path = data_client_path+"/cti_records/"+source_file_hash+"/"+cti_id+"_statistic_info.json"
+            save_json_to_file(cti_record_detail_path,statistic_info)
+
+        pass
     def process_ips_to_locations(self,ips_map):
         """
             处理ip->地理位置

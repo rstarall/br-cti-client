@@ -13,24 +13,45 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, PolynomialFeatures
 from sklearn.decomposition import PCA
 import numpy as np
-
+from db.tiny_db import TinyDBUtil
 # 初始化 TinyDB 数据库
-db = TinyDB('./Test_TinyDB/training_progress.json')
-progress_table = db.table('progress')
+progress_table = TinyDBUtil().use_database('ml_process_progress').open_table('progress')
 
-# 自动生成请求 ID
-def generate_request_id():
-    return 'req_1'  # 返回固定的请求ID，如果需要动态生成可以使用 UUID
-    # return str(uuid.uuid4())
+def log_progress(request_id,source_file_hash, stage, message, training_time=None):
+    """
+        记录训练进度和时间，保存请求ID和训练时间。
+        参数：
+        request_id -- 请求 ID，用于标识训练任务
+        source_file_hash -- 数据源文件的hash值
+        stage -- 当前阶段（例如：训练开始、训练完成、评估等）
+        message -- 阶段描述消息
+        training_time -- 训练时间，单位为秒（可选）
+    """
+    # 将进度记录到 TinyDB 中
+    progress_table.upsert({
+        'request_id': request_id,
+        'source_file_hash': source_file_hash,
+        'stage': stage,
+        'message': message,
+        'training_time': training_time,
+        'time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    }, Query().request_id == request_id)
 
-def feature_engineering(df, target_column=None):
+    # 输出当前阶段的进度
+    print(f"{stage}: {message} (Elapsed Time: {training_time:.2f}s)" if training_time else f"{stage}: {message}")
+
+
+
+
+
+def feature_engineering(df,model_info={}, target_column=None):
     """
         对清洗后的数据集进行特征工程。
         参数：
         df -- 输入的DataFrame数据
+        model_info -- 模型信息(记录每个阶段的处理方式)
         target_column -- 目标列的列名，如果有目标列的话，应该排除该列进行处理
     """
-    request_id = generate_request_id()  # 自动生成请求ID
 
     # 1. 特征缩放：对数值特征进行标准化
     numerical_columns = df.select_dtypes(include=[np.number]).columns
@@ -56,27 +77,34 @@ def feature_engineering(df, target_column=None):
     # 4. 降维：使用PCA降低特征维度
     pca = PCA(n_components=10)  # 保留10个主成分
     pca_features = pca.fit_transform(df)
+    #保存主成分信息
+    model_info['pca'] = pca.explained_variance_ratio_.tolist()
+    return df, model_info
 
-    return df
-
-def train_and_save_model(df, target_column):
+def train_and_save_model(request_id,source_file_hash,output_dir_path, df, target_column):
     """
         训练并保存模型，同时记录训练过程中的每个阶段的进度。
         参数：
-        df -- 输入的DataFrame数据
-        target_column -- 目标列的列名
-    """
-    request_id = generate_request_id()  # 自动生成请求ID
 
+        df -- 输入的DataFrame数据
+        source_file_hash -- 数据源文件的hash值
+        output_dir_path -- 文件保存路径
+        target_column -- 目标列的列名(label)
+
+        返回：
+        model_info -- 模型信息
+        model_save_path -- 模型保存路径
+    """
+    # 记录模型信息
+    model_info = {}
     # 记录训练开始时间
     start_time = time.time()
-
     # 1. 特征工程
     print('开始特征工程...')
-    log_progress(request_id, "Feature Engineering", "Feature engineering started", training_time=0)
-    df = feature_engineering(df, target_column)  # 特征工程步骤
+    log_progress(request_id, source_file_hash, "Feature Engineering", "Feature engineering started", training_time=0)
+    df, model_info = feature_engineering(df, model_info, target_column)  # 特征工程步骤
     print('特征工程完成！')
-    log_progress(request_id, "Feature Engineering", "Feature engineering completed", training_time=time.time() - start_time)
+    log_progress(request_id, source_file_hash, "Feature Engineering", "Feature engineering completed", training_time=time.time() - start_time)
 
     # 编码类别型特征
     print("开始类别型特征编码...")
@@ -84,60 +112,42 @@ def train_and_save_model(df, target_column):
         le = LabelEncoder()
         df[col] = le.fit_transform(df[col])
 
-    log_progress(request_id, "Label Encoding", "Label encoding completed", training_time=time.time() - start_time)  # 记录进度
+    log_progress(request_id, source_file_hash, "Label Encoding", "Label encoding completed", training_time=time.time() - start_time)  # 记录进度
 
     # 2. 划分特征和标签
     X = df.drop(columns=[target_column])
     y = df[target_column]
-
+    model_info["target_column"] = target_column
     # 3. 划分训练集和测试集
     print("开始划分训练集和测试集...")
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    log_progress(request_id, "Train/Test Split", "Train/test split completed", training_time=time.time() - start_time)  # 记录进度
+    log_progress(request_id, source_file_hash,"Train/Test Split", "Train/test split completed", training_time=time.time() - start_time)  # 记录进度
+    model_info["test_size"] = 0.2
 
     # 4. 根据特征选择合适的模型
     model = select_model_based_on_features(df, target_column)
     model_name = model.__class__.__name__
-
+    model_info["model_name"] = model_name
     # 记录开始训练的时间
-    log_progress(request_id, "Model Training", "Training started", training_time=time.time() - start_time)
+    log_progress(request_id,source_file_hash, "Model Training", "Training started", training_time=time.time() - start_time)
 
     # 5. 训练模型
     model_start_time = time.time()
     model.fit(X_train, y_train)
     model_training_time = time.time() - model_start_time
-    log_progress(request_id, "Model Training", f"Training completed in {model_training_time:.2f} seconds", training_time=model_training_time)
+    log_progress(request_id,source_file_hash, "Model Training", f"Training completed in {model_training_time:.2f} seconds", training_time=model_training_time)
 
     # 6. 保存模型
-    save_dir = './save'
+    save_dir = output_dir_path+'/save'
     os.makedirs(save_dir, exist_ok=True)
-    model_path = os.path.join(save_dir, f"{model_name}-{request_id}.joblib")
-    joblib.dump(model, model_path)
+    model_save_path = os.path.join(save_dir, f"{request_id}-{model_name}.joblib")
+    joblib.dump(model, model_save_path)
+    model_info["model_save_path"] = model_save_path
+    log_progress(request_id,source_file_hash, "Model Saving", f"Model saved to {model_save_path}", training_time=time.time() - start_time)
 
-    log_progress(request_id, "Model Saving", f"Model saved to {model_path}", training_time=time.time() - start_time)
+    return model_info, model_save_path
 
-    return request_id
 
-def log_progress(request_id, stage, message, training_time=None):
-    """
-        记录训练进度和时间，保存请求ID和训练时间。
-        参数：
-        request_id -- 请求 ID，用于标识训练任务
-        stage -- 当前阶段（例如：训练开始、训练完成、评估等）
-        message -- 阶段描述消息
-        training_time -- 训练时间，单位为秒（可选）
-    """
-    # 将进度记录到 TinyDB 中
-    progress_table.upsert({
-        'request_id': request_id,
-        'stage': stage,
-        'message': message,
-        'training_time': training_time,
-        'time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    }, Query().request_id == request_id)
-
-    # 输出当前阶段的进度
-    print(f"{stage}: {message} (Elapsed Time: {training_time:.2f}s)" if training_time else f"{stage}: {message}")
 
 def select_model_based_on_features(df, target_column):
     """
@@ -185,8 +195,3 @@ def select_model_based_on_features(df, target_column):
     print(f"选择的模型: {model.__class__.__name__}")
     return model
 
-# 示例调用
-# 假设数据集已加载为 df，目标列名为 'target'
-if __name__ == '__main__':
-    df = pd.read_csv('./dataset/cleaned_dataset.csv')
-    train_and_save_model(df, 'label')
