@@ -4,6 +4,7 @@ from utils.file import check_file_by_hash
 from env.global_var import getMlUploadFilePath
 from ml.model_status import get_model_progress_status_by_id,get_model_record_by_id
 from ml.model_status import get_model_progress_status_by_hash,get_model_record_by_hash
+from data.traffic_data import get_traffic_data_features_name
 import threading
 import uuid
 class MLService:
@@ -22,6 +23,20 @@ class MLService:
         """
         return check_file_by_hash(getMlUploadFilePath(),hash)
     
+    def get_traffic_feature_list(self, file_hash):
+        """
+            根据文件的hash值,获取数据集文件的特征名称
+            param:
+                file_hash: 文件的hash值
+            return:
+                features_name: 特征名称,
+                error: 错误信息,如果成功则为None
+        """
+        try:
+            file_path = self.get_upload_file_path_by_hash(file_hash)
+            return get_traffic_data_features_name(file_path), None
+        except Exception as e:
+            return None, str(e)
 
     def createModelTask(self,source_file_hash:str,label_column:str)->bool:
         """

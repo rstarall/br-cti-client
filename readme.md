@@ -32,6 +32,14 @@ git commit -m "work1 merge main"
 #推送更新到自己的分支
 git push origin work1
 ```
+7.子项目git
+```shell
+git submodule add https://github.com/righstar2020/br-cti-bc-server bc-server
+```
+更新子项目
+```shell
+ git submodule update –init –recursive
+```
 ### 库依赖说明
 使用fabric-go-sdk 2.2.0
 需要使用 go 1.14编译 fabric-server

@@ -7,34 +7,9 @@ from sklearn.metrics import accuracy_score, mean_squared_error, precision_score,
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from db.tiny_db import TinyDBUtil
-# 初始化 TinyDB 数据库
-# 初始化 TinyDB 数据库
-progress_table = TinyDBUtil().use_database('ml_process_progress').open_table('progress')
+from ml.train_model import feature_engineering
+from ml.model_status import log_progress
 
-
-# 记录训练进度和评估信息
-def log_progress(request_id,source_file_hash, stage, message, evaluate_results={}):
-    """
-        记录训练进度、评估信息和时间。
-        如果相同请求ID已经存在记录，则覆盖记录。
-        param:
-            - request_id: 请求ID
-            - source_file_hash: 数据源文件的hash值
-            - stage: 阶段
-            - message: 消息
-            - evaluate_results: 评估结果
-    """
-    record = {
-        'request_id': request_id,
-        'source_file_hash': source_file_hash,
-        'stage': stage,
-        'message': message,
-        "results":evaluate_results,
-        'time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    }
-    progress_table.upsert(record, Query().request_id == request_id)
-
-    print(f"{stage}: {message}")
 
 
 def evaluate_model(request_id, source_file_hash, model_path, df, target_column):
@@ -58,7 +33,7 @@ def evaluate_model(request_id, source_file_hash, model_path, df, target_column):
     model_name = model.__class__.__name__
 
     # 特征工程
-    df = train_model.feature_engineering(df, target_column)
+    df = feature_engineering(df, target_column)
 
     # 处理目标列编码（如果目标列是分类类型）
     le = LabelEncoder()

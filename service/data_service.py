@@ -73,6 +73,8 @@ class DataService:
                         continue
                 else:
                     raise ValueError("无法以任何支持的编码读取CSV文件")
+            elif file_ext == '.txt':
+                df = pd.read_json(file_path,lines=True)
             else:
                 raise ValueError(f"不支持的文件格式: {file_ext}")
             
@@ -82,7 +84,7 @@ class DataService:
         
         #初始化处理配置
         #获取压缩率
-        compress_rate = process_config.get("stix_compress",500)
+        compress_rate = process_config.get("stix_compress",1)
         #获取文件的行数
         total_step = df.shape[0]//compress_rate
         total_task_list = [i for i in range(total_step)]

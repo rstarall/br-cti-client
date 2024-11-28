@@ -1,4 +1,3 @@
-
 import time
 from tinydb import TinyDB, Query,where
 from utils.file import get_project_root_path
@@ -26,9 +25,10 @@ class TinyDBUtil:
             "default":get_project_root_path()+"/db/db.json",
             "stix_records":data_client_path+"/stix_records/stix_records.json",
             "cti_records":data_client_path+"/cti_records/cti_records.json",
-            "ml_records":ml_client_path+"/ml_records/ml_records.json",
+            "ml_records":ml_client_path+"/ml_records.json",
             "stix_process_progress":progress_path+"/stix_process_progress.json",
             "cti_process_progress":progress_path+"/cti_process_progress.json",
+            "cti_upchain_progress":progress_path+"/cti_upchain_progress.json",
             "ml_process_progress":progress_path+"/ml_process_progress.json",
         }
         self.db_name = "default"
@@ -74,7 +74,8 @@ class TinyDBUtil:
             return:
                 table: 表
         """
-        return TinyDB(self.db_path).table(table_name)
+        db = self.get_db_instance()
+        return db.table(table_name)
     
     def get_db_instance(self,db_name=None):
         """
@@ -87,13 +88,10 @@ class TinyDBUtil:
 
         db = self.db_instance_map.get(db_name,None)
         if db is None:
-            #判断数据库文件是否存在
             if not os.path.exists(self.db_path):
-                #创建文件夹
                 db_dir_path = os.path.dirname(self.db_path)
                 if not os.path.exists(db_dir_path):
                     os.makedirs(db_dir_path)
-                #否则创建文件
                 with open(self.db_path, 'w') as f:
                     f.write('{}')
             db = TinyDB(self.db_path)
@@ -112,14 +110,14 @@ class TinyDBUtil:
             return:
                 None
         """
-       
         db = self.get_db_instance()
         table = db.table(table_name)
         query = Query()
         doc_ids = [doc.doc_id for doc in table.search(query[fieldName] == value)]
 
-         #为数据增加或更新时间戳
-        data['timestamp']=int(round(time.time() * 1000))
+        #为数据增加或更新时间戳
+        data['timestamp'] = int(round(time.time() * 1000))
+        
         # 如果找到了匹配的文档，则更新
         if doc_ids:
             table.update(data, doc_ids=doc_ids)
@@ -128,7 +126,8 @@ class TinyDBUtil:
             # 如果没有找到匹配的文档，则插入新数据
             table.insert(data)
             logging.info(f"Inserted new document with {fieldName}={value} as no existing match was found.")
-        db.close()
+        
+        # 移除这里的 db.close()，让数据库连接保持开启状态
 
     def update_single_value(self, table_name, fieldName, value, update_key, update_value):
         """
@@ -153,21 +152,18 @@ class TinyDBUtil:
         else:
             # 如果没有找到匹配的文档，则插入新数据
             logging.info(f"no found document with {fieldName}={value}.")
-        db.close()
 
     def write(self, table_name, data = None):
         db = self.get_db_instance()
         table = db.table(table_name)
         if data != None:
             table.insert(data)
-        db.close()
 
     def clear_table(self, table_name):
         db = self.get_db_instance()
         table = db.table(table_name)
         # 清空表中的数据
         table.truncate()
-        db.close()
         
     def timely_write(self, table_name, data):
         #为数据增加时间戳(精确到ms)
@@ -181,27 +177,23 @@ class TinyDBUtil:
             result = table.search(query)
         else:
             result = table.all()
-        db.close()
         return result
     
-    def read_sort_by_timestamp(self, table_name, limit = 0,order_by_time = False,  field_name=None, field_value = None):
-      
+    def read_sort_by_timestamp(self, table_name, limit = 0, order_by_time = False, field_name=None, field_value = None):
         db = self.get_db_instance()
         table = db.table(table_name)
         
         if field_name:
-            # 构造查询，例如查询字段名为'field_name'且值为'value'
-            query = where(field_name) == field_value  # 注意：这里'value'需要替换成实际值或从参数中获取
+            query = where(field_name) == field_value
             results = table.search(query)
         else:
             results = table.all()
         
-        # 如果需要按时间排序，这里假设每个文档都有一个名为'timestamp'的时间戳字段
+        # 如果需要按时间排序
         if order_by_time:
-            results.sort(key=lambda x: x['timestamp'])  # 假设时间戳字段名为'timestamp'
-            # 如果需要降序，可以改为: results.sort(key=lambda x: x['timestamp'], reverse=True)           
-        db.close()
-        #返回指定数量的结果
+            results.sort(key=lambda x: x['timestamp'])
+        
+        # 返回指定数量的结果
         if limit > 0:
             results = results[:limit]
         

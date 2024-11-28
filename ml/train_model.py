@@ -14,33 +14,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder, PolynomialFeatu
 from sklearn.decomposition import PCA
 import numpy as np
 from db.tiny_db import TinyDBUtil
-# 初始化 TinyDB 数据库
-progress_table = TinyDBUtil().use_database('ml_process_progress').open_table('progress')
-
-def log_progress(request_id,source_file_hash, stage, message, training_time=None):
-    """
-        记录训练进度和时间，保存请求ID和训练时间。
-        参数：
-        request_id -- 请求 ID，用于标识训练任务
-        source_file_hash -- 数据源文件的hash值
-        stage -- 当前阶段（例如：训练开始、训练完成、评估等）
-        message -- 阶段描述消息
-        training_time -- 训练时间，单位为秒（可选）
-    """
-    # 将进度记录到 TinyDB 中
-    progress_table.upsert({
-        'request_id': request_id,
-        'source_file_hash': source_file_hash,
-        'stage': stage,
-        'message': message,
-        'training_time': training_time,
-        'time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    }, Query().request_id == request_id)
-
-    # 输出当前阶段的进度
-    print(f"{stage}: {message} (Elapsed Time: {training_time:.2f}s)" if training_time else f"{stage}: {message}")
-
-
+from ml.model_status import log_progress
 
 
 
@@ -79,6 +53,7 @@ def feature_engineering(df,model_info={}, target_column=None):
     pca_features = pca.fit_transform(df)
     #保存主成分信息
     model_info['pca'] = pca.explained_variance_ratio_.tolist()
+    print(model_info)
     return df, model_info
 
 def train_and_save_model(request_id,source_file_hash,output_dir_path, df, target_column):

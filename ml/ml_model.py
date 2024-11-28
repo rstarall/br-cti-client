@@ -6,32 +6,15 @@ from env.global_var import getMlOutputDirPath
 from db.tiny_db import TinyDBUtil
 from utils.file import get_file_sha256_hash
 from tinydb import Query
+from ml.model_status import save_model_record
 import time
 import os
-ml_records_table = TinyDBUtil().use_database('ml_records').open_table('ml_records')
 
 # 自动生成请求 ID
 def generate_request_id(source_file_hash):
     return str(uuid.uuid4())
 
-def save_model_record(request_id,status,source_file_hash,model_info:dict):
-    """
-        保存模型记录
-        param:
-            - request_id: 请求ID
-            - source_file_hash: 数据源文件的hash值
-            - status: 状态(训练完成，训练失败，评估完成，评估失败)
-            - model_info: 模型信息
-    """
-    ml_records_table.upsert({
-        'request_id': request_id,
-        'source_file_hash': source_file_hash,
-        'status': status,
-        'model_info': model_info,
-        'created_time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    }, Query().request_id == request_id)
 
-    print(f"request_id:{request_id}的模型记录已保存至 {ml_records_table}")
 
 def start_model_process_task(request_id,source_file_hash,source_file_path,target_label_column):
     """

@@ -33,7 +33,7 @@ CTI_TRAFFIC_TYPE_NAME = {
 }
 # 示例数据
 TAGS_LIST = ["卫星网络", "SDN网络", "5G网络", "恶意软件", "DDoS", "钓鱼", "僵尸网络", "APT", "IOT"]
-IOCS_LIST = ["IP", "端口", "流特征", "HASH", "URL", "CVE"]
+IOCS_LIST = ["IP", "端口", "流特征", "HASH", "URL", "payload"]
 SATISTIC_INFO = {"location": {"中国":1,"美国":2,"俄罗斯":3,"英国":4,"法国":5,"德国":6,"日本":7,"韩国":8,"印度":9,"巴西":10}}
 
 cti_info_example = {

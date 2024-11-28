@@ -1,7 +1,7 @@
 import requests
 from blockchain.fabric import env_vars
 from blockchain.fabric.tx import createSignTransaction
-
+import logging
 def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str,bool]:
     """
     执行智能合约上传CTI数据到区块链
@@ -27,7 +27,7 @@ def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str
         # 发送POST请求到fabric-server
         response = requests.post(env_vars.fabricServerHost + env_vars.fabricServerApi['cti']['registerCtiInfo'], 
                                json=data)
-        
+        logging.info(response.json())
         if response.status_code != 200:
             return response.json()['error'], False
             
