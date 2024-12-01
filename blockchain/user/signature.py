@@ -19,7 +19,7 @@ def ecc_sign(private_key:ec.EllipticCurvePrivateKey, tx_data: str)->tuple[str,by
         :param message:消息
         :return 签名结果,消息字节(utf-8编码)
     """
-    message_bytes = tx_data.encode() #utf-8编码
+    message_bytes = tx_data.encode('utf-8') #utf-8编码
     # 计算消息的哈希值(SHA256)
     message_hash = hashes.Hash(hashes.SHA256(), backend=default_backend())
     message_hash.update(message_bytes) 
@@ -32,7 +32,7 @@ def ecc_sign(private_key:ec.EllipticCurvePrivateKey, tx_data: str)->tuple[str,by
 
 
 
-def ecc_sign_with_password(wallet_id: str, password: str, tx_data: str)->str:
+def ecc_sign_with_password(wallet_id: str, password: str, tx_data: str)->tuple[str,bytes]:
     with open(os.path.join(userWalletPath, wallet_id, 'private_key.pem'), 'rb') as f:
         pem_data = f.read()
     #加载并解密私钥

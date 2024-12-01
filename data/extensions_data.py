@@ -13,18 +13,19 @@ def ip_to_location(ip:str):
         ip_object = ipaddress.ip_address(ip)
     except ValueError:
         print(f"error：{ip} 不是一个有效的IP地址！")
-        return f"error：{ip} 不是一个有效的IP地址！"
+        return {"status": "error", "message": f"{ip} 不是一个有效的IP地址！"}
 
     # 私有地址
     if ip_object.is_private:
         print(f"{ip} 是私有地址")
-        return f"{ip} 是私有地址"
+        return {"status": "private", "message": f"{ip} 是私有地址"}
 
     # 公网地址返回实际地理位置
     try:
-        url = f"http://ip-api.com/json/{ip}"  # 构造调用ip-api服务的url，并设置返回数据为json格式（免费的查询服务只能用http）
+        access_token = "your token"  # ipinfo.io 官网注册获得的免费token
+        url = f"https://ipinfo.io/{ip}/json?token={access_token}"  # 构造调用ip-api服务的url，并设置返回数据为json格式
         response = requests.get(url, timeout=5)  # 发送请求，设置超时时间为5秒
-        response_data = response.json()
+        response_data = response.json()  # 将返回数据转换成字典
         # 调用服务成功，返回地理信息
         if response_data["status"] == "success":
             print(f"{ip} 对应地理位置：{response_data['country']}, {response_data['regionName']}, {response_data['city']}")
@@ -34,6 +35,10 @@ def ip_to_location(ip:str):
         elif response_data["status"] == "fail":
             print(f"{ip} 调用查询服务失败：{response_data['message']}")
             return ""
+        # 调用服务失败，打印报错信息
+        else:
+            print(f"{ip} 调用查询服务失败，状态代码：{response.status_code}")
+            return {"status": "fail", "message": f"{ip} 调用查询服务失败：{response_data.get('Error', '未知错误')}"}
 
     except Exception as e:
         print(f"{ip} 查询地理位置时出错！error：{e}")

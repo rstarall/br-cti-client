@@ -1,6 +1,6 @@
 import requests
 from blockchain.fabric import env_vars
-from blockchain.fabric.tx import createSignTransaction
+from blockchain.fabric.tx import createSignTransaction,createTransaction
 import logging
 def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str,bool]:
     """
@@ -15,18 +15,13 @@ def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str
     """
     try:
         # 创建签名交易
-        tx_msg = createSignTransaction(wallet_id, password, cti_data)
-        
-        # 构造请求参数
-        data = {
-            'chaincodeName': env_vars.chaincodeName,
-            'function': env_vars.contract_invoke_functions['RegisterCTIInfo'],
-            'args': tx_msg
-        }
+        #tx_msg = createSignTransaction(wallet_id, password, cti_data)
+        # 暂时不需要签名
+        tx_msg = createTransaction(wallet_id, password, cti_data)
         
         # 发送POST请求到fabric-server
         response = requests.post(env_vars.fabricServerHost + env_vars.fabricServerApi['cti']['registerCtiInfo'], 
-                               json=data)
+                               json=tx_msg)
         logging.info(response.json())
         if response.status_code != 200:
             return response.json()['error'], False

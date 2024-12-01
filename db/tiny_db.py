@@ -25,11 +25,14 @@ class TinyDBUtil:
             "default":get_project_root_path()+"/db/db.json",
             "stix_records":data_client_path+"/stix_records/stix_records.json",
             "cti_records":data_client_path+"/cti_records/cti_records.json",
+            "data_task_records":data_client_path+"/task_records/task_records.json",
             "ml_records":ml_client_path+"/ml_records.json",
+            "ml_task_records":ml_client_path+"/task_records/task_records.json",
             "stix_process_progress":progress_path+"/stix_process_progress.json",
             "cti_process_progress":progress_path+"/cti_process_progress.json",
             "cti_upchain_progress":progress_path+"/cti_upchain_progress.json",
             "ml_process_progress":progress_path+"/ml_process_progress.json",
+
         }
         self.db_name = "default"
         self.db_path = self.local_db_map["default"]

@@ -5,18 +5,16 @@
 
 # 情报类型常量
 CTI_TYPE = {
-    "TRAFFIC": 1,    # 恶意流量
-    "MALWARE": 2,    # 恶意软件
-    "PHISHING": 3,   # 钓鱼地址
-    "BOTNET": 4,     # 僵尸网络
-    "APP_LAYER": 5,  # 应用层攻击
-    "OPEN_SOURCE": 6 # 开源情报
+    "TRAFFIC": 1,    # 恶意流量 
+    "HONEYPOT": 2,   # 蜜罐情报
+    "BOTNET": 3,     # 僵尸网络
+    "APP_LAYER": 4,  # 应用层攻击
+    "OPEN_SOURCE": 5 # 开源情报
 }
 CTI_TYPE_NAME = {
     CTI_TYPE["TRAFFIC"]: "恶意流量",
-    CTI_TYPE["MALWARE"]: "恶意软件",
-    CTI_TYPE["PHISHING"]: "钓鱼地址",
-    CTI_TYPE["BOTNET"]: "僵尸网络",
+    CTI_TYPE["HONEYPOT"]: "蜜罐情报",
+    CTI_TYPE["BOTNET"]: "僵尸网络", 
     CTI_TYPE["APP_LAYER"]: "应用层攻击",
     CTI_TYPE["OPEN_SOURCE"]: "开源情报"
 }
@@ -37,7 +35,7 @@ IOCS_LIST = ["IP", "端口", "流特征", "HASH", "URL", "payload"]
 SATISTIC_INFO = {"location": {"中国":1,"美国":2,"俄罗斯":3,"英国":4,"法国":5,"德国":6,"日本":7,"韩国":8,"印度":9,"巴西":10}}
 
 cti_info_example = {
-    "cti_id":"", #情报ID(情报结构体整体Sha256生成，不可与链上已有的情报重复)
+    "cti_hash":"", #情报hash值(情报结构体整体Sha256生成，不可与链上已有的情报重复)
     "cti_name":"", #情报名称
     "cti_type":0, #情报类型
     "cti_traffic_type":0, #情报流量类型(5G、卫星网络、SDN)

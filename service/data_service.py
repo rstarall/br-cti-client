@@ -21,7 +21,72 @@ class DataService:
         self.tiny_db = get_tiny_db_instance()
         self.stix_process_progress = {}
         self.cti_process_progress = {}
-        
+    def create_task_record(self,task_id,source_file_hash):
+        """
+            创建任务记录
+            param:
+                task_id: 任务ID(process_id)
+                source_file_hash: 源文件hash值
+            return:
+                task_record: 任务记录
+        """
+        new_step_status = {
+            "step":0, #文件上传step
+            "status":"finished",
+            "total_num":1
+        }
+        new_task_record = {
+            "task_id":task_id,
+            "source_file_hash":source_file_hash,
+            "step_status":[new_step_status]
+        }
+        self.tiny_db.use_database("data_task_records").upsert_by_key_value("data_task_records",new_task_record,"source_file_hash",source_file_hash)
+        return new_task_record
+    
+    def update_task_record(self,task_id,task_step=0,task_status="processing",total_num=0):
+        """
+            更新任务记录
+            step: 
+                0 - 文件上传step
+                1 - stix转换step
+                2 - cti处理step
+                3 - 情报上链step
+            param:
+                - task_id: 任务ID
+                - task_step: 任务步数
+                - task_status: 任务状态
+                - total_num: 总处理数
+        """
+        new_step_status = {
+            "step":task_step,
+            "status":task_status,
+            "total_num":total_num
+        }
+        task_records = self.tiny_db.use_database("data_task_records").read_by_key_value("data_task_records","task_id",task_id)
+        if task_records is not None:
+            task_record = task_records[0]
+            if task_record.get("step_status") is None:
+                task_record["step_status"]=[new_step_status]
+            else:
+                if len(task_record["step_status"])>task_step:
+                    task_record["step_status"][task_step] = new_step_status
+                else:
+                    task_record["step_status"].append(new_step_status)
+            self.tiny_db.use_database("data_task_records").upsert_by_key_value("data_task_records",task_record,"task_id",task_id)
+    
+    def get_latest_task_record(self,source_file_hash):
+        """
+            获取最新任务记录
+            param:
+                source_file_hash: 源文件hash值
+            return:
+                latest_task_record: 最新任务记录
+        """
+        latest_task_record = self.tiny_db.use_database("data_task_records").read_sort_by_timestamp("data_task_records",field_name="source_file_hash",field_value=source_file_hash)
+        if len(latest_task_record)>0:
+            return latest_task_record[0]
+        else:
+            return None
     def get_upload_file_path_by_hash(self, hash):
         """
             根据文件的hash值,获取文件路径
@@ -45,12 +110,12 @@ class DataService:
             return get_traffic_data_features_name(file_path),None
         except Exception as e:
             return None,str(e)
-    def process_data_to_stix(self,file_hash,process_config):
+    def process_data_to_stix(self,file_hash,stix_process_config):
         """
             处理数据集文件,并生成stix文件
             param:
                 file_hash: 文件的hash值
-                process_config: 处理配置
+                stix_process_config: 处理配置
             return:
                 current_step: 当前步数
                 total_step: 总步数(行数)
@@ -84,15 +149,15 @@ class DataService:
         
         #初始化处理配置
         #获取压缩率
-        compress_rate = process_config.get("stix_compress",1)
+        compress_rate = max(1, stix_process_config.get("stix_compress",1))  #确保压缩率最小为1
         #获取文件的行数
-        total_step = df.shape[0]//compress_rate
+        total_step = max(1, df.shape[0]//compress_rate)  #确保总步数最小为1
         total_task_list = [i for i in range(total_step)]
         #处理进度保存到全局变量
         self.update_stix_process_progress(file_hash,0,total_step,total_task_list=total_task_list)
 
         #启动线程处理文件
-        thread = threading.Thread(target=start_process_dataset_to_stix,args=(self,file_hash,process_config))
+        thread = threading.Thread(target=start_process_dataset_to_stix,args=(self,file_hash,stix_process_config))
         thread.start()
         return 0,total_step
     def get_stix_output_dir_path(self,file_hash):
@@ -126,7 +191,7 @@ class DataService:
                 - None
         """
         stix_process_progress = self.stix_process_progress.get(file_hash,{})
-        if current_step is not None and total_step is not None:
+        if current_step is not None and total_step>0:
             stix_process_progress["progress"] = min(int((current_step/total_step)*100),100) 
             stix_process_progress["current_step"] = current_step
             stix_process_progress["total_step"] = total_step
@@ -385,43 +450,21 @@ class DataService:
                 - stix_info: stix信息记录
                 - cti_config: 情报配置
         """
-        new_cti_info_record = cti_info_example.copy()
-        #获取情报ID(与stix_file_hash一致)
-        new_cti_info_record["cti_id"] = get_file_sha256_hash(stix_file_path)
-        #获取用户钱包ID
-        new_cti_info_record["creator_user_id"] = wallet_service.checkUserAccountExist()
-        #处理cti_type
-        new_cti_info_record["cti_type"] = stix_info["stix_type"]
-        if cti_config.get("cti_type") is not None:
-            new_cti_info_record["cti_type"] = cti_config["cti_type"]
-        #处理cti_traffic_type
-        new_cti_info_record["cti_traffic_type"] = ""
-        if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"]:
-            new_cti_info_record["cti_traffic_type"] = CTI_TRAFFIC_TYPE["5G"] #默认设置为5G攻击流量
-        #处理open_source
-        new_cti_info_record["open_source"] = 1 #默认设置为开源情报
-        if cti_config.get("open_source") is not None:
-            new_cti_info_record["open_source"] = cti_config["open_source"]
-        #处理tags
-        new_cti_info_record["tags"] = stix_info["stix_tags"]
-        #处理iocs
-        new_cti_info_record["iocs"] = stix_info["stix_iocs"]
-        #处理stix_data
-        new_cti_info_record["stix_data"] = "" #默认不上传stix情报，上传到IPFS
-        #处理description
-        new_cti_info_record["description"] = "" #默认描述为空
-        if cti_config.get("description") is not None:
-            new_cti_info_record["description"] = cti_config["description"]
-        #处理data_size
-        new_cti_info_record["data_size"] = os.path.getsize(stix_file_path)
-        #处理data_hash
-        new_cti_info_record["data_hash"] = get_file_sha256_hash(stix_file_path)
-        #处理ipfs_hash
-        new_cti_info_record["ipfs_hash"] = "" #默认IPFS哈希为空
-        #处理value
-        new_cti_info_record["value"] = 0 #默认价值为0(开源)
-        if cti_config.get("value") is not None:
-            new_cti_info_record["value"] = cti_config["value"]
+        new_cti_info_record = {
+            "cti_hash": get_file_sha256_hash(stix_file_path),
+            "creator_user_id": wallet_service.checkUserAccountExist(),
+            "cti_type": cti_config.get("cti_type", stix_info["stix_type"]),
+            "cti_traffic_type": CTI_TRAFFIC_TYPE["5G"] if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"] else "",
+            "open_source": cti_config.get("open_source", 1),
+            "tags": stix_info["stix_tags"],
+            "iocs": stix_info["stix_iocs"],
+            "stix_data": stix_file_path, #暂时记录为stix文件路径
+            "description": cti_config.get("description", ""),
+            "data_size": os.path.getsize(stix_file_path),
+            "data_hash": get_file_sha256_hash(stix_file_path),
+            "ipfs_hash": "",
+            "value": cti_config.get("value", 0)
+        }
         #处理create_time
         new_cti_info_record["create_time"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         #处理统计信息
@@ -438,39 +481,38 @@ class DataService:
             except Exception as e:
                 logging.error(f"process_ips_to_locations error:{e}")
         #保存统计信息
-        self.save_cti_statistic_info(source_file_hash,new_cti_info_record["cti_id"],satistic_info)
+        self.save_cti_statistic_info(source_file_hash,new_cti_info_record["cti_hash"],satistic_info)
         #保存到数据库文件夹中
         cti_record_detail_path = ""
         data_client_path = self.tiny_db.get_data_client_path()
-        if new_cti_info_record["cti_id"]!="":
-            cti_record_detail_path = data_client_path+"/cti_records/"+source_file_hash+"/"+new_cti_info_record["cti_id"]+".json"
+        if new_cti_info_record["cti_hash"]!="":
+            cti_record_detail_path = data_client_path+"/cti_records/"+source_file_hash+"/"+new_cti_info_record["cti_hash"]+".json"
             save_json_to_file(cti_record_detail_path,new_cti_info_record)
         #保存摘要
         cti_record = {
             "source_file_hash":source_file_hash,
-            "cti_id":new_cti_info_record["cti_id"],
+            "cti_hash":new_cti_info_record["cti_hash"],
             "cti_file_path":cti_record_detail_path,
             "create_time":new_cti_info_record["create_time"]
         }
-        self.tiny_db.use_database("cti_records").upsert_by_key_value("cti_records",cti_record,"cti_id",new_cti_info_record["cti_id"])
+        self.tiny_db.use_database("cti_records").upsert_by_key_value("cti_records",cti_record,"cti_hash",new_cti_info_record["cti_hash"])
         
         return new_cti_info_record
-    def save_cti_statistic_info(self,source_file_hash,cti_id:str,statistic_info:dict):
+    def save_cti_statistic_info(self,source_file_hash,cti_hash:str,statistic_info:dict):
         """
             保存情报统计信息
             param:
                 - source_file_hash: 源文件的hash值
-                - cti_id: 情报ID
+                - cti_hash: 情报hash值
                 - statistic_info: 统计信息
         """
         #保存到数据库文件夹中
         cti_record_detail_path = ""
         data_client_path = self.tiny_db.get_data_client_path()
-        if cti_id!=None:
-            cti_record_detail_path = data_client_path+"/cti_records/"+source_file_hash+"/"+cti_id+"_statistic_info.json"
+        if cti_hash!=None:
+            cti_record_detail_path = data_client_path+"/cti_records/"+source_file_hash+"/"+cti_hash+"_statistic_info.json"
             save_json_to_file(cti_record_detail_path,statistic_info)
 
-        pass
     def process_ips_to_locations(self,ips_map):
         """
             处理ip->地理位置
@@ -502,13 +544,19 @@ class DataService:
         else:
             return None
         
-    def get_local_cti_records_by_source_file_hash(self,source_file_hash):
+    def get_local_cti_records_detail_list(self,source_file_hash):
         """
             根据source_file_hash获取本地情报记录
         """
-        return self.get_local_cti_records(source_file_hash,all=True)
+        file_path_list = self.get_local_cti_records_file_path_list(source_file_hash,all=True)
+        cti_records_detail_list = []
+        for file_path in file_path_list:
+            #判断文件是否存在
+            if os.path.exists(file_path):
+                cti_records_detail_list.append(load_json_from_file(file_path))
+        return cti_records_detail_list
     
-    def get_local_cti_records(self,source_file_hash,page=1,page_size=15,all=False):
+    def get_local_cti_records_file_path_list(self,source_file_hash,page=1,page_size=15,all=False):
         """
             获取本地情报记录表,支持分页
             
@@ -528,12 +576,8 @@ class DataService:
             end_index = min(start_index+page_size,total_count) #计算结束索引
             cti_records_list = cti_records_list[start_index:end_index]
         #读取cti_record_info json文件
-        cti_records_detail_list = []
-        data_client_path = self.tiny_db.get_data_client_path()
+        cti_records_file_path_list = []
         for cti_record in cti_records_list:
-            cti_record_file_path = data_client_path+"/cti_records/"+source_file_hash+"/"+cti_record["cti_id"]+".json"
-            #判断文件是否存在
-            if os.path.exists(cti_record_file_path):
-                cti_records_detail_list.append(load_json_from_file(cti_record_file_path))
-        return cti_records_detail_list
+            cti_records_file_path_list.append(cti_record["cti_file_path"])
+        return cti_records_file_path_list
         

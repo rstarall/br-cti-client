@@ -57,17 +57,16 @@ class BlockchainService:
             return: (result,success)
         """
         # 获取本地CTI数据
-        cti_data_list = self.data_service.get_local_cti_records_by_source_file_hash(source_file_hash)
+        cti_data_list = self.data_service.get_local_cti_records_detail_list(source_file_hash)
         if len(cti_data_list) == 0:
-            return "no_cti_data", False
-            
+            return "no_cti_data", False    
         # 初始化进度
-        cti_data_list = [i for i in range(len(cti_data_list))]
+        total_task_list = [i for i in range(len(cti_data_list))]
         self.updateCTIUpchainProgress(source_file_hash=source_file_hash,
                                     current_step=0,
-                                    total_step=len(cti_data_list),
+                                    total_step=len(total_task_list),
                                     current_task_id=0,
-                                    total_task_list=cti_data_list)
+                                    total_task_list=total_task_list)
                                     
         # 开启线程上传CTI数据到区块链
         thread = threading.Thread(
@@ -85,6 +84,26 @@ class BlockchainService:
             wallet_password: 钱包密码
         """
         for index, cti_data in enumerate(cti_data_list):
+            #上传stix文件到IPFS
+            try:    
+                stix_file_path = cti_data.get("stix_data")
+                if stix_file_path is not None and stix_file_path != "":
+                    stix_file_hash,error = self.uploadStixFileToIPFS(stix_file_path)
+                    if error is not None:
+                        logging.error(f"uploadStixFileToIPFS error:{error}")
+                        cti_data["stix_data"] = "upload stix file to ipfs error"
+                        continue
+                    #更新CTI数据
+                    cti_data["stix_data"] = stix_file_hash
+                    cti_data["ipfs_hash"] = stix_file_hash
+                else:
+                    cti_data["stix_data"] = "stix file content is empty"
+                    continue
+            except Exception as e:
+                logging.error(f"uploadStixFileToIPFS error:{e}")
+                cti_data["stix_data"] = "upload stix file to ipfs error"
+                continue
+            #上传CTI数据到区块链
             try:
                 uploadCTIToBlockchain(wallet_id, wallet_password, cti_data)
             except Exception as e:
@@ -128,10 +147,11 @@ class BlockchainService:
                 if current_task_id in self.cti_upchain_progress[source_file_hash]["total_task_list"]:
                     self.cti_upchain_progress[source_file_hash]["total_task_list"].remove(current_task_id)
         #更新tinyDB
-        # self.tiny_db.use_database("cti_upchain_progress").upsert_by_key_value("cti_upchain_progress",
-        #                                                                       self.cti_upchain_progress[source_file_hash],
-        #                                                                       fieldName="source_file_hash",
-        #                                                                       value=source_file_hash)
+        self.tiny_db.use_database("cti_upchain_progress").upsert_by_key_value("cti_upchain_progress",
+                                                                              self.cti_upchain_progress[source_file_hash],
+                                                                              fieldName="source_file_hash",
+                                                                              value=source_file_hash)
+        
     def getCTIUpchainProgress(self,source_file_hash:str)->dict:
         """
             获取CTI上传区块链进度
@@ -140,3 +160,14 @@ class BlockchainService:
         """
         return self.cti_upchain_progress.get(source_file_hash,{})
 
+    def uploadStixFileToIPFS(self,stix_file_path:str)->tuple[str,str]:
+        """
+            上传stix文件到IPFS
+        """
+        return upload_file_to_ipfs(stix_file_path)
+    
+    def downloadStixFileFromIPFS(self,ipfs_hash:str)->tuple[str,str]:
+        """
+            从IPFS下载stix文件
+        """
+        return download_file_from_ipfs(ipfs_hash)

@@ -7,6 +7,7 @@ from utils.file import replace_file_name_with_hash,get_date_file_dir,check_file_
 from datetime import datetime
 from service.data_service import DataService
 import json
+import random
 data_blue = Blueprint('data',__name__,url_prefix='/data') #创建一个蓝图
 data_service = DataService()
 #其他工具函数
@@ -19,6 +20,9 @@ def upload_file():
         return jsonify({"code":400,'error': 'No file part',"data":None})
 
     file = request.files['file']
+    task_id = request.form.get('task_id',"")
+    if task_id == "":
+        return jsonify({"code":400,'error': 'task_id is required',"data":None})
     if file.filename == '':
         return jsonify({"code":400,'error': 'No selected file',"data":None})
 
@@ -28,9 +32,15 @@ def upload_file():
         file.save(temp_filename)
         # 将文件名替换为文件的sha256哈希值
         file_hash,file_size = replace_file_name_with_hash(temp_filename)
+        #查询是否有当前文件的任务记录
+        latest_task_record = data_service.get_latest_task_record(file_hash)
+        if latest_task_record is None:
+            latest_task_record = data_service.create_task_record(task_id,file_hash) #创建任务记录
+        
         data = {
             "file_hash":file_hash,
-            "file_size":file_size
+            "file_size":file_size,
+            "task_record":latest_task_record
         }
         return jsonify({"code":200,'msg': 'File uploaded successfully', 'data': data})
     else:
@@ -54,11 +64,11 @@ def get_traffic_data_features():
 @data_blue.route('/process_data_to_stix', methods=['POST'])
 def process_data_to_stix():
     data = request.get_json()
-    file_hash = data.get('file_hash')
-    process_config = data
-    print(process_config)
-    if not process_config:
-        return jsonify({"code":400,'error': 'process_config is required',"data":None})
+    task_id = data.get('process_id',"") #记录任务ID
+    file_hash = data.get('file_hash',"")
+    stix_process_config = data
+    if not stix_process_config:
+        return jsonify({"code":400,'error': 'stix_process_config is required',"data":None})
     if file_hash == "":
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     
@@ -72,25 +82,24 @@ def process_data_to_stix():
         "stix_compress":int
     }
     for field in required_fields:
-        if field not in process_config:
+        if field not in stix_process_config:
             return jsonify({"code":400,'error': f'{field} is required in process_config',"data":None})
     #类型转换
     for field in required_fields_type.keys():
-        if field  in process_config:
-            process_config[field] = required_fields_type[field](process_config[field])
+        if field  in stix_process_config:
+            stix_process_config[field] = required_fields_type[field](stix_process_config[field])
 
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
-    features_name,error = data_service.get_traffic_data_features_name(file_hash)
     #记录处理的文件hash,并处理文件
-    current_step,total_step = data_service.process_data_to_stix(file_hash,process_config)
+    try:
+        current_step,total_step = data_service.process_data_to_stix(file_hash,stix_process_config)
+    except Exception as e:
+        return jsonify({"code":400,'error': str(e),"data":None})
     data = {
         "current_step":current_step,
         "total_step":total_step
     }
-    #记录处理过程
-    if error:
-        return jsonify({"code":400,'error': error,"data":None})
     return jsonify({"code":200,'msg': 'Process data to stix successfully', 'data': data})
 
 #查询处理进度
@@ -146,25 +155,28 @@ def get_stix_file_content(source_file_hash,stix_file_hash):
 def process_stix_to_cti():
     data = request.get_json()
     source_file_hash = data.get('file_hash',None)
-    cti_type = data.get('cti_type',0)
+    cti_type = data.get('cti_type',1)
+    cti_default_name = data.get('cti_name',"")
     open_source = data.get('open_source',1)
     cti_description = data.get('cti_description',"")
     default_value = data.get('default_value',0)
-    print(data)
+    print(f"process_stix_to_cti config:{data}")
     if not source_file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     
     #判断类型正确性
     if type(cti_type) != int:
-        cti_type = 0
+        cti_type = 1 #默认设置为恶意流量
     if type(open_source) != int:
-        open_source = 1 #开源
+        open_source = 1 #默认设置为开源情报
     if type(default_value) != int:
-        default_value = 0
+        default_value = 10 #默认设置为10
     if type(cti_description) != str:
-        cti_description = ""
+        cti_description = "" #默认设置为空
     cti_config = {
         "cti_type": cti_type,
+        "cti_traffic_type": random.randint(1,3),#随机生成一个流量类型(1:5G,2:卫星网络,3:SDN)
+        "cti_name": cti_default_name,
         "open_source": open_source,
         "description": cti_description,
         "value": default_value

@@ -21,6 +21,6 @@ def start_flask_server():
     app.run(host="127.0.0.1",port=5000,debug=False, use_reloader=False)
 
 if __name__ == '__main__':
-    start_bc_server()
+    #start_bc_server()
     start_flask_server()
-    wait_stop_bc_server()
+    #wait_stop_bc_server()

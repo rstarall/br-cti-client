@@ -3,6 +3,34 @@ import requests
 from blockchain.fabric import env_vars
 from blockchain.user.signature import ecc_sign,ecc_sign_with_password
 from blockchain.user.wallet import checkLocalUserAccountExist
+def createTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
+    """
+        创建交易(不需要验证签名)
+        params:
+            wallet_id: 钱包ID
+            password: 钱包密码
+            tx_data: 交易数据
+        return:
+            tx_msg: 交易消息
+    """
+    # 检查用户是否存在
+    local_wallet_id = checkLocalUserAccountExist()
+    if local_wallet_id != wallet_id:
+        raise Exception("钱包ID不一致")
+        
+    # 处理交易数据
+    tx_data_bytes = json.dumps(tx_data).encode('utf-8')
+           
+    # 构造交易消息
+    tx_msg = {
+        "user_id": wallet_id,
+        "tx_data": tx_data_bytes,          # 交易数据(Json bytes)
+        "tx_signature": "",  
+        "nonce_signature": ""
+    }
+    
+    return tx_msg
+
 def createSignTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
     """
         创建签名交易

@@ -312,7 +312,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
     row_length = dataset.shape[0]  # 数据集行数
     
     # 计算需要分批写入的次数
-    batch_count = row_length // stix_compress
+    batch_count = max(1,row_length // stix_compress)  #确保压缩行数最小为1
     # 初始化处理进度
     process_progress = 0
     data_service.update_stix_process_progress(file_hash,process_progress,batch_count)
