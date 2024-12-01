@@ -19,12 +19,12 @@ def createTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
         raise Exception("钱包ID不一致")
         
     # 处理交易数据
-    tx_data_bytes = json.dumps(tx_data).encode('utf-8')
+    tx_data_bytes= json.dumps(tx_data).encode("utf-8")
            
     # 构造交易消息
     tx_msg = {
         "user_id": wallet_id,
-        "tx_data": tx_data_bytes,          # 交易数据(Json bytes)
+        "tx_data": bytes(tx_data_bytes),          # 交易数据(Json str)
         "tx_signature": "",  
         "nonce_signature": ""
     }

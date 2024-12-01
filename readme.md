@@ -63,7 +63,7 @@ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]
 ```
 启动IPFS
 ```shell
-nohup ipfs daemon &
+nohup ipfs daemon&
 ```
 IPFS Web
 http://172.22.232.42:5001/webui

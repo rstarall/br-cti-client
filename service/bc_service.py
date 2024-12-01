@@ -48,6 +48,11 @@ class BlockchainService:
             return: 文件路径
         """
         return download_file_from_ipfs(ipfs_hash)
+    def updateSTIXUpchainRecord(self,stix_file_hash,ipfs_hash):
+        """
+            更新STIX上传区块链记录
+        """
+        pass
     def uploadCTIToBCByFileSourceHash(self, source_file_hash: str, upchain_account: str, upchain_account_password: str) -> tuple[str, bool]:
         """
             根据源文件hash值上传所有CTI数据到区块链
@@ -84,7 +89,7 @@ class BlockchainService:
             wallet_password: 钱包密码
         """
         for index, cti_data in enumerate(cti_data_list):
-            #上传stix文件到IPFS
+            #1.上传stix文件到IPFS
             try:    
                 stix_file_path = cti_data.get("stix_data")
                 if stix_file_path is not None and stix_file_path != "":
@@ -103,7 +108,24 @@ class BlockchainService:
                 logging.error(f"uploadStixFileToIPFS error:{e}")
                 cti_data["stix_data"] = "upload stix file to ipfs error"
                 continue
-            #上传CTI数据到区块链
+
+            #2.上传ioc_ips到IPFS
+            try:    
+                statistic_info_path = self.data_service.get_cti_statistic_info_path(source_file_hash,cti_data.get("cti_hash"))
+                if os.path.exists(statistic_info_path):
+                    statistic_file_ipfs_hash,error = self.uploadStixFileToIPFS(statistic_info_path)
+                    if error is not None:
+                        logging.error(f"uploadStixFileToIPFS error:{error}")
+                        cti_data["statistic_info"] = "upload statistic info to ipfs error"
+                        continue
+                    #更新CTI数据
+                    cti_data["statistic_info"] = statistic_file_ipfs_hash
+            except Exception as e:
+                logging.error(f"getCTIStatisticInfoPath error:{e}")
+                cti_data["statistic_info"] = "upload statistic info to ipfs error"
+                continue
+
+            #3.上传CTI数据到区块链
             try:
                 uploadCTIToBlockchain(wallet_id, wallet_password, cti_data)
             except Exception as e:

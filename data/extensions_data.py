@@ -2,6 +2,7 @@ import ipaddress
 import requests
 import threading
 import random
+access_token = "0962796833d3d6f21eda2234b1e1bb5e"  # ipinfo.io 官网注册获得的免费token
 def ip_to_location(ip:str):
     """
     判断传入的ip地址是否为公网地址，是则返回对应的实际地理位置，否则返回标注“内网”
@@ -22,7 +23,6 @@ def ip_to_location(ip:str):
 
     # 公网地址返回实际地理位置
     try:
-        access_token = "your token"  # ipinfo.io 官网注册获得的免费token
         url = f"https://ipinfo.io/{ip}/json?token={access_token}"  # 构造调用ip-api服务的url，并设置返回数据为json格式
         response = requests.get(url, timeout=5)  # 发送请求，设置超时时间为5秒
         response_data = response.json()  # 将返回数据转换成字典
@@ -103,7 +103,8 @@ def ips_to_location_mock_random(ips:dict):
         location_num_map[location] = location_num_map.get(location, 0) + ip_num
         
     return ip_location_map, location_num_map, errors
-def ips_to_location_concurrent(ips:dict, max_workers=10000):
+
+def ips_to_location_concurrent(ips:dict, max_workers=100):
     """
         使用多线程并发将ip字典转换为地理位置字典
         param:
@@ -154,6 +155,84 @@ def ips_to_location_concurrent(ips:dict, max_workers=10000):
         location_num_map[location] = location_num_map.get(location, 0) + ip_num
             
     return ip_location_map, location_num_map, errors
+
+def ips_to_location_bulk(ips: dict, batch_size=30):
+    """
+    使用批量查询API将IP地址转换为地理位置信息
+    param:
+        ips: 字典(ip->ip出现数量)
+        batch_size: 每批次查询的IP数量,默认30个
+    return:
+        ip_location_map: 字典(ip->地理位置)
+        ip_location_info_map: 字典(ip->地理位置详细信息)
+        location_num_map: 字典(地理位置->位置出现数量)
+        errors: 错误信息列表
+    """
+    ip_location_map = {}
+    ip_location_info_map = {}
+    location_num_map = {}
+    errors = []
+    
+    # 将IP地址列表分批
+    ip_list = list(ips.keys())
+    for i in range(0, len(ip_list), batch_size):
+        batch_ips = ip_list[i:i + batch_size]
+        
+        # 构建批量查询URL
+        ips_param = ','.join(batch_ips)
+        url = f"https://api.ipinfo.io/api/{ips_param}?access_key={access_token}"
+        
+        try:
+            # 发送GET请求进行批量查询
+            response = requests.get(url, timeout=10)
+            response_data = response.json()
+            
+            # 处理每个IP的响应结果
+            for ip_data in response_data:
+                ip = ip_data.get('ip')
+                print(f"正在处理ip:{ip}({i+1}/{len(ip_list)})")
+                
+                if "error" in ip_data:
+                    errors.append(f"IP {ip} 查询失败: {ip_data['error']}")
+                    continue
+                    
+                try:
+                    # 存储完整的地理信息
+                    location_info = {
+                        'ip': ip_data.get('ip'),
+                        'type': ip_data.get('type'),
+                        'continent_code': ip_data.get('continent_code'),
+                        'continent_name': ip_data.get('continent_name'),
+                        'country_code': ip_data.get('country_code'),
+                        'country_name': ip_data.get('country_name'),
+                        'region_code': ip_data.get('region_code'),
+                        'region_name': ip_data.get('region_name'),
+                        'city': ip_data.get('city'),
+                        'zip': ip_data.get('zip'),
+                        'latitude': ip_data.get('latitude'),
+                        'longitude': ip_data.get('longitude'),
+                        'msa': ip_data.get('msa'),
+                        'dma': ip_data.get('dma'),
+                        'radius': ip_data.get('radius'),
+                        'ip_routing_type': ip_data.get('ip_routing_type'),
+                        'connection_type': ip_data.get('connection_type')
+                    }
+                    
+                    # 简化的地理位置字符串
+                    location_str = f"{ip_data.get('country_name', '')},{ip_data.get('region_name', '')},{ip_data.get('city', '')}"
+                    
+                    ip_location_map[ip] = location_str
+                    ip_location_info_map[ip] = location_info
+                    location_num_map[location_str] = location_num_map.get(location_str, 0) + ips[ip]
+                    
+                except Exception as e:
+                    errors.append(f"处理IP {ip} 数据时出错: {str(e)}")
+                    
+        except Exception as e:
+            errors.append(f"批量查询请求失败: {str(e)}")
+            continue
+            
+    return ip_location_map, ip_location_info_map, location_num_map, errors
 
 
 

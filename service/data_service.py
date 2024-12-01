@@ -7,7 +7,7 @@ from data.stix_process import start_process_dataset_to_stix
 from utils.file import get_file_sha256_hash
 from service.model.cti_model import cti_info_example,CTI_TYPE,CTI_TYPE_NAME,CTI_TRAFFIC_TYPE,TAGS_LIST,IOCS_LIST
 from service.wallet_service import WalletService
-from data.extensions_data import ips_to_location,ips_to_location_concurrent,ips_to_location_mock_random
+from data.extensions_data import ips_to_location,ips_to_location_concurrent,ips_to_location_mock_random,ips_to_location_bulk
 from env.global_var import getUploadChainDataPath
 from utils.file import save_json_to_file,load_json_from_file
 import time
@@ -463,7 +463,7 @@ class DataService:
             "data_size": os.path.getsize(stix_file_path),
             "data_hash": get_file_sha256_hash(stix_file_path),
             "ipfs_hash": "",
-            "value": cti_config.get("value", 0)
+            "value": cti_config.get("value", 10)
         }
         #处理create_time
         new_cti_info_record["create_time"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -475,8 +475,9 @@ class DataService:
             #ip转地理位置
             print(f"正在处理ioc_ips_map:{len(stix_info['ioc_ips_map'].keys())}")
             try:
-                ip_location_map,location_num_map,errors = self.process_ips_to_locations(stix_info["ioc_ips_map"])
+                ip_location_map,ip_location_info_map,location_num_map,errors = self.process_ips_to_locations(stix_info["ioc_ips_map"])
                 satistic_info["ips_locations_map"] = ip_location_map
+                satistic_info["ips_locations_info_map"] = ip_location_info_map
                 satistic_info["ioc_locations_map"] = location_num_map
             except Exception as e:
                 logging.error(f"process_ips_to_locations error:{e}")
@@ -503,7 +504,7 @@ class DataService:
             保存情报统计信息
             param:
                 - source_file_hash: 源文件的hash值
-                - cti_hash: 情报hash值
+                - cti_hash: 情报hash值(stix的hash值)
                 - statistic_info: 统计信息
         """
         #保存到数据库文件夹中
@@ -512,7 +513,15 @@ class DataService:
         if cti_hash!=None:
             cti_record_detail_path = data_client_path+"/cti_records/"+source_file_hash+"/"+cti_hash+"_statistic_info.json"
             save_json_to_file(cti_record_detail_path,statistic_info)
-
+    def get_cti_statistic_info_path(self,source_file_hash,cti_hash):
+        """
+            获取情报统计信息路径
+            param:
+                - source_file_hash: 源文件的hash值
+                - cti_hash: 情报hash值(stix的hash值)
+        """
+        data_client_path = self.tiny_db.get_data_client_path()
+        return data_client_path+"/cti_records/"+source_file_hash+"/"+cti_hash+"_statistic_info.json"
     def process_ips_to_locations(self,ips_map):
         """
             处理ip->地理位置
@@ -521,13 +530,14 @@ class DataService:
 
             return:
                 - ip_location_map: ip地理位置字典(ip->地理位置)
+                - ip_location_info_map: ip地理位置信息字典(ip->地理位置详细信息)
                 - location_num_map: 地理位置出现数量字典(地理位置->位置出现数量)
                 - errors: 错误信息列表
         """
         #ip_location_map,location_num_map,errors = ips_to_location(ips_map)
-        #使用多线程并发处理
-        ip_location_map,location_num_map,errors  = ips_to_location_mock_random(ips_map)
-        return ip_location_map,location_num_map,errors
+        #使用批量查询API处理(每次30个)
+        ip_location_map,ip_location_info_map,location_num_map,errors = ips_to_location_bulk(ips_map)
+        return ip_location_map,ip_location_info_map,location_num_map,errors
     
     def get_local_cti_record_by_id(self,source_file_hash,cti_id):
         """

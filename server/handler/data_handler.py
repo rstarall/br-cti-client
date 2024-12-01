@@ -159,7 +159,7 @@ def process_stix_to_cti():
     cti_default_name = data.get('cti_name',"")
     open_source = data.get('open_source',1)
     cti_description = data.get('cti_description',"")
-    default_value = data.get('default_value',0)
+    default_value = data.get('default_value',10)
     print(f"process_stix_to_cti config:{data}")
     if not source_file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
