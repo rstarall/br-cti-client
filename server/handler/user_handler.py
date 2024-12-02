@@ -17,6 +17,15 @@ def checkLocalUserWallet():
     else:
         return jsonify({'code': 200, 'message': 'success', 'data': {'wallet_id': wallet_id}})
 
+#检查本地钱包是否已上链
+@user_blue.route('/checkLocalWalletOnchainStatus',methods=['POST'])
+def checkLocalWalletOnchainStatus():
+    wallet_id = request.json.get('wallet_id')
+    if not wallet_id:
+        return jsonify({'code': 400, 'message': 'wallet_id is required', 'data': None})
+    result = wallet_service.checkLocalWalletOnchainStatus(wallet_id)
+    return jsonify({'code': 200, 'message': 'success', 'data': {'onchain': result}})
+
 #创建本地钱包
 @user_blue.route('/createLocalUserWallet',methods=['POST'])
 def createLocalUserWallet():
@@ -54,6 +63,45 @@ def registerOnchainUserAccount():
         #链上注册失败直接返回钱包ID
         return jsonify({'code': 200, 'message': result, 'data': {'wallet_id': result}})
 
+
+#查询用户积分信息
+@user_blue.route('/queryUserPointInfo',methods=['POST'])
+def queryUserPointInfo():
+    user_id = request.json.get('user_id')
+    if not user_id:
+        return jsonify({'code': 400, 'message': 'user_id is required', 'data': None})
+    result,success = wallet_service.queryUserPointInfo(user_id)
+    if success:
+        return jsonify({'code': 200, 'message': 'success', 'data': result})
+    else:
+        return jsonify({'code': 400, 'message': result, 'data': None})
+
+
+#获取用户统计数据
+@user_blue.route('/getUserStatistics',methods=['POST'])
+def getUserStatistics():
+    user_id = request.json.get('user_id')
+    if not user_id:
+        return jsonify({'code': 400, 'message': 'user_id is required', 'data': None})
+    result,success = wallet_service.getUserStatistics(user_id)
+    if success:
+        return jsonify({'code': 200, 'message': 'success', 'data': result})
+    else:
+        return jsonify({'code': 400, 'message': result, 'data': None})
+
+#查询用户积分交易记录
+@user_blue.route('/queryPointTransactions',methods=['POST']) 
+def queryPointTransactions():
+    user_id = request.json.get('user_id')
+    if not user_id:
+        return jsonify({'code': 400, 'message': 'user_id is required', 'data': None})
+    result,success = wallet_service.queryPointTransactions(user_id)
+    if success:
+        return jsonify({'code': 200, 'message': 'success', 'data': result})
+    else:
+        return jsonify({'code': 400, 'message': result, 'data': None})
+
+
 #获取交易随机数
 @user_blue.route('/getTransactionNonce',methods=['POST'])
 def getTransactionNonce():
@@ -64,5 +112,3 @@ def getTransactionNonce():
         return jsonify({'code': 200, 'message': 'success', 'data': {'nonce': result}})
     else:
         return jsonify({'code': 400, 'message': result, 'data': None})
-
-

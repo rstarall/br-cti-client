@@ -9,6 +9,7 @@ from blockchain.user.wallet import checkLocalUserAccountExist
 from blockchain.fabric.tx import getTransactionNonce
 from blockchain.user.wallet import getUserPublicKey,checkWalletPassword
 from blockchain.fabric.user_onchain import registerUserOnchain
+from blockchain.user.wallet import checkLocalWalletOnchainStatus
 import base64
 class WalletService:
     def __init__(self):
@@ -19,6 +20,12 @@ class WalletService:
             return:用户钱包ID or None
         """
         return checkLocalUserAccountExist()
+    def checkLocalWalletOnchainStatus(self,wallet_id:str)->bool:
+        """
+            检查本地钱包是否已上链
+            return:True or False
+        """
+        return checkLocalWalletOnchainStatus(wallet_id)
     def getPublicKey(self, wallet_id: str):
         """
             获取用户公钥

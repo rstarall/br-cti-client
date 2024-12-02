@@ -197,16 +197,21 @@ class BlockchainService:
             #3.上传CTI数据到区块链
             cti_id = None
             try:
-                cti_id = uploadCTIToBlockchain(wallet_id, wallet_password, cti_data)
-                #更新CTI上传区块链记录
-                self.updateCTIUpchainRecord(cti_data.get("cti_hash"),
-                                                statistic_info_hash=None,
-                                                cti_id=cti_id)
+                result,success = uploadCTIToBlockchain(wallet_id, wallet_password, cti_data)
+                if success:
+                    cti_id = result
+                else:
+                    raise Exception(result)
             except Exception as e:
                 logging.error(f"uploadCTIToBlockchain error:{e}")
                 continue
+
             #完全没有错误
-            #1.更新STIX上链记录
+            #1.更新CTI上传区块链记录
+            self.updateCTIUpchainRecord(cti_data.get("cti_hash"),
+                                                statistic_info_hash=None,
+                                                cti_id=cti_id)
+            #2.更新STIX上链记录
             self.updateSTIXUpchainRecord(cti_data.get("cti_hash"),
                                          statistic_info_hash=statistic_file_ipfs_hash,
                                          cti_id=cti_id)

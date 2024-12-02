@@ -37,7 +37,7 @@ def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str
         if response.status_code != 200:
             return response.json()['error'], False
             
-        return response.json()['data'], True
+        return response.json()['result'], True
         
     except Exception as e:
         return str(e), False

@@ -27,6 +27,20 @@ def checkLocalUserAccountExist():
             if os.path.exists(os.path.join(userWalletPath, wallet_id, 'private_key.pem')):
                 return wallet_id
     return None
+
+def checkLocalWalletOnchainStatus(wallet_id:str)->bool:
+    """
+        检查本地钱包是否已上链
+    """
+    userWalletPath = getUserWalletAbsolutePath()
+    #检测wallet文件夹下所有钱包文件夹是否存在
+    walletOnchainFilePath = os.path.join(userWalletPath,wallet_id,"onchain.json")
+    
+    if os.path.exists(walletOnchainFilePath):
+        return True
+    
+    return False
+
 def getLocalUserWalletId():
     """
         获取本地用户钱包ID
