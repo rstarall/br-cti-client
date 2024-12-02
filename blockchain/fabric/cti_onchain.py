@@ -2,6 +2,7 @@ import requests
 from blockchain.fabric import env_vars
 from blockchain.fabric.tx import createSignTransaction,createTransaction
 import logging
+import base64
 def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str,bool]:
     """
     执行智能合约上传CTI数据到区块链
@@ -20,15 +21,15 @@ def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str
         # 创建交易消息
         tx_msg = createTransaction(wallet_id, password, cti_data)
         
-        # 将交易数据转换为bytes
+        # 将交易数据转换为bytes，使用base64编码
         tx_msg_data = {
             "user_id": str(tx_msg["user_id"]),
             "tx_data": tx_msg["tx_data"], 
             "nonce": "",
-            "tx_signature": bytes(tx_msg["tx_signature"], 'utf-8'),
-            "nonce_signature": bytes(tx_msg["nonce_signature"], 'utf-8')
+            "tx_signature": tx_msg["tx_signature"],
+            "nonce_signature": tx_msg["nonce_signature"]
         }
-        
+        print(tx_msg_data)
         # 发送POST请求到fabric-server
         response = requests.post(env_vars.fabricServerHost + env_vars.fabricServerApi['cti']['registerCtiInfo'],
                                json=tx_msg_data)

@@ -450,18 +450,19 @@ class DataService:
                 - stix_info: stix信息记录
                 - cti_config: 情报配置
         """
+        stix_file_hash = get_file_sha256_hash(stix_file_path)
         new_cti_info_record = {
-            "cti_hash": get_file_sha256_hash(stix_file_path),
+            "cti_hash": stix_file_hash,
             "creator_user_id": wallet_service.checkUserAccountExist(),
             "cti_type": cti_config.get("cti_type", stix_info["stix_type"]),
-            "cti_traffic_type": CTI_TRAFFIC_TYPE["5G"] if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"] else "",
+            "cti_traffic_type": CTI_TRAFFIC_TYPE["5G"] if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"] else 0, #注意类型
             "open_source": cti_config.get("open_source", 1),
             "tags": stix_info["stix_tags"],
             "iocs": stix_info["stix_iocs"],
             "stix_data": stix_file_path, #暂时记录为stix文件路径
             "description": cti_config.get("description", ""),
             "data_size": os.path.getsize(stix_file_path),
-            "data_hash": get_file_sha256_hash(stix_file_path),
+            "data_hash": stix_file_hash,
             "ipfs_hash": "",
             "value": cti_config.get("value", 10)
         }
@@ -536,7 +537,7 @@ class DataService:
         """
         #ip_location_map,location_num_map,errors = ips_to_location(ips_map)
         #使用批量查询API处理(每次30个)
-        ip_location_map,ip_location_info_map,location_num_map,errors = ips_to_location_bulk(ips_map)
+        ip_location_map,ip_location_info_map,location_num_map,errors = ips_to_location(ips_map)
         return ip_location_map,ip_location_info_map,location_num_map,errors
     
     def get_local_cti_record_by_id(self,source_file_hash,cti_id):

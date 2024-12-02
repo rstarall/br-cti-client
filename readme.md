@@ -61,15 +61,15 @@ ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
 ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://taigu.xxx.cn:5002", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'
 ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
 ```
-启动IPFS
+启动IPFS(IPFS经常容易down)
 ```shell
-nohup ipfs daemon&
+nohup ipfs daemon &
 ```
 IPFS Web
 http://172.22.232.42:5001/webui
-
 使用SSH端口转发访问
 ```shell
 ssh -L 5001:localhost:5001 dev01@172.22.232.42
 ```
+
 ### 问题及说明

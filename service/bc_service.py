@@ -48,11 +48,73 @@ class BlockchainService:
             return: 文件路径
         """
         return download_file_from_ipfs(ipfs_hash)
-    def updateSTIXUpchainRecord(self,stix_file_hash,ipfs_hash):
+    
+    
+    def updateSTIXUpchainIPFSRecord(self,stix_file_hash,ipfs_hash):
         """
-            更新STIX上传区块链记录
+            更新STIX上传IPFS记录(IPFS)
         """
-        pass
+        try:
+            if stix_file_hash=="" or ipfs_hash=="":
+                return
+            old_stix_upchain_records = self.tiny_db.use_database("stix_records").read_by_key_value("stix_records","stix_file_hash",stix_file_hash)
+            if old_stix_upchain_records is not None and len(old_stix_upchain_records)>0:
+                stix_file_path = old_stix_upchain_records[0].get("stix_file_path")
+                if os.path.exists(stix_file_path):
+                    read_stix_file_content = load_json_from_file(stix_file_path)
+                    read_stix_file_content["ipfs_hash"] = ipfs_hash
+                    read_stix_file_content["onchain"] = True
+                    save_json_to_file(stix_file_path,read_stix_file_content)
+            #更新记录
+            old_stix_upchain_records[0]["ipfs_hash"] = ipfs_hash
+            old_stix_upchain_records[0]["onchain"] = True
+            self.tiny_db.use_database("stix_records").upsert_by_key_value("stix_records",old_stix_upchain_records[0],fieldName="stix_file_hash",value=stix_file_hash)
+        except Exception as e:
+            logging.error(f"updateSTIXUpchainRecord error:{e}")
+    
+    
+    def updateSTIXUpchainRecord(self,stix_file_hash,cti_id=None,statistic_info_hash=None):
+        """
+            更新STIX上传区块链记录(链上ID)
+        """
+        try:
+            old_stix_upchain_records = self.tiny_db.use_database("stix_records").read_by_key_value("stix_records","stix_file_hash",stix_file_hash)
+            if old_stix_upchain_records is not None and len(old_stix_upchain_records)>0:
+                stix_file_path = old_stix_upchain_records[0].get("stix_file_path")
+                if os.path.exists(stix_file_path):
+                    if cti_id is not None and statistic_info_hash is not None:
+                        read_stix_file_content = load_json_from_file(stix_file_path)
+                        read_stix_file_content["cti_id"] = cti_id
+                        read_stix_file_content["statistic_info"] = statistic_info_hash
+                        read_stix_file_content["onchain"] = True
+                        save_json_to_file(stix_file_path,read_stix_file_content)
+        except Exception as e:
+            logging.error(f"updateSTIXUpchainRecord error:{e}")
+    
+    
+    def updateCTIUpchainRecord(self,cti_hash,statistic_info_hash=None,cti_id=None):
+        """
+            更新CTI上传区块链记录(statistic_info_hash的IPFS_HASH,cti_id的链上ID)
+        """
+        old_cti_upchain_records = self.tiny_db.use_database("cti_records").read_by_key_value("cti_records","cti_hash",cti_hash)
+        if old_cti_upchain_records is not None and len(old_cti_upchain_records)>0:
+            cti_file_path = old_cti_upchain_records[0].get("cti_file_path")
+            if os.path.exists(cti_file_path):
+                read_cti_file_content = load_json_from_file(cti_file_path)
+                if statistic_info_hash is not None:
+                    read_cti_file_content["statistic_info"] = statistic_info_hash
+                if cti_id is not None:
+                    read_cti_file_content["cti_id"] = cti_id
+                    read_cti_file_content["onchain"] = True
+                save_json_to_file(cti_file_path,read_cti_file_content)
+            if statistic_info_hash is not None:
+                old_cti_upchain_records[0]["statistic_info"] = statistic_info_hash
+            if cti_id is not None:
+                old_cti_upchain_records[0]["cti_id"] = cti_id
+                old_cti_upchain_records[0]["onchain"] = True
+            self.tiny_db.use_database("cti_records").upsert_by_key_value("cti_records",old_cti_upchain_records[0],fieldName="cti_hash",value=cti_hash)
+    
+    
     def uploadCTIToBCByFileSourceHash(self, source_file_hash: str, upchain_account: str, upchain_account_password: str) -> tuple[str, bool]:
         """
             根据源文件hash值上传所有CTI数据到区块链
@@ -98,6 +160,8 @@ class BlockchainService:
                         logging.error(f"uploadStixFileToIPFS error:{error}")
                         cti_data["stix_data"] = "upload stix file to ipfs error"
                         continue
+                    #更新IPFS上传记录(cti_hash也是stix_file_hash)
+                    self.updateSTIXUpchainIPFSRecord(cti_data.get("data_hash",""),stix_file_hash)
                     #更新CTI数据
                     cti_data["stix_data"] = stix_file_hash
                     cti_data["ipfs_hash"] = stix_file_hash
@@ -110,6 +174,7 @@ class BlockchainService:
                 continue
 
             #2.上传ioc_ips到IPFS
+            statistic_file_ipfs_hash = None
             try:    
                 statistic_info_path = self.data_service.get_cti_statistic_info_path(source_file_hash,cti_data.get("cti_hash"))
                 if os.path.exists(statistic_info_path):
@@ -120,17 +185,32 @@ class BlockchainService:
                         continue
                     #更新CTI数据
                     cti_data["statistic_info"] = statistic_file_ipfs_hash
+                    #更新CTI上传区块链记录
+                    self.updateCTIUpchainRecord(cti_data.get("cti_hash"),
+                                                statistic_info_hash=statistic_file_ipfs_hash,
+                                                cti_id=None)
             except Exception as e:
                 logging.error(f"getCTIStatisticInfoPath error:{e}")
                 cti_data["statistic_info"] = "upload statistic info to ipfs error"
                 continue
 
             #3.上传CTI数据到区块链
+            cti_id = None
             try:
-                uploadCTIToBlockchain(wallet_id, wallet_password, cti_data)
+                cti_id = uploadCTIToBlockchain(wallet_id, wallet_password, cti_data)
+                #更新CTI上传区块链记录
+                self.updateCTIUpchainRecord(cti_data.get("cti_hash"),
+                                                statistic_info_hash=None,
+                                                cti_id=cti_id)
             except Exception as e:
                 logging.error(f"uploadCTIToBlockchain error:{e}")
-            # 更新进度
+                continue
+            #完全没有错误
+            #1.更新STIX上链记录
+            self.updateSTIXUpchainRecord(cti_data.get("cti_hash"),
+                                         statistic_info_hash=statistic_file_ipfs_hash,
+                                         cti_id=cti_id)
+            #2.更新进度
             self.updateCTIUpchainProgress(source_file_hash,
                                         current_step=index+1,
                                         total_step=len(cti_data_list),

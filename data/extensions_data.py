@@ -3,71 +3,9 @@ import requests
 import threading
 import random
 access_token = "0962796833d3d6f21eda2234b1e1bb5e"  # ipinfo.io 官网注册获得的免费token
-def ip_to_location(ip:str):
-    """
-    判断传入的ip地址是否为公网地址，是则返回对应的实际地理位置，否则返回标注“内网”
-    :param ip:IP地址
-    :return:实际地理位置或内网标注
-    """
-    # 验证ip地址是否有效
-    try:
-        ip_object = ipaddress.ip_address(ip)
-    except ValueError:
-        print(f"error：{ip} 不是一个有效的IP地址！")
-        return {"status": "error", "message": f"{ip} 不是一个有效的IP地址！"}
-
-    # 私有地址
-    if ip_object.is_private:
-        print(f"{ip} 是私有地址")
-        return {"status": "private", "message": f"{ip} 是私有地址"}
-
-    # 公网地址返回实际地理位置
-    try:
-        url = f"https://ipinfo.io/{ip}/json?token={access_token}"  # 构造调用ip-api服务的url，并设置返回数据为json格式
-        response = requests.get(url, timeout=5)  # 发送请求，设置超时时间为5秒
-        response_data = response.json()  # 将返回数据转换成字典
-        # 调用服务成功，返回地理信息
-        if response_data["status"] == "success":
-            print(f"{ip} 对应地理位置：{response_data['country']}, {response_data['regionName']}, {response_data['city']}")
-            return f"{response_data['country']},{response_data['regionName']},{response_data['city']}"
-
-        # 调用服务失败，打印报错信息
-        elif response_data["status"] == "fail":
-            print(f"{ip} 调用查询服务失败：{response_data['message']}")
-            return ""
-        # 调用服务失败，打印报错信息
-        else:
-            print(f"{ip} 调用查询服务失败，状态代码：{response.status_code}")
-            return {"status": "fail", "message": f"{ip} 调用查询服务失败：{response_data.get('Error', '未知错误')}"}
-
-    except Exception as e:
-        print(f"{ip} 查询地理位置时出错！error：{e}")
-        return ""
 
 
-def ips_to_location(ips:dict):
-    """
-        将ip字典转换为地理位置字典
-        param:
-            ips: 字典(ip->ip出现数量)
-        return:
-            ip_location_map: 字典(ip->地理位置)
-            location_num_map: 字典(地理位置->位置出现数量)
-            errors: 错误信息列表
-    """
-    ip_location_map = {}
-    location_num_map = {}
-    errors = [] 
-    for index,(ip,ip_num) in enumerate(ips.items()):
-        print(f"正在处理ip:{ip}({index}/{len(ips.keys())})")
-        try:
-            location = ip_to_location(ip)   
-        except Exception as e:
-            errors.append(f"ip_to_location error:{e}")
-            continue
-        ip_location_map[ip] = location
-        location_num_map[location] = location_num_map.get(location,0)+ip_num
-    return ip_location_map,location_num_map,errors
+
 def ips_to_location_mock_random(ips:dict):
     """
         将IP地址随机转换为地理位置
@@ -116,6 +54,7 @@ def ips_to_location_concurrent(ips:dict, max_workers=100):
             errors: 错误信息列表
     """
     ip_location_map = {}
+    ip_location_info_map = {}
     location_num_map = {}
     errors = []
     threads = []
@@ -123,8 +62,8 @@ def ips_to_location_concurrent(ips:dict, max_workers=100):
     
     def process_ip(ip, ip_num):
         try:
-            location = ip_to_location(ip)
-            results[ip] = (location, ip_num, None)
+            location, location_info = ips_to_location_single(ip)
+            results[ip] = (location,location_info, ip_num, None)
         except Exception as e:
             results[ip] = (None, ip_num, f"ip_to_location error:{e}")
             
@@ -146,15 +85,137 @@ def ips_to_location_concurrent(ips:dict, max_workers=100):
         t.join()
         
     # 处理结果
-    for ip, (location, ip_num, error) in results.items():
+    for ip, (location, location_info, ip_num, error) in results.items():
         if error:
             errors.append(error)
             continue
             
         ip_location_map[ip] = location
+        ip_location_info_map[ip] = location_info
         location_num_map[location] = location_num_map.get(location, 0) + ip_num
             
-    return ip_location_map, location_num_map, errors
+    return ip_location_map, ip_location_info_map, location_num_map, errors
+
+
+def ips_to_location(ips:dict):
+    """
+    将ip字典转换为地理位置字典
+    param:
+        ips: 字典(ip->ip出现数量)
+    return:
+        ip_location_map: 字典(ip->地理位置)
+        ip_location_info_map: 字典(ip->地理位置详细信息)
+        location_num_map: 字典(地理位置->位置出现数量)
+        errors: 错误信息列表
+    """
+    ip_location_map = {}
+    ip_location_info_map = {}
+    location_num_map = {}
+    errors = [] 
+    
+    for index,(ip,ip_num) in enumerate(ips.items()):
+        print(f"正在处理ip:{ip}({index+1}/{len(ips)})")
+        try:
+            location_str, location_info = ips_to_location_single_2(ip)
+            ip_location_map[ip] = location_str
+            ip_location_info_map[ip] = location_info
+            location_num_map[location_str] = location_num_map.get(location_str,0) + ip_num
+        except Exception as e:
+            errors.append(f"处理IP {ip} 失败: {str(e)}")
+            print(f"处理IP {ip} 失败: {str(e)}")
+            continue
+            
+    return ip_location_map, ip_location_info_map, location_num_map, errors
+
+
+
+def ips_to_location_single(ip: str):
+    """
+    使用单次查询API将单个IP地址转换为地理位置信息
+    param:
+        ip: IP地址
+    return:
+        location_str: 地理位置字符串
+        location_info: 地理位置详细信息字典
+    """
+    url = f"https://api.ipinfo.io/{ip}?token={access_token}"
+    
+    response = requests.get(url, timeout=10)
+    ip_data = response.json()
+    
+    if "error" in ip_data:
+        print(f"IP {ip} 查询失败: {url}")
+        raise Exception(f"IP {ip} 查询失败: {ip_data['error']}")
+        
+    # 存储完整的地理信息
+    location_info = {
+        'ip': ip_data.get('ip'),
+        'type': ip_data.get('type'),
+        'continent_code': ip_data.get('continent_code'),
+        'continent_name': ip_data.get('continent_name'),
+        'country_code': ip_data.get('country_code'),
+        'country_name': ip_data.get('country_name'),
+        'region_code': ip_data.get('region_code'),
+        'region_name': ip_data.get('region_name'),
+        'city': ip_data.get('city'),
+        'zip': ip_data.get('zip'),
+        'latitude': ip_data.get('latitude'),
+        'longitude': ip_data.get('longitude'),
+        'msa': ip_data.get('msa'),
+        'dma': ip_data.get('dma'),
+        'radius': ip_data.get('radius'),
+        'ip_routing_type': ip_data.get('ip_routing_type'),
+        'connection_type': ip_data.get('connection_type')
+    }
+    
+    # 简化的地理位置字符串
+    location_str = f"{ip_data.get('country_name', '')},{ip_data.get('region_name', '')},{ip_data.get('city', '')}"
+    
+    return location_str, location_info
+
+
+
+
+def ips_to_location_single_2(ip: str):
+    """
+    使用ip-api.com的API将单个IP地址转换为地理位置信息
+    param:
+        ip: IP地址
+    return:
+        location_str: 地理位置字符串
+        location_info: 地理位置详细信息字典
+    """
+    url = f"http://ip-api.com/json/{ip}"
+    
+    response = requests.get(url, timeout=10)
+    ip_data = response.json()
+    
+    if ip_data.get("status") != "success":
+        print(f"IP {ip} 查询失败: {url}")
+        raise Exception(f"IP {ip} 查询失败: {ip_data.get('message', '未知错误')}")
+        
+    # 存储完整的地理信息
+    location_info = {
+        'ip': ip_data.get('query'),
+        'country_code': ip_data.get('countryCode'),
+        'country_name': ip_data.get('country'),
+        'region_code': ip_data.get('region'),
+        'region_name': ip_data.get('regionName'),
+        'city': ip_data.get('city'),
+        'zip': ip_data.get('zip'),
+        'latitude': ip_data.get('lat'),
+        'longitude': ip_data.get('lon'),
+        'timezone': ip_data.get('timezone'),
+        'isp': ip_data.get('isp'),
+        'org': ip_data.get('org'),
+        'as': ip_data.get('as')
+    }
+    
+    # 简化的地理位置字符串
+    location_str = f"{ip_data.get('country', '')},{ip_data.get('regionName', '')},{ip_data.get('city', '')}"
+    
+    return location_str, location_info
+
 
 def ips_to_location_bulk(ips: dict, batch_size=30):
     """
@@ -227,16 +288,12 @@ def ips_to_location_bulk(ips: dict, batch_size=30):
                     
                 except Exception as e:
                     errors.append(f"处理IP {ip} 数据时出错: {str(e)}")
+                    print(f"处理IP {ip} 数据时出错: {str(e)}")
                     
         except Exception as e:
             errors.append(f"批量查询请求失败: {str(e)}")
+            print(f"批量查询请求失败: {str(e)}")
+            print(f"批量查询请求失败: {url}")
             continue
             
     return ip_location_map, ip_location_info_map, location_num_map, errors
-
-
-
-
-
-
-
