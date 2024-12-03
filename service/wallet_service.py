@@ -20,10 +20,10 @@ class WalletService:
             return:用户钱包ID or None
         """
         return checkLocalUserAccountExist()
-    def checkLocalWalletOnchainStatus(self,wallet_id:str)->bool:
+    def checkLocalWalletOnchainStatus(self,wallet_id:str)->str:
         """
             检查本地钱包是否已上链
-            return:True or False
+            return:上链钱包ID or None
         """
         return checkLocalWalletOnchainStatus(wallet_id)
     def getPublicKey(self, wallet_id: str):

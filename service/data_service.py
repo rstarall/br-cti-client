@@ -255,8 +255,8 @@ class DataService:
             "stix_file_hash":"",
             "stix_type":CTI_TYPE["TRAFFIC"],#默认设置为恶意流量
             "stix_type_name":CTI_TYPE_NAME[CTI_TYPE["TRAFFIC"]],
-            "stix_tags":random.sample(TAGS_LIST,2),#随机两个标签
-            "stix_iocs":random.sample(IOCS_LIST,2),#随机两个iocs
+            "stix_tags":random.sample(list(TAGS_LIST.keys())[:-4],2),#随机两个标签
+            "stix_iocs":random.sample(list(IOCS_LIST.keys()),2),#随机两个iocs
             "ioc_ips_map":{},
             "create_time":time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
             "onchain":False
@@ -457,8 +457,8 @@ class DataService:
             "cti_type": cti_config.get("cti_type", stix_info["stix_type"]),
             "cti_traffic_type": CTI_TRAFFIC_TYPE["5G"] if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"] else 0, #注意类型
             "open_source": cti_config.get("open_source", 1),
-            "tags": stix_info["stix_tags"],
-            "iocs": stix_info["stix_iocs"],
+            "tags": stix_info["stix_tags"],#使用stix的标签
+            "iocs": stix_info["stix_iocs"],#使用stix的iocs
             "stix_data": stix_file_path, #暂时记录为stix文件路径
             "description": cti_config.get("description", ""),
             "data_size": os.path.getsize(stix_file_path),

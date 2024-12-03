@@ -10,7 +10,7 @@ from db.tiny_db import get_tiny_db_instance
 from utils.file import save_json_to_file,load_json_from_file
 from env.global_var import getUploadChainDataPath,getIpfsAddress
 from blockchain.ipfs.ipfs import upload_file_to_ipfs,download_file_from_ipfs
-from blockchain.fabric.cti_onchain import uploadCTIToBlockchain
+from blockchain.fabric.cti_onchain import uploadCTIToBlockchain,createCTIUploadTransaction
 import logging
 class BlockchainService:
     def __init__(self):
@@ -48,7 +48,11 @@ class BlockchainService:
             return: 文件路径
         """
         return download_file_from_ipfs(ipfs_hash)
-    
+    def createCTIUploadTransaction(self,wallet_id:str, password:str, cti_data:dict)->dict:
+        """
+            创建CTI上传链签名交易
+        """
+        return createCTIUploadTransaction(wallet_id, password, cti_data)
     
     def updateSTIXUpchainIPFSRecord(self,stix_file_hash,ipfs_hash):
         """

@@ -3,6 +3,26 @@ from blockchain.fabric import env_vars
 from blockchain.fabric.tx import createSignTransaction,createTransaction
 import logging
 import base64
+def createCTIUploadTransaction(wallet_id:str, password:str, cti_data:dict)->dict:
+    """
+        创建CTI上传链签名交易
+    """
+    # 创建签名交易
+    #tx_msg = createSignTransaction(wallet_id, password, cti_data)
+    # 暂时不需要签名
+    # 创建交易消息
+    tx_msg = createTransaction(wallet_id, password, cti_data)
+    
+    # 将交易数据转换为bytes，使用base64编码
+    tx_msg_data = {
+        "user_id": str(tx_msg["user_id"]),
+        "tx_data": tx_msg["tx_data"], 
+        "nonce": "",
+        "tx_signature": tx_msg["tx_signature"],
+        "nonce_signature": tx_msg["nonce_signature"]
+    }
+    return tx_msg_data
+
 def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str,bool]:
     """
     执行智能合约上传CTI数据到区块链
@@ -21,7 +41,6 @@ def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str
         # 创建交易消息
         tx_msg = createTransaction(wallet_id, password, cti_data)
         
-        # 将交易数据转换为bytes，使用base64编码
         tx_msg_data = {
             "user_id": str(tx_msg["user_id"]),
             "tx_data": tx_msg["tx_data"], 

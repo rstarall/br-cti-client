@@ -3,6 +3,7 @@ import requests
 from blockchain.fabric import env_vars
 from blockchain.user.signature import ecc_sign,ecc_sign_with_password
 from blockchain.user.wallet import checkLocalUserAccountExist
+import base64
 def createTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
     """
         创建交易(不需要验证签名)
@@ -19,12 +20,15 @@ def createTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
         raise Exception("钱包ID不一致")
         
     # 处理交易数据
-    tx_data_bytes= json.dumps(tx_data)
+    #处理tx_data
+    tx_data_bytes = json.dumps(tx_data).encode('utf-8')
+    #base64编码
+    tx_data_base64 = base64.b64encode(tx_data_bytes).decode('utf-8')
            
     # 构造交易消息
     tx_msg = {
         "user_id": wallet_id,
-        "tx_data": tx_data_bytes,          # 交易数据(Json str)
+        "tx_data": tx_data_base64,          # 交易数据(Json base64 str)
         "tx_signature": "",  
         "nonce_signature": ""
     }
@@ -48,10 +52,12 @@ def createSignTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
         raise Exception("钱包ID不一致")
     
     #处理tx_data
-    tx_data_str = json.dumps(tx_data)
+    tx_data_bytes = json.dumps(tx_data).encode('utf-8')
+    #base64编码
+    tx_data_base64 = base64.b64encode(tx_data_bytes).decode('utf-8')
     #签名
     try:
-        tx_signature,tx_data_bytes = ecc_sign_with_password(wallet_id, password, tx_data_str)
+        tx_signature,tx_data_bytes = ecc_sign_with_password(wallet_id, password, tx_data_base64)
     except Exception as e:
         raise Exception("签名失败")
     #获取nonce

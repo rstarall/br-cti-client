@@ -10,6 +10,7 @@ from blockchain.user.signature import load_public_key
 from env.global_var import getUserWalletAbsolutePath
 from utils.request import request_post
 from env.global_var import fabricServerHost
+import json
 import base64
 import os
 
@@ -28,18 +29,26 @@ def checkLocalUserAccountExist():
                 return wallet_id
     return None
 
-def checkLocalWalletOnchainStatus(wallet_id:str)->bool:
+def checkLocalWalletOnchainStatus(wallet_id:str)->str:
     """
         检查本地钱包是否已上链
+        return:上链钱包ID or None
     """
     userWalletPath = getUserWalletAbsolutePath()
     #检测wallet文件夹下所有钱包文件夹是否存在
-    walletOnchainFilePath = os.path.join(userWalletPath,wallet_id,"onchain.json")
-    
-    if os.path.exists(walletOnchainFilePath):
-        return True
-    
-    return False
+    wallet_dir = os.path.join(userWalletPath, wallet_id)
+    if not os.path.exists(wallet_dir):
+        return None
+    #遍历文件夹下所有以_onchain.json结尾的文件
+    for file_name in os.listdir(wallet_dir):
+        if file_name.endswith("wallet_status.json"):
+            onchain_file_path = os.path.join(wallet_dir, file_name)
+            with open(onchain_file_path, 'r') as f:
+                onchain_data = json.load(f)
+                if onchain_data.get("onchain"):
+                    if onchain_data.get("onchain_wallet_id",None) is not None:
+                        return onchain_data.get("onchain_wallet_id")
+    return None
 
 def getLocalUserWalletId():
     """

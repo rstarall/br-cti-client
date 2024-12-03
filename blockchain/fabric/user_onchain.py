@@ -7,21 +7,29 @@ import requests
 from blockchain.fabric import env_vars
 from blockchain.user.wallet import getUserPublicKey
 from env.global_var import getUserWalletAbsolutePath
-
+import os
 userInfoExample = {
     "user_name":"admin",
     "public_key":"",
 }
 
-def updateLocalWalletOnchainStatus(wallet_id:str):
+def updateLocalWalletOnchainStatus(wallet_id:str,onchain_wallet_id:str):
     """
     更新本地钱包上链状态
     """
     #获取本地钱包文件夹
     wallet_dir = getUserWalletAbsolutePath()+"/"+wallet_id
+    new_wallet_dir = getUserWalletAbsolutePath()+"/"+onchain_wallet_id
+    #修改文件夹名称为链上ID
+    os.rename(wallet_dir,new_wallet_dir)
     #更新钱包文件夹中的onchain_status.json文件
-    with open(wallet_dir+"/onchain.json","w") as f:
-        json.dump({"onchain":True},f)
+    onchain_file_name = "wallet_status.json"
+    with open(new_wallet_dir+"/"+onchain_file_name,"w") as f:
+        json.dump({
+            "onchain":True,
+            "local_wallet_id":wallet_id,
+            "onchain_wallet_id":onchain_wallet_id
+        },f)
 
 def registerUserOnchain(wallet_id:str, user_name:str="")->tuple[str,bool]:
     """
@@ -50,8 +58,9 @@ def registerUserOnchain(wallet_id:str, user_name:str="")->tuple[str,bool]:
         if response.status_code != 200:
            
             return response.json()['error'], False
-        updateLocalWalletOnchainStatus(wallet_id)            
-        return response.json()['result'], True
+        onchain_wallet_id = response.json()['result']
+        updateLocalWalletOnchainStatus(wallet_id,onchain_wallet_id)            
+        return onchain_wallet_id, True
         
     except Exception as e:
         return str(e), False

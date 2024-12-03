@@ -24,7 +24,10 @@ def checkLocalWalletOnchainStatus():
     if not wallet_id:
         return jsonify({'code': 400, 'message': 'wallet_id is required', 'data': None})
     result = wallet_service.checkLocalWalletOnchainStatus(wallet_id)
-    return jsonify({'code': 200, 'message': 'success', 'data': {'onchain': result}})
+    if result is None:
+        return jsonify({'code': 200, 'message': 'success', 'data': {'onchain': False}})
+    else:
+        return jsonify({'code': 200, 'message': 'success', 'data': {'onchain': True, 'onchain_wallet_id': result}})
 
 #创建本地钱包
 @user_blue.route('/createLocalUserWallet',methods=['POST'])
