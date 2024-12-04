@@ -203,7 +203,8 @@ class BlockchainService:
             try:
                 result,success = uploadCTIToBlockchain(wallet_id, wallet_password, cti_data)
                 if success:
-                    cti_id = result
+                    if result is not None:
+                        cti_id = result.get("cti_id")
                 else:
                     raise Exception(result)
             except Exception as e:

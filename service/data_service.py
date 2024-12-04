@@ -410,7 +410,23 @@ class DataService:
         """
         thread = threading.Thread(target=self.create_local_cti_records_by_hash,args=(source_file_hash,cti_config))
         thread.start()
-        
+
+    def updateSTIXToCTIResult(self,stix_file_hash,cti_file_path =None):
+        """
+            更新STIX 转换成CTI的结果
+        """
+        try:
+            old_stix_upchain_records = self.tiny_db.use_database("stix_records").read_by_key_value("stix_records","stix_file_hash",stix_file_hash)
+            if old_stix_upchain_records is not None and len(old_stix_upchain_records)>0:
+                stix_file_path = old_stix_upchain_records[0].get("stix_file_path")
+                if os.path.exists(stix_file_path):
+                    if cti_file_path:
+                        read_stix_file_content = load_json_from_file(stix_file_path)
+                        read_stix_file_content["cti_file_path"] = cti_file_path
+                        save_json_to_file(stix_file_path,read_stix_file_content)
+        except Exception as e:
+            logging.error(f"updateSTIXToCTIResult error:{e}")
+
     def create_local_cti_records_by_hash(self,source_file_hash,cti_config):
         """
             根据source_file_hash创建本地情报记录
@@ -450,9 +466,12 @@ class DataService:
                 - stix_info: stix信息记录
                 - cti_config: 情报配置
         """
-        stix_file_hash = get_file_sha256_hash(stix_file_path)
+        stix_file_hash = stix_info["stix_file_hash"]
+        if stix_file_hash=="":
+            stix_file_hash = get_file_sha256_hash(stix_file_path)
         new_cti_info_record = {
             "cti_hash": stix_file_hash,
+            "cti_name": cti_config.get("cti_name", ""),
             "creator_user_id": wallet_service.checkUserAccountExist(),
             "cti_type": cti_config.get("cti_type", stix_info["stix_type"]),
             "cti_traffic_type": CTI_TRAFFIC_TYPE["5G"] if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"] else 0, #注意类型
@@ -490,6 +509,8 @@ class DataService:
         if new_cti_info_record["cti_hash"]!="":
             cti_record_detail_path = data_client_path+"/cti_records/"+source_file_hash+"/"+new_cti_info_record["cti_hash"]+".json"
             save_json_to_file(cti_record_detail_path,new_cti_info_record)
+            #更新STIX 转换成CTI的结果
+            self.updateSTIXToCTIResult(stix_file_hash,cti_record_detail_path)
         #保存摘要
         cti_record = {
             "source_file_hash":source_file_hash,

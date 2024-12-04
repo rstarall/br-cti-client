@@ -346,7 +346,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
         #计算数据hash
         stix_data_hash = ""
         try:
-            stix_data_hash = get_sha256_hash(json.dumps(buffer).encode())
+            stix_data_hash = get_sha256_hash(json.dumps(buffer).encode("utf-8"))
         except Exception as e:
             print(f"数据hash计算失败：{e}")
             errors.append(f"数据hash计算失败：{e}")

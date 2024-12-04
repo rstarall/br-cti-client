@@ -81,12 +81,12 @@ def queryUserPointInfo():
 
 
 #获取用户统计数据
-@user_blue.route('/getUserStatistics',methods=['POST'])
+@user_blue.route('/getUserCTIStatistics',methods=['POST'])
 def getUserStatistics():
     user_id = request.json.get('user_id')
     if not user_id:
         return jsonify({'code': 400, 'message': 'user_id is required', 'data': None})
-    result,success = wallet_service.getUserStatistics(user_id)
+    result,success = wallet_service.getUserCTIStatistics(user_id)
     if success:
         return jsonify({'code': 200, 'message': 'success', 'data': result})
     else:
@@ -113,5 +113,33 @@ def getTransactionNonce():
     result,success = wallet_service.getSignatureNonce(wallet_id,tx_sign)
     if success:
         return jsonify({'code': 200, 'message': 'success', 'data': {'nonce': result}})
+    else:
+        return jsonify({'code': 400, 'message': result, 'data': None})
+    
+#购买CTI
+@user_blue.route('/purchaseCTIFromBlockchain',methods=['POST'])
+def purchaseCTIFromBlockchain():
+    wallet_id = request.json.get('wallet_id')
+    password = request.json.get('password')
+    cti_id = request.json.get('cti_id')
+    if not wallet_id or not password or not cti_id:
+        return jsonify({'code': 400, 'message': '参数不完整', 'data': None})
+    result,success = wallet_service.purchaseCTIFromBlockchain(wallet_id, password, cti_id)
+    if success:
+        return jsonify({'code': 200, 'message': 'success', 'data': result})
+    else:
+        return jsonify({'code': 400, 'message': result, 'data': None})
+
+#创建CTI购买交易
+@user_blue.route('/createCTIPurchaseTransaction',methods=['POST'])
+def createCTIPurchaseTransaction():
+    wallet_id = request.json.get('wallet_id')
+    password = request.json.get('password')
+    cti_id = request.json.get('cti_id')
+    if not wallet_id or not password or not cti_id:
+        return jsonify({'code': 400, 'message': '参数不完整', 'data': None})
+    result = wallet_service.createCTIPurchaseTransaction(wallet_id, password, cti_id)
+    if result:
+        return jsonify({'code': 200, 'message': 'success', 'data': result})
     else:
         return jsonify({'code': 400, 'message': result, 'data': None})

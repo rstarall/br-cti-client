@@ -42,7 +42,8 @@ fabricServerApi = {
     },
     "user":{
         "registerUserAccount": "/user/registerUserAccount",
-        "queryUserInfo": "/user/queryUserInfo"
+        "queryUserInfo": "/user/queryUserInfo",
+        "getUserCTIStatistics": "/user/getUserStatistics"
     },
     "cti":{
         "registerCtiInfo": "/cti/registerCtiInfo", 

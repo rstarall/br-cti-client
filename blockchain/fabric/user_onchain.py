@@ -122,13 +122,13 @@ def queryUserPointInfo(user_id: str) -> tuple[dict, bool]:
 
 
 
-def getUserStatistics(user_id: str) -> tuple[dict, bool]:
+def getUserCTIStatistics(user_id: str) -> tuple[dict, bool]:
     """
-    获取用户统计数据
+    获取用户CTI统计数据
     params:
         user_id: 用户ID
     return:
-        result: 用户统计数据
+        result: 用户CTI统计数据
         success: 是否成功
     """
     try:
@@ -138,9 +138,8 @@ def getUserStatistics(user_id: str) -> tuple[dict, bool]:
         }
         
         # 发送POST请求到fabric-server
-        response = requests.post(env_vars.fabricServerHost + env_vars.fabricServerApi['user']['getUserStatistics'],
+        response = requests.post(env_vars.fabricServerHost + env_vars.fabricServerApi['user']['getUserCTIStatistics'],
                                json=data)
-                               
         if response.status_code != 200:
             return response.json()['error'], False
             

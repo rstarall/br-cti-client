@@ -10,6 +10,8 @@ from blockchain.fabric.tx import getTransactionNonce
 from blockchain.user.wallet import getUserPublicKey,checkWalletPassword
 from blockchain.fabric.user_onchain import registerUserOnchain
 from blockchain.user.wallet import checkLocalWalletOnchainStatus
+from blockchain.fabric.cti_onchain import purchaseCTIFromBlockchain,createCTIPurchaseTransaction
+from blockchain.fabric.user_onchain import getUserCTIStatistics
 import base64
 class WalletService:
     def __init__(self):
@@ -85,4 +87,23 @@ class WalletService:
                 - bool: 密码是否正确
         """
         return checkWalletPassword(wallet_id, password)
-
+    def createCTIPurchaseTransaction(self, wallet_id:str, password:str, cti_id:str)->dict:
+        """
+            创建CTI购买交易(签名结构)
+        """
+        return createCTIPurchaseTransaction(wallet_id, password, cti_id)
+    def purchaseCTIFromBlockchain(self, wallet_id:str, password:str, cti_id:str)->tuple[str,bool]:
+        """
+            从区块链购买CTI
+        """
+        return purchaseCTIFromBlockchain(wallet_id, password, cti_id)
+    def getUserCTIStatistics(self, user_id: str)->tuple[dict,bool]:
+        """
+            获取用户CTI统计数据
+            param:
+                - user_id: 用户ID
+            return:
+                - dict: 用户CTI统计数据
+                - bool: 是否成功
+        """
+        return getUserCTIStatistics(user_id)
