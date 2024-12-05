@@ -19,7 +19,7 @@ def createCTIUploadTransaction(wallet_id:str, password:str, cti_data:dict)->dict
     tx_msg_data = {
         "user_id": str(tx_msg["user_id"]),
         "tx_data": tx_msg["tx_data"], 
-        "nonce": "",
+        "nonce": tx_msg["nonce"],
         "tx_signature": tx_msg["tx_signature"],
         "nonce_signature": tx_msg["nonce_signature"]
     }
@@ -46,7 +46,7 @@ def uploadCTIToBlockchain(wallet_id:str, password:str, cti_data:dict)->tuple[str
         tx_msg_data = {
             "user_id": str(tx_msg["user_id"]),
             "tx_data": tx_msg["tx_data"], 
-            "nonce": "",
+            "nonce": tx_msg["nonce"],
             "tx_signature": tx_msg["tx_signature"],
             "nonce_signature": tx_msg["nonce_signature"]
         }
@@ -84,7 +84,7 @@ def createCTIPurchaseTransaction(wallet_id:str, password:str, cti_id:str)->dict:
     tx_msg_data = {
         "user_id": str(tx_msg["user_id"]),
         "tx_data": tx_msg["tx_data"], 
-        "nonce": "",
+        "nonce": tx_msg["nonce"],
         "tx_signature": tx_msg["tx_signature"],
         "nonce_signature": tx_msg["nonce_signature"]
     }
@@ -108,7 +108,7 @@ def purchaseCTIFromBlockchain(wallet_id:str, password:str, cti_id:str)->tuple[st
         tx_msg_data = {
             "user_id": str(tx_msg["user_id"]),
             "tx_data": tx_msg["tx_data"],
-            "nonce": "",
+            "nonce": tx_msg["nonce"],
             "tx_signature": tx_msg["tx_signature"], 
             "nonce_signature": tx_msg["nonce_signature"]
         }

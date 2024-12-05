@@ -2,6 +2,7 @@ import os
 
 fabricServerHost = "http://localhost:7777"
 ipfsAddress = "/ip4/127.0.0.1/tcp/5001/http"
+ipfsDownloadHost = "http://127.0.0.1:8080"
 userWalletPath = "blockchain/wallet"
 uploadFilePath = "data/upload"
 outputDirPath = "data/output"

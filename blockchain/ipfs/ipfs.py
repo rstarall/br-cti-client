@@ -49,3 +49,12 @@ def download_file_from_ipfs(ipfs_hash:str,save_path=None)->tuple[str,str]:
     except Exception as e:
         print(f"下载文件出错: {e}")
         return None,f"Error downloading file: {e}"
+
+
+def get_ipfs_file_url(ipfs_hash:str)->str:
+    """
+        获取IPFS文件URL
+        :param ipfs_hash:IPFS hash
+        :return URL
+    """
+    return f"{ipfs_address}/ipfs/{ipfs_hash}"

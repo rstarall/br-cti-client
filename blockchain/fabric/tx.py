@@ -4,6 +4,7 @@ from blockchain.fabric import env_vars
 from blockchain.user.signature import ecc_sign,ecc_sign_with_password
 from blockchain.user.wallet import checkLocalUserAccountExist
 import base64
+import os
 def createTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
     """
         创建交易(不需要验证签名)
@@ -25,11 +26,15 @@ def createTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
     #base64编码
     tx_data_base64 = base64.b64encode(tx_data_bytes).decode('utf-8')
            
+    # 生成大随机数
+    nonce = base64.b64encode(os.urandom(16)).decode('utf-8')
+    
     # 构造交易消息
     tx_msg = {
         "user_id": wallet_id,
         "tx_data": tx_data_base64,          # 交易数据(Json base64 str)
         "tx_signature": "",  
+        "nonce": nonce,                     # 随机数(base64 str)
         "nonce_signature": ""
     }
     
