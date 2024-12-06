@@ -11,6 +11,7 @@ from blockchain.user.wallet import getUserPublicKey,checkWalletPassword
 from blockchain.fabric.user_onchain import registerUserOnchain
 from blockchain.user.wallet import checkLocalWalletOnchainStatus
 from blockchain.fabric.cti_onchain import purchaseCTIFromBlockchain,createCTIPurchaseTransaction
+from blockchain.fabric.ml_onchain import purchaseModelFromBlockchain,createModelPurchaseTransaction
 from blockchain.fabric.user_onchain import getUserCTIStatistics
 import base64
 class WalletService:
@@ -97,6 +98,19 @@ class WalletService:
             从区块链购买CTI
         """
         return purchaseCTIFromBlockchain(wallet_id, password, cti_id)
+    
+    def createModelPurchaseTransaction(self, wallet_id:str, password:str, model_id:str)->dict:
+        """
+            创建模型购买交易(签名结构)
+        """
+        return createModelPurchaseTransaction(wallet_id, password, model_id)
+    
+    def purchaseModelFromBlockchain(self, wallet_id:str, password:str, model_id:str)->tuple[str,bool]:
+        """
+            从区块链购买模型
+        """
+        return purchaseModelFromBlockchain(wallet_id, password, model_id)
+
     def getUserCTIStatistics(self, user_id: str)->tuple[dict,bool]:
         """
             获取用户CTI统计数据

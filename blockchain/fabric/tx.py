@@ -2,7 +2,7 @@ import json
 import requests
 from blockchain.fabric import env_vars
 from blockchain.user.signature import ecc_sign,ecc_sign_with_password
-from blockchain.user.wallet import checkLocalUserAccountExist
+from blockchain.user.wallet import checkLocalUserAccountExist,checkWalletPassword
 import base64
 import os
 def createTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
@@ -19,7 +19,9 @@ def createTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
     local_wallet_id = checkLocalUserAccountExist()
     if local_wallet_id != wallet_id:
         raise Exception("钱包ID不一致")
-        
+    #检查密码
+    if not checkWalletPassword(wallet_id,password):
+        raise Exception("密码错误")
     # 处理交易数据
     #处理tx_data
     tx_data_bytes = json.dumps(tx_data).encode('utf-8')

@@ -143,3 +143,17 @@ def createCTIPurchaseTransaction():
         return jsonify({'code': 200, 'message': 'success', 'data': result})
     else:
         return jsonify({'code': 400, 'message': result, 'data': None})
+
+#购买模型
+@user_blue.route('/purchaseModelFromBlockchain',methods=['POST'])
+def purchaseModelFromBlockchain():
+    wallet_id = request.json.get('wallet_id')
+    password = request.json.get('password') 
+    model_id = request.json.get('model_id')
+    if not wallet_id or not password or not model_id:
+        return jsonify({'code': 400, 'message': '参数不完整', 'data': None})
+    result,success = wallet_service.purchaseModelFromBlockchain(wallet_id, password, model_id)
+    if success:
+        return jsonify({'code': 200, 'message': 'success', 'data': result})
+    else:
+        return jsonify({'code': 400, 'message': result, 'data': None})

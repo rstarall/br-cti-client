@@ -43,13 +43,15 @@ fabricServerApi = {
     "user":{
         "registerUserAccount": "/user/registerUserAccount",
         "queryUserInfo": "/user/queryUserInfo",
-        "getUserCTIStatistics": "/user/getUserStatistics"
+        "getUserCTIStatistics": "/user/getUserStatistics",
+        "purchaseCti": "/user/purchaseCti",
+        "purchaseModel": "/user/purchaseModel"
     },
     "cti":{
         "registerCtiInfo": "/cti/registerCtiInfo", 
         "queryCtiInfo": "/cti/queryCtiInfo",
         "queryCtiInfoByIDWithPagination": "/cti/queryCtiInfoByIDWithPagination",
-        "queryCtiInfoByType": "/cti/queryCtiInfoByType"
+        "queryCtiInfoByType": "/cti/queryCtiInfoByType",
     },
     "model":{
         "registerModelInfo": "/model/registerModelInfo",

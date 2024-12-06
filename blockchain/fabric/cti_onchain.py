@@ -114,7 +114,7 @@ def purchaseCTIFromBlockchain(wallet_id:str, password:str, cti_id:str)->tuple[st
         }
 
         # 发送POST请求到fabric-server
-        response = requests.post(env_vars.fabricServerHost + env_vars.fabricServerApi['cti']['purchaseCti'],
+        response = requests.post(env_vars.fabricServerHost + env_vars.fabricServerApi['user']['purchaseCti'],
                                json=tx_msg_data)
         logging.info("purchaseCTIFromBlockchain response:"+str(response.json()))
         
