@@ -71,7 +71,18 @@ def train_and_save_model(request_id,source_file_hash,output_dir_path, df, target
         model_save_path -- 模型保存路径
     """
     # 记录模型信息
-    model_info = {}
+    model_info = {
+        "request_id": request_id,
+        "source_file_hash": source_file_hash, 
+        "output_dir_path": output_dir_path,
+        "target_column": target_column,
+        "model_name": None, #模型名称
+        "test_size": None, #测试集比例
+        "model_save_path": None, #模型保存路径
+        "pca": None, #主成分信息
+        "training_time": None, #训练时间
+        "created_time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) #创建时间
+    }
     # 记录训练开始时间
     start_time = time.time()
     # 1. 特征工程

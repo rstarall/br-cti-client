@@ -14,9 +14,7 @@ import os
 def generate_request_id(source_file_hash):
     return str(uuid.uuid4())
 
-
-
-def start_model_process_task(request_id,source_file_hash,source_file_path,target_label_column):
+def start_model_process_task(request_id,source_file_hash,source_file_path,target_label_column,cti_id=None):
     """
         启动模型训练(测试)任务
         参数:
@@ -24,6 +22,7 @@ def start_model_process_task(request_id,source_file_hash,source_file_path,target
         - source_file_hash: 训练源文件的HASH
         - source_file_path: 训练源文件的路径
         - target_label_column: 目标列的列名(label)
+        - cti_id: CTI的ID
     """
     if request_id is None:
         return None, "request_id不能为空"
@@ -36,6 +35,10 @@ def start_model_process_task(request_id,source_file_hash,source_file_path,target
     output_dir_path = getMlOutputDirPath()+f"/{source_file_hash}"
     # 记录模型信息
     model_info = {}
+    if cti_id is not None:
+        model_info["cti_id"] = cti_id
+    else:
+        model_info["cti_id"] = ""
     # 1.清理数据
     raw_df, err_msg = read_file_as_df(source_file_path)
     if raw_df is None:
@@ -59,12 +62,14 @@ def start_model_process_task(request_id,source_file_hash,source_file_path,target
     #3.获取模型hash
     model_hash = get_model_hash(model_save_path)
     model_info['model_hash'] = model_hash
+    model_info['evaluation_results'] = None
     #4.评估模型
     try:
-        evaluate_model(request_id,source_file_hash,
+        evaluation_results = evaluate_model(request_id,source_file_hash,
                        model_path=model_save_path,
-                   df=df,
-                   target_column=target_label_column)
+                       df=df,
+                        target_column=target_label_column)
+        model_info['evaluation_results'] = evaluation_results
     except Exception as e:
         save_model_record(request_id,'evaluate_failed',source_file_hash,model_info)
         return None, str(e)

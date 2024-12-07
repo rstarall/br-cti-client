@@ -29,6 +29,21 @@ def checkLocalUserAccountExist():
                 return wallet_id
     return None
 
+def getLocalUserAccountMulti():
+    """
+        获取用户钱包列表(多个钱包)
+        return:钱包ID列表
+    """
+    userWalletPath = getUserWalletAbsolutePath()
+    wallet_ids = []
+    #检测wallet文件夹下所有钱包文件夹是否存在
+    for wallet_id in os.listdir(userWalletPath):
+        if os.path.exists(os.path.join(userWalletPath, wallet_id, 'public_key.pem')):
+            if os.path.exists(os.path.join(userWalletPath, wallet_id, 'private_key.pem')):
+                wallet_ids.append(wallet_id)
+    return wallet_ids
+
+
 def checkLocalWalletOnchainStatus(wallet_id:str)->str:
     """
         检查本地钱包是否已上链

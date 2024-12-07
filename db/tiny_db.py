@@ -28,6 +28,7 @@ class TinyDBUtil:
             "data_task_records":data_client_path+"/task_records/task_records.json",
             "ml_records":ml_client_path+"/ml_records.json",
             "ml_task_records":ml_client_path+"/task_records/task_records.json",
+            "ml_download_progress":ml_client_path+"/download_progress.json",
             "stix_process_progress":progress_path+"/stix_process_progress.json",
             "cti_process_progress":progress_path+"/cti_process_progress.json",
             "cti_upchain_progress":progress_path+"/cti_upchain_progress.json",

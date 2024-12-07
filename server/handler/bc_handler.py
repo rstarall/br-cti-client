@@ -51,6 +51,7 @@ def query_block_height():
     except Exception as e:
         return jsonify({'code': 500, 'msg': str(e)})
 
+#---------------------------------------------------CTI上链---------------------------------------------------
 @bc_blue.route("/upload_cti", methods=['POST'])
 def upload_cti_to_blockchain():
     """
@@ -114,6 +115,122 @@ def get_upload_cti_progress():
         
         # 获取上链进度
         progress = bcService.getCTIUpchainProgress(source_file_hash)
+        return jsonify({'code': 200, 'msg': 'success', 'data': progress})
+    
+    except Exception as e:
+        return jsonify({'code': 500, 'msg': str(e)})
+    
+#---------------------------------------------------模型上链---------------------------------------------------
+
+@bc_blue.route("/upload_model_to_bc_by_source_file_hash", methods=['POST'])
+def upload_model_to_bc_by_source_file_hash():
+    """
+        上传模型数据到区块链
+    """
+    try:
+        data = request.get_json()
+        source_file_hash = data.get('file_hash')
+        upchain_account = data.get('upchain_account')
+        upchain_account_password = data.get('upchain_account_password')
+        
+        if not source_file_hash:
+            return jsonify({'code': 400, 'msg': 'file_hash parameter is required'})
+        if not upchain_account:
+            return jsonify({'code': 400, 'msg': 'upchain_account parameter is required'})
+        if not upchain_account_password:
+            return jsonify({'code': 400, 'msg': 'upchain_account_password parameter is required'})
+        
+        # 调用服务层方法上传模型数据
+        result, ok = bcService.uploadModelToBCByFileSourceHash(source_file_hash,upchain_account,upchain_account_password)
+        if not ok:
+            return jsonify({
+                'code': 502, 
+                'msg': result,
+                'error': '区块链网络错误'
+            })
+        
+        # 获取进度信息
+        progress = bcService.getModelUpchainProgress(source_file_hash)
+             
+        return jsonify({
+            'code': 200, 
+            'msg': 'success', 
+            'data': {
+                'current_step': progress.get('current_step',0),
+                'total_step': progress.get('total_step',0),
+            }
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'code': 500, 
+            'msg': str(e),
+            'error': '服务器内部错误'
+        })
+
+@bc_blue.route("/upload_model_to_bc_by_model_hash", methods=['POST'])
+def upload_model_to_bc_by_model_hash():
+    """
+        上传模型数据到区块链
+    """
+    try:
+        data = request.get_json()
+        source_file_hash = data.get('file_hash')
+        model_hash = data.get('model_hash')
+        upchain_account = data.get('upchain_account')
+        upchain_account_password = data.get('upchain_account_password')
+        
+        if not source_file_hash:
+            return jsonify({'code': 400, 'msg': 'file_hash parameter is required'})
+        if not model_hash:
+            return jsonify({'code': 400, 'msg': 'model_hash parameter is required'})
+        if not upchain_account:
+            return jsonify({'code': 400, 'msg': 'upchain_account parameter is required'})
+        if not upchain_account_password:
+            return jsonify({'code': 400, 'msg': 'upchain_account_password parameter is required'})
+        
+        # 调用服务层方法上传模型数据
+        result, ok = bcService.uploadModelToBCByModelHash(source_file_hash, model_hash, upchain_account, upchain_account_password)
+        if not ok:
+            return jsonify({
+                'code': 502,
+                'msg': result, 
+                'error': '区块链网络错误'
+            })
+            
+        # 获取进度信息
+        progress = bcService.getModelUpchainProgress(source_file_hash)
+        
+        return jsonify({
+            'code': 200,
+            'msg': 'success',
+            'data': {
+                'current_step': progress.get('current_step',0),
+                'total_step': progress.get('total_step',0),
+            }
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'code': 500,
+            'msg': str(e),
+            'error': '服务器内部错误'
+        })
+
+@bc_blue.route("/get_upload_model_progress", methods=['POST'])
+def get_upload_model_progress():
+    """
+        获取模型数据上链进度
+    """
+    try:
+        data = request.get_json()
+        source_file_hash = data.get('file_hash')
+        
+        if not source_file_hash:
+            return jsonify({'code': 400, 'msg': 'file_hash parameter is required'})
+        
+        # 获取上链进度
+        progress = bcService.getModelUpchainProgress(source_file_hash)
         return jsonify({'code': 200, 'msg': 'success', 'data': progress})
     
     except Exception as e:

@@ -45,6 +45,16 @@ def get_file_md5_hash(file_path):
             md5_hash.update(byte_block)
     return md5_hash.hexdigest()
 
+def get_file_by_hash(upload_file_path,file_hash):
+    """
+        根据文件的sha256哈希值,获取文件路径
+        param:
+            upload_file_path:上传文件路径
+            file_hash:文件的sha256哈希值
+        return:
+            file_path:文件路径,如果文件不存在则返回None
+    """
+    return check_file_by_hash(upload_file_path,file_hash)
 
 def check_file_by_hash(upload_file_path,file_hash):
     """
@@ -137,6 +147,7 @@ def save_json_to_file(file_path,data):
         os.makedirs(chain_data_dir_path)
     with open(file_path,"w") as fp:
         fp.write(json.dumps(data))
+
 def load_json_from_file(file_path):
     """
         读取json文件

@@ -7,6 +7,7 @@ userWalletPath = "blockchain/wallet"
 uploadFilePath = "data/upload"
 outputDirPath = "data/output"
 mlUploadFilePath = "ml/upload"
+mlDownloadFilePath = "ml/download"
 mlOutputDirPath = "ml/output"
 uploadChainDataPath = "blockchain/data/upload"
 IPFSDownloadPath = "blockchain/data/download"
@@ -39,6 +40,9 @@ def getUploadFilePath():
 def getMlUploadFilePath():
     """获取ml client上传文件夹绝对路径"""
     return _get_abs_path(mlUploadFilePath, True)
+def getMlDownloadFilePath():
+    """获取ml client下载文件夹绝对路径"""
+    return _get_abs_path(mlDownloadFilePath, True)
 
 def getMlOutputDirPath():
     """获取ml client输出文件夹绝对路径"""

@@ -9,7 +9,7 @@ from blockchain.user.wallet import checkLocalUserAccountExist
 from blockchain.fabric.tx import getTransactionNonce
 from blockchain.user.wallet import getUserPublicKey,checkWalletPassword
 from blockchain.fabric.user_onchain import registerUserOnchain
-from blockchain.user.wallet import checkLocalWalletOnchainStatus
+from blockchain.user.wallet import checkLocalWalletOnchainStatus,getLocalUserAccountMulti
 from blockchain.fabric.cti_onchain import purchaseCTIFromBlockchain,createCTIPurchaseTransaction
 from blockchain.fabric.ml_onchain import purchaseModelFromBlockchain,createModelPurchaseTransaction
 from blockchain.fabric.user_onchain import getUserCTIStatistics
@@ -23,6 +23,12 @@ class WalletService:
             return:用户钱包ID or None
         """
         return checkLocalUserAccountExist()
+    def getLocalUserAccountMulti(self):
+        """
+            获取用户钱包列表(多个钱包)
+            return:钱包ID列表
+        """
+        return getLocalUserAccountMulti()
     def checkLocalWalletOnchainStatus(self,wallet_id:str)->str:
         """
             检查本地钱包是否已上链
@@ -43,6 +49,7 @@ class WalletService:
             return:签名结果,base64编码
         """
         return ecc_sign_with_password(wallet_id, password, message)
+    
     def getSignatureNonce(self, wallet_id: str, password: str, tx_sign: str)->tuple[str,bool]:
         """
             获取签名随机数
@@ -74,7 +81,8 @@ class WalletService:
                 - bool:True or False
         """
         #检查本地账户一致性
-        if checkLocalUserAccountExist() != wallet_id:
+        wallet_ids = getLocalUserAccountMulti()
+        if wallet_id not in wallet_ids:
             return "local user account not exist",False
         return registerUserOnchain(wallet_id, user_name)
 
@@ -88,11 +96,13 @@ class WalletService:
                 - bool: 密码是否正确
         """
         return checkWalletPassword(wallet_id, password)
+    
     def createCTIPurchaseTransaction(self, wallet_id:str, password:str, cti_id:str)->dict:
         """
             创建CTI购买交易(签名结构)
         """
         return createCTIPurchaseTransaction(wallet_id, password, cti_id)
+    
     def purchaseCTIFromBlockchain(self, wallet_id:str, password:str, cti_id:str)->tuple[str,bool]:
         """
             从区块链购买CTI

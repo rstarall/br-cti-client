@@ -34,17 +34,92 @@ def upload_dataset_file():
     else:
         return jsonify({"code":400,'error': 'Invalid file type',"data":None})
     
+@ml_blue.route('/download_dataset_from_ipfs', methods=['POST'])
+def download_dataset_from_ipfs():
+    """
+    从IPFS下载数据集文件
+    """
+    try:
+        data = request.get_json()
+        data_source_hash = data.get('data_source_hash')
+        ipfs_hash = data.get('ipfs_hash')
+        
+        if not data_source_hash:
+            return jsonify({'code': 400, 'msg': 'data_source_hash parameter is required'})
+        if not ipfs_hash:
+            return jsonify({'code': 400, 'msg': 'ipfs_hash parameter is required'})
+            
+        # 调用服务层方法下载文件
+        file_path, error = ml_service.download_file_from_ipfs_by_hash(data_source_hash, ipfs_hash)
+        if error:
+            return jsonify({
+                'code': 500,
+                'msg': error,
+                'error': '下载文件失败'
+            })
+            
+        # 获取下载进度
+        progress = ml_service.get_download_progress(data_source_hash)
+        
+        return jsonify({
+            'code': 200,
+            'msg': 'success',
+            'data': {
+                'file_path': file_path,
+                'progress': progress if progress else 0
+            }
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'code': 500,
+            'msg': str(e),
+            'error': '服务器内部错误'
+        })
+
+@ml_blue.route('/get_download_progress', methods=['POST']) 
+def get_download_progress():
+    """
+    获取文件下载进度
+    """
+    try:
+        data = request.get_json()
+        data_source_hash = data.get('data_source_hash')
+        
+        if not data_source_hash:
+            return jsonify({'code': 400, 'msg': 'data_source_hash parameter is required'})
+            
+        progress = ml_service.get_download_progress(data_source_hash)
+        
+        return jsonify({
+            'code': 200,
+            'msg': 'success',
+            'data': {
+                'progress': progress if progress else 0
+            }
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'code': 500, 
+            'msg': str(e),
+            'error': '服务器内部错误'
+        })
+
+
+
+    
 
 @ml_blue.route('/create_model_task', methods=['POST'])
 def create_model_task():
     data = request.get_json()
     source_file_hash = data.get('file_hash',None)
     label_column = data.get('label_column',None)
-    
+    cti_id = data.get('cti_id',None)
     if not source_file_hash or not label_column:
         return jsonify({"code":400,'error': 'file_hash and label_column are required',"data":None})
     
-    result = ml_service.createModelTask(source_file_hash, label_column)
+    result = ml_service.createModelTask(source_file_hash, label_column,cti_id)
     if not result:
         return jsonify({"code":400,'error': 'Source file not found or invalid',"data":None})
         
@@ -133,3 +208,30 @@ def get_traffic_feature_list():
         return jsonify({"code":400,'error': error,"data":None})
     return jsonify({"code":200,'msg': 'Get traffic feature list successfully', 'data': features_name})
 
+
+#根据源文件hash创建模型上链信息文件
+@ml_blue.route('/create_model_upchain_info_by_source_file_hash', methods=['POST'])
+def create_model_upchain_info_by_source_file_hash():
+    data = request.get_json()
+    file_hash = data.get('file_hash')
+    if not file_hash:
+        return jsonify({"code":400,'error': 'file_hash is required',"data":None})
+    
+    result = ml_service.createModelUpchainInfoBySourceFileHash(file_hash)
+    if not result:
+        return jsonify({"code":400,'error': '创建模型上链信息文件失败',"data":None})
+    return jsonify({"code":200,'msg': '创建模型上链信息文件成功', 'data': None})
+
+#创建模型上链信息文件
+@ml_blue.route('/create_model_upchain_info', methods=['POST'])
+def create_model_upchain_info():
+    data = request.get_json()
+    file_hash = data.get('file_hash')
+    model_hash = data.get('model_hash')
+    if not file_hash or not model_hash:
+        return jsonify({"code":400,'error': 'file_hash and model_hash are required',"data":None})
+    
+    result = ml_service.createModelUpchainInfoFileSingle(file_hash,model_hash)
+    if not result:
+        return jsonify({"code":400,'error': 'Failed to create model upchain info file',"data":None})
+    return jsonify({"code":200,'msg': 'Create model upchain info file successfully', 'data': None})

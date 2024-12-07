@@ -351,6 +351,19 @@ class DataService:
             return stix_data
         else:
             return None
+        
+    #-----------------------------------情报处理-----------------------------------
+    def start_create_local_cti_records_by_hash(self,source_file_hash,cti_config):
+        """
+            启动线程创建本地情报记录
+            :param
+                wallet_id: 钱包ID
+                source_file_hash: 源文件的hash值
+                cti_config: 情报配置
+        """
+        thread = threading.Thread(target=self.create_local_cti_records_by_hash,args=(source_file_hash,cti_config))
+        thread.start()
+        
     def update_cti_process_progress(self,source_file_hash,current_step=None,total_step=None,current_task_id=None,total_task_list=None):
         """
             更新情报处理进度
@@ -401,15 +414,7 @@ class DataService:
         cti_process_progress = self.cti_process_progress.get(source_file_hash,None)
         return cti_process_progress
     
-    def start_create_local_cti_records_by_hash(self,source_file_hash,cti_config):
-        """
-            启动线程创建本地情报记录
-            :param
-                source_file_hash: 源文件的hash值
-                cti_config: 情报配置
-        """
-        thread = threading.Thread(target=self.create_local_cti_records_by_hash,args=(source_file_hash,cti_config))
-        thread.start()
+    
 
     def updateSTIXToCTIResult(self,stix_file_hash,cti_file_path =None):
         """
@@ -472,18 +477,19 @@ class DataService:
         new_cti_info_record = {
             "cti_hash": stix_file_hash,
             "cti_name": cti_config.get("cti_name", ""),
-            "creator_user_id": wallet_service.checkUserAccountExist(),
             "cti_type": cti_config.get("cti_type", stix_info["stix_type"]),
-            "cti_traffic_type": CTI_TRAFFIC_TYPE["5G"] if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"] else 0, #注意类型
+            "cti_traffic_type": CTI_TRAFFIC_TYPE["5G"] if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"] else 0,
             "open_source": cti_config.get("open_source", 1),
-            "tags": stix_info["stix_tags"],#使用stix的标签
-            "iocs": stix_info["stix_iocs"],#使用stix的iocs
-            "stix_data": stix_file_path, #暂时记录为stix文件路径
+            "tags": stix_info["stix_tags"],
+            "iocs": stix_info["stix_iocs"],
+            "statistic_info": "",  # 统计信息JSON
+            "stix_data": stix_file_path,  # STIX数据
+            "stix_ipfs_hash": "",  # STIX的IPFS地址
             "description": cti_config.get("description", ""),
             "data_size": os.path.getsize(stix_file_path),
-            "data_hash": stix_file_hash,
-            "ipfs_hash": "",
-            "value": cti_config.get("value", 10)
+            "data_source_hash": source_file_hash,  # 数据源hash
+            "data_source_ipfs_hash": "",  # 数据源IPFS地址
+            "value": cti_config.get("value", 0),
         }
         #处理create_time
         new_cti_info_record["create_time"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -535,6 +541,7 @@ class DataService:
         if cti_hash!=None:
             cti_record_detail_path = data_client_path+"/cti_records/"+source_file_hash+"/"+cti_hash+"_statistic_info.json"
             save_json_to_file(cti_record_detail_path,statistic_info)
+
     def get_cti_statistic_info_path(self,source_file_hash,cti_hash):
         """
             获取情报统计信息路径

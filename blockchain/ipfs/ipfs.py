@@ -58,3 +58,40 @@ def get_ipfs_file_url(ipfs_hash:str)->str:
         :return URL
     """
     return f"{ipfs_address}/ipfs/{ipfs_hash}"
+
+
+def download_file_with_progress(ipfs_hash: str, save_path=None, progress_callback=None) -> tuple[str, str]:
+    """
+        从IPFS下载文件,并监听下载进度
+        :param ipfs_hash: IPFS hash
+        :param save_path: 保存路径
+        :param progress_callback: 进度回调函数,参数为(received_bytes, total_bytes)
+        :return: (文件路径,错误信息)
+    """
+    try:
+        if save_path is None:
+            save_path = download_path
+            
+        # 连接到本地IPFS节点
+        with ipfshttpclient2.connect(ipfs_address) as client:
+            # 获取文件大小
+            file_stat = client.files.stat(f"/ipfs/{ipfs_hash}")
+            total_size = file_stat['Size']
+            
+            # 下载文件并跟踪进度
+            received_size = 0
+            save_file_path = save_path + f"/{ipfs_hash}"
+            
+            with open(save_file_path, 'wb') as f:
+                for chunk in client.cat(ipfs_hash, chunk_size=1024*1024):
+                    f.write(chunk)
+                    received_size += len(chunk)
+                    if progress_callback:
+                        progress_callback(received_size, total_size)
+                        
+            print(f"文件下载成功. 保存路径: {save_file_path}")
+            return save_file_path, None
+            
+    except Exception as e:
+        print(f"下载文件出错: {e}")
+        return None, f"Error downloading file: {e}"

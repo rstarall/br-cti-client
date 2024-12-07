@@ -17,6 +17,12 @@ def checkLocalUserWallet():
     else:
         return jsonify({'code': 200, 'message': 'success', 'data': {'wallet_id': wallet_id}})
 
+#获取本地钱包列表
+@user_blue.route('/getLocalUserAccountMulti',methods=['GET','POST'])
+def getLocalUserAccountMulti():
+    result = wallet_service.getLocalUserAccountMulti()
+    return jsonify({'code': 200, 'message': 'success', 'data': {'wallet_ids': result}})
+
 #检查本地钱包是否已上链
 @user_blue.route('/checkLocalWalletOnchainStatus',methods=['POST'])
 def checkLocalWalletOnchainStatus():
