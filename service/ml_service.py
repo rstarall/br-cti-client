@@ -7,7 +7,6 @@ from ml.model_status import get_model_progress_status_by_hash,get_model_record_b
 from data.traffic_data import get_traffic_data_features_name
 from utils.file import save_json_to_file,load_json_from_file
 from blockchain.ipfs.ipfs import download_file_with_progress
-from service.ipfs_service import IPFSService
 import threading
 import uuid
 import os
@@ -15,7 +14,6 @@ import logging
 class MLService:
     def __init__(self):
         self.tiny_db = get_tiny_db_instance()
-        self.ipfs_service = IPFSService()
         # 自动生成请求 ID
     def generate_request_id(self):
         return str(uuid.uuid4())
