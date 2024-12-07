@@ -106,10 +106,6 @@ def get_download_progress():
             'error': '服务器内部错误'
         })
 
-
-
-    
-
 @ml_blue.route('/create_model_task', methods=['POST'])
 def create_model_task():
     data = request.get_json()

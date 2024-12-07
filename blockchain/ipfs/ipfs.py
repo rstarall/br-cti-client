@@ -23,7 +23,7 @@ def upload_file_to_ipfs(file_path:str)->tuple[str,str]:
             # 获取文件的 IPFS 哈希
             file_hash = res['Hash']
             
-            print(f"File uploaded successfully. IPFS Hash: {file_hash}")
+            print(f"stix File uploaded successfully. IPFS Hash: {file_hash}")
             return file_hash,None
     except Exception as e:
         print(f"Error uploading file: {e}")

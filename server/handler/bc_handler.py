@@ -76,6 +76,12 @@ def upload_cti_to_blockchain():
         # 调用服务层方法上传CTI数据
         result, ok = bcService.uploadCTIToBCByFileSourceHash(source_file_hash,upchain_account,upchain_account_password)
         if not ok:
+            if result == "no_cti_data":
+                return jsonify({
+                    'code': 400, 
+                    'msg': 'no cti data',
+                    'error': '没有未上链的CTI数据'
+                })
             return jsonify({
                 'code': 502, 
                 'msg': result,
