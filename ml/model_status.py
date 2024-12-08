@@ -66,7 +66,7 @@ def save_model_record(request_id,status,source_file_hash,model_info:dict):
     print(f"request_id:{request_id}的模型记录已保存至 {ml_records_table}")
 
 # 记录训练进度和评估信息
-def log_progress(request_id, source_file_hash, stage, message, evaluate_results={}):
+def log_progress(request_id, source_file_hash, stage, message, evaluate_results={},error=None):
     """
         记录训练进度、评估信息和时间。
         如果相同请求ID已经存在记录，则覆盖记录。
@@ -79,7 +79,7 @@ def log_progress(request_id, source_file_hash, stage, message, evaluate_results=
     """
     # 获取当前步骤索引
     current_step = PROCESS_STEPS.index(stage) + 1 if stage in PROCESS_STEPS else 0
-    total_steps = len(PROCESS_STEPS)
+    total_step = len(PROCESS_STEPS)
 
     record = {
         'request_id': request_id,
@@ -88,12 +88,13 @@ def log_progress(request_id, source_file_hash, stage, message, evaluate_results=
         'message': message,
         'results': evaluate_results,
         'current_step': current_step,
-        'total_steps': total_steps,
-        'time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        'total_step': total_step,
+        'time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+        'error': error
     }
     progress_table.upsert(record, Query().request_id == request_id)
 
-    print(f"{stage} ({current_step}/{total_steps}): {message}")
+    print(f"{stage} ({current_step}/{total_step}): {message}")
 
 
 def train_progress_callback(request_id, source_file_hash,info):
@@ -115,7 +116,7 @@ def get_model_progress_status_by_id(request_id):
         - record: 记录
     """
     records = progress_table.search(Query().request_id == request_id)
-    return records[0]
+    return records[0] if records else None
 
 def get_model_progress_status_by_hash(source_file_hash):
     """

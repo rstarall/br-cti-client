@@ -12,6 +12,8 @@ import threading
 import uuid
 import os
 import logging
+import base64
+
 class MLService:
     def __init__(self):
         self.tiny_db = get_tiny_db_instance()
@@ -302,3 +304,64 @@ class MLService:
         except Exception as e:
             logging.error(f"saveModelUpchainResult error:{e}")
             return False
+
+    def get_image_as_base64(self, image_path: str) -> str:
+        """
+        将图像文件转换为base64格式
+        param:
+            - image_path: 图像文件路径
+        return:
+            - str: base64编码的图像数据
+        """
+        try:
+            if not os.path.exists(image_path):
+                return None
+            
+            with open(image_path, "rb") as image_file:
+                encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
+                return encoded_string
+        except Exception as e:
+            logging.error(f"读取图像文件失败: {str(e)}")
+            return None
+
+    def get_model_image_path(self, request_id: str, image_type: str) -> str:
+        """
+        获取模型相关图像的路径
+        params:
+            - request_id: 请求ID
+            - image_type: 图像类型(train_process/evaluation)
+        return:
+            - str: 图像路径
+        """
+        record = self.getModelRecord(request_id)
+        if not record:
+            return None
+        
+        if image_type == 'train_process':
+            return record.get('train_process_image')
+        elif image_type == 'evaluation':
+            eval_results = record.get('evaluation_results', {})
+            return eval_results.get('visualization_path')
+        return None
+
+    def get_train_process_image_base64(self, request_id: str) -> str:
+        """
+        获取训练过程图像的base64编码
+        """
+        try:
+            image_path = self.get_model_image_path(request_id, 'train_process')
+            return self.get_image_as_base64(image_path)
+        except Exception as e:
+            logging.error(f"获取训练过程图像失败: {str(e)}")
+            return None
+
+    def get_model_evaluate_image_base64(self, request_id: str) -> str:
+        """
+        获取模型评估图像的base64编码
+        """
+        try:
+            image_path = self.get_model_image_path(request_id, 'evaluation')
+            return self.get_image_as_base64(image_path)
+        except Exception as e:
+            logging.error(f"获取模型评估图像失败: {str(e)}")
+            return None

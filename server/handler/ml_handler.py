@@ -37,7 +37,7 @@ def upload_dataset_file():
 @ml_blue.route('/download_dataset_from_ipfs', methods=['POST'])
 def download_dataset_from_ipfs():
     """
-    从IPFS下载数据集文件
+        从IPFS下载数据集文件
     """
     try:
         data = request.get_json()
@@ -110,18 +110,19 @@ def create_model_task():
     cti_id = data.get('cti_id',None)
     if not source_file_hash or not label_column:
         return jsonify({"code":400,'error': 'file_hash and label_column are required',"data":None})
-    
+    if label_column == "empty_label":
+        label_column = ""
     request_id,result = ml_service.createModelTask(source_file_hash, label_column,cti_id)
     if not result:
         return jsonify({"code":400,'error': 'Source file not found or invalid',"data":None})
-        
+    
     return jsonify({
         "code":200,
         'msg': 'Model task created successfully', 
         'data': {
             'request_id': request_id,
-            'current_step': 1,
-            'total_step': 4
+            'current_step':  1,
+            'total_step':  7
         }
     })
 
@@ -167,6 +168,88 @@ def get_train_progress_detail_by_id():
     if not progress:
         return jsonify({"code":400,'error': 'Train progress detail not found',"data":None})
     return jsonify({"code":200,'msg': 'Get train progress detail successfully', 'data': progress})
+
+@ml_blue.route('/get_train_process_image', methods=['POST'])
+def get_train_process_image():
+    """
+    获取训练过程图像
+    """
+    try:
+        data = request.get_json()
+        request_id = data.get('request_id')
+        
+        if not request_id:
+            return jsonify({
+                "code": 400,
+                'error': '请求ID不能为空',
+                "data": None
+            })
+        
+        # 获取base64格式的图像数据
+        image_base64 = ml_service.get_train_process_image_base64(request_id)
+        if not image_base64:
+            return jsonify({
+                "code": 400,
+                'error': '获取训练过程图像失败',
+                "data": None
+            })
+            
+        return jsonify({
+            "code": 200,
+            'msg': '获取训练过程图像成功', 
+            'data': {
+                'image_base64': image_base64,
+                'image_type': 'png'
+            }
+        })
+    except Exception as e:
+        logging.error(f"获取训练过程图像失败: {str(e)}")
+        return jsonify({
+            "code": 500,
+            'error': f'服务器内部错误: {str(e)}',
+            "data": None
+        })
+
+@ml_blue.route('/get_model_evaluate_image', methods=['POST']) 
+def get_model_evaluate_image():
+    """
+    获取模型评估图像
+    """
+    try:
+        data = request.get_json()
+        request_id = data.get('request_id')
+        
+        if not request_id:
+            return jsonify({
+                "code": 400,
+                'error': '请求ID不能为空',
+                "data": None
+            })
+        
+        # 获取base64格式的图像数据
+        image_base64 = ml_service.get_model_evaluate_image_base64(request_id)
+        if not image_base64:
+            return jsonify({
+                "code": 400,
+                'error': '获取模型评估图像失败',
+                "data": None
+            })
+            
+        return jsonify({
+            "code": 200,
+            'msg': '获取模型评估图像成功', 
+            'data': {
+                'image_base64': image_base64,
+                'image_type': 'png'
+            }
+        })
+    except Exception as e:
+        logging.error(f"获取模型评估图像失败: {str(e)}")
+        return jsonify({
+            "code": 500,
+            'error': f'服务器内部错误: {str(e)}',
+            "data": None
+        })
 
 
 

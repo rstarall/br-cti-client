@@ -7,6 +7,7 @@ from db.tiny_db import TinyDBUtil
 from utils.file import get_file_sha256_hash
 from tinydb import Query
 from ml.model_status import save_model_record,train_progress_callback,log_progress
+
 import time
 import os
 
@@ -39,14 +40,27 @@ def start_model_process_task(request_id,source_file_hash,source_file_path,target
         model_info["cti_id"] = cti_id
     else:
         model_info["cti_id"] = ""
-    # 1.清理数据
+    # 1.1 加载数据
     log_progress(request_id, source_file_hash, "Data Cleaning", "Data cleaning started")
-    raw_df, err_msg = read_file_as_df(source_file_path)
-    if raw_df is None:
-        return None, err_msg
-    df,clean_file_path, err_msg = clean_data(raw_df, source_file_hash,output_folder=output_dir_path)
-    if df is None:
-        return None, err_msg
+    try:
+        raw_df, err_msg = read_file_as_df(source_file_path)
+        if raw_df is None:
+            return None, err_msg
+    except Exception as e:
+        print(f"数据加载过程中发生错误: {str(e)}")
+        log_progress(request_id, source_file_hash, "Data Cleaning", "Data loading failed", error=str(e))
+        return None, str(e)
+    
+ 
+    #1.2 清洗数据
+    try:
+        df,clean_file_path, err_msg = clean_data(raw_df, source_file_hash,output_folder=output_dir_path)
+        if df is None:
+            return None, err_msg
+    except Exception as e:
+        print(f"数据清洗过程中发生错误: {str(e)}")
+        log_progress(request_id, source_file_hash, "Data Cleaning", "Data cleaning failed", error=str(e))
+        return None, str(e)
     log_progress(request_id, source_file_hash, "Data Cleaning", "Data cleaning completed")
 
     #2.训练并保存模型
@@ -58,6 +72,7 @@ def start_model_process_task(request_id,source_file_hash,source_file_path,target
                                                            target_column=target_label_column,
                                                            callback=train_progress_callback)
     except Exception as e:
+        log_progress(request_id, source_file_hash, "Model Training", "Model training failed", error=str(e))
         save_model_record(request_id,'train_failed',source_file_hash,model_info)
         return None, str(e)
     save_model_record(request_id,'train_success',source_file_hash,model_info)
@@ -71,10 +86,12 @@ def start_model_process_task(request_id,source_file_hash,source_file_path,target
         evaluation_results = evaluate_model(request_id,source_file_hash,
                        model_path=model_save_path,
                        df=df,
-                        target_column=target_label_column)
+                      target_column=target_label_column,
+                      model_info=model_info)
         model_info['evaluation_results'] = evaluation_results
         log_progress(request_id, source_file_hash, "Model Evaluation", "Model evaluation completed",evaluate_results=evaluation_results)
     except Exception as e:
+        log_progress(request_id, source_file_hash, "Model Evaluation", "Model evaluation failed", error=str(e))
         save_model_record(request_id,'evaluate_failed',source_file_hash,model_info)
         return None, str(e)
     save_model_record(request_id,'evaluate_success',source_file_hash,model_info)
