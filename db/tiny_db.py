@@ -27,12 +27,12 @@ class TinyDBUtil:
             "cti_records":data_client_path+"/cti_records/cti_records.json",
             "data_task_records":data_client_path+"/task_records/task_records.json",
             "ml_records":ml_client_path+"/ml_records.json",
-            "ml_task_records":ml_client_path+"/task_records/task_records.json",
+            "ml_train_progress":ml_client_path+"/train_progress.json",#模型训练进度记录
             "ml_download_progress":ml_client_path+"/download_progress.json",
             "stix_process_progress":progress_path+"/stix_process_progress.json",
             "cti_process_progress":progress_path+"/cti_process_progress.json",
             "cti_upchain_progress":progress_path+"/cti_upchain_progress.json",
-            "ml_process_progress":progress_path+"/ml_process_progress.json",
+            "ml_process_progress":progress_path+"/ml_process_progress.json",#模型处理进度记录
 
         }
         self.db_name = "default"

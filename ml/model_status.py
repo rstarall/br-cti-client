@@ -19,13 +19,21 @@ example_model_record = {
         "Precision": 0.94,
         "Recall": 0.93,
         "F1-Score": 0.94
-    }
+    },
+    "model_data_type": 1, #模型数据类型(1:流量(数据集)、2:情报(文本))
+    "model_type": 1, #模型类型(1:分类模型、2:回归模型、3:聚类模型、4:NLP模型)
+    "model_algorithm": "RandomForest", #模型算法
+    "model_framework": "scikit-learn", #训练框架
+    "features": [], #特征列表
+    "model_size": 0, #模型大小(B)
+    "data_size": 0, # 数据大小(B)
+    "cti_id": "" # 关联的情报ID
 }
 
 # 初始化 TinyDB 数据库
 progress_table = TinyDBUtil().use_database('ml_process_progress').open_table('progress')
 ml_records_table = TinyDBUtil().use_database('ml_records').open_table('ml_records')
-
+train_progress_table = TinyDBUtil().use_database('ml_records').open_table('train_progress')
 # 定义处理步骤
 PROCESS_STEPS = [
     "Data Cleaning",  # 数据清洗
@@ -87,6 +95,15 @@ def log_progress(request_id, source_file_hash, stage, message, evaluate_results=
 
     print(f"{stage} ({current_step}/{total_steps}): {message}")
 
+
+def train_progress_callback(request_id, source_file_hash,info):
+    print(f"进度: {info['train_progress_info']['progress']:.2f}%")
+    print(f"训练集得分: {info['train_progress_info']['train_score']:.4f}")
+    print(f"测试集得分: {info['train_progress_info']['test_score']:.4f}")
+    print(f"已用时间: {info['train_progress_info']['time_elapsed']:.2f}秒")
+    if 'current_iter' in info['train_progress_info']:
+        print(f"当前迭代: {info['train_progress_info']['current_iter']}/{info['train_progress_info']['total_iter']}")
+    print("-------------------")
 
 def get_model_progress_status_by_id(request_id):
     """

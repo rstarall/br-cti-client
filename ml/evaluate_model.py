@@ -25,8 +25,7 @@ def evaluate_model(request_id, source_file_hash, model_path, df, target_column):
         返回:
             - evaluation_results: 评估结果
     """
-    # 从 TinyDB 记录开始评估的时间
-    log_progress(request_id, source_file_hash, "Model Evaluation", "Evaluation started")
+
 
     # 加载模型
     model = joblib.load(model_path)
@@ -80,9 +79,6 @@ def evaluate_model(request_id, source_file_hash, model_path, df, target_column):
         print(f"Precision: {precision:.4f}")
         print(f"Recall: {recall:.4f}")
         print(f"F1-Score: {f1:.4f}")
-
-    # 保存评估结果到 TinyDB
-    log_progress(request_id, source_file_hash, "Model Evaluation", "Evaluation completed", evaluation_results)
 
     return evaluation_results
 

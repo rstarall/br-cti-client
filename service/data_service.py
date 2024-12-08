@@ -1,5 +1,5 @@
 from db.tiny_db import get_tiny_db_instance
-from data.traffic_data import get_traffic_data_features_name
+from data.traffic_data import get_feature_list
 from utils.file import check_file_by_hash
 from env.global_var import getUploadFilePath,getOutputDirPath
 import pandas as pd
@@ -96,7 +96,7 @@ class DataService:
                 file_path: 文件路径
         """
         return check_file_by_hash(getUploadFilePath(),hash)
-    def get_traffic_data_features_name(self, file_hash):
+    def get_feature_list(self, file_hash):
         """
             根据文件的hash值,获取数据集文件的特征名称
             param:
@@ -107,7 +107,7 @@ class DataService:
         """
         try:
             file_path = self.get_upload_file_path_by_hash(file_hash)
-            return get_traffic_data_features_name(file_path),None
+            return get_feature_list(file_path),None
         except Exception as e:
             return None,str(e)
     def process_data_to_stix(self,file_hash,stix_process_config):

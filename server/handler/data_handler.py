@@ -55,7 +55,7 @@ def get_traffic_data_features():
     file_hash = data.get('file_hash')
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
-    features_name,error = data_service.get_traffic_data_features_name(file_hash)
+    features_name,error = data_service.get_feature_list(file_hash)
     if error:
         return jsonify({"code":400,'error': error,"data":None})
     else:

@@ -4,7 +4,8 @@ from utils.file import check_file_by_hash
 from env.global_var import getMlUploadFilePath,getMlDownloadFilePath
 from ml.model_status import get_model_progress_status_by_id,get_model_record_by_id
 from ml.model_status import get_model_progress_status_by_hash,get_model_record_by_hash,get_model_record_by_hash_and_hash
-from data.traffic_data import get_traffic_data_features_name
+from ml.model_progress import get_train_progress_by_id
+from data.traffic_data import get_feature_list
 from utils.file import save_json_to_file,load_json_from_file
 from blockchain.ipfs.ipfs import download_file_with_progress
 import threading
@@ -35,9 +36,15 @@ class MLService:
                 data_source_hash: 数据源文件hash
                 ipfs_hash: IPFS文件hash
             return:
-                file_path: 文件路径
+                file_info: 文件信息
                 error: 错误信息
         """
+        file_info = {
+            'save_path': "",
+            'file_name': "",
+            'file_size': 0,
+            'file_ext': ''
+        }
         def progress_callback(received, total):
             progress = {
                 'received_bytes': received,
@@ -47,6 +54,17 @@ class MLService:
             self.save_download_progress(data_source_hash, progress)
             
         save_path = getMlDownloadFilePath()
+        #检测文件是否存在
+        exit_file_path = check_file_by_hash(save_path,data_source_hash)
+        if exit_file_path is not None:
+            file_size = os.path.getsize(exit_file_path)
+            progress_callback(file_size,file_size)
+            file_info['save_path'] = exit_file_path
+            file_info['file_size'] = file_size
+            file_info['file_ext'] = os.path.splitext(exit_file_path)[1] if exit_file_path else ''
+            file_info['file_name'] = os.path.basename(exit_file_path)
+            return file_info,None
+
         return download_file_with_progress(ipfs_hash, save_path, progress_callback)
     
     def save_download_progress(self,data_source_hash,progress):
@@ -85,7 +103,7 @@ class MLService:
         return check_file_by_hash(getMlDownloadFilePath(),hash)
     
 
-    def get_traffic_feature_list(self, file_hash):
+    def get_feature_list(self, file_hash):
         """
             根据文件的hash值,获取数据集文件的特征名称
             param:
@@ -96,7 +114,7 @@ class MLService:
         """
         try:
             file_path = self.get_upload_file_path_by_hash(file_hash)
-            return get_traffic_data_features_name(file_path), None
+            return get_feature_list(file_path), None
         except Exception as e:
             return None, str(e)
 
@@ -109,13 +127,14 @@ class MLService:
                 - cti_id: CTI的ID
             return:
                 - request_id: 请求ID
+                - bool: 是否成功
         """
         
     
         # 根据文件hash获取文件路径
         source_file_path = self.get_upload_file_path_by_hash(source_file_hash)
         if source_file_path is None:
-            return False
+            return None,False
         
         request_id = self.generate_request_id()
         # 使用线程启动模型训练任务
@@ -125,7 +144,7 @@ class MLService:
         )
         thread.start()
             
-        return True
+        return request_id,True
     
     def getModelProgress(self, request_id: str) -> dict:
         """
@@ -148,6 +167,16 @@ class MLService:
         """
         return get_model_progress_status_by_hash(source_file_hash)
     
+    def getTrainProgressDetailById(self,request_id:str)->dict:
+        """
+            根据请求ID获取训练过程的详细信息
+            param:
+                - request_id: 请求ID
+            return:
+                - dict: 训练过程的详细信息
+        """
+        return get_train_progress_by_id(request_id)
+    
     def getModelRecord(self, request_id: str) -> dict:
         """
         获取模型记录
@@ -158,7 +187,7 @@ class MLService:
         """
         return get_model_record_by_id(request_id)
     
-    def getModelRecordsByHash(self, source_file_hash: str) -> list:
+    def getModelRecordsBySourceFileHash(self, source_file_hash: str) -> list:
         """
         根据源文件hash获取模型记录列表
         param:
@@ -199,20 +228,21 @@ class MLService:
         """
         return f"{self.tiny_db.get_ml_client_path()}/model_records/{source_file_hash}/{model_hash}.json"
     
-    def createModelUpchainInfoBySourceFileHash(self,source_file_hash:str)->bool:
+    def createModelUpchainInfoBySourceFileHash(self,source_file_hash:str,model_info_config:str)->bool:
         """
             根据源文件hash创建模型上链信息文件(多个模型)
         """
         model_record_list = self.getModelRecordsByHash(source_file_hash)
         for model_record in model_record_list:
-            self.createModelUpchainInfoFileSingle(source_file_hash,model_record.get("model_hash",""))
+            self.createModelUpchainInfoFileSingle(source_file_hash,model_record.get("model_hash",""),model_info_config)
 
-    def createModelUpchainInfoFileSingle(self,source_file_hash:str,model_hash:str)->bool:
+    def createModelUpchainInfoFileSingle(self,source_file_hash:str,model_hash:str,model_info_config:str)->bool:
         """
             创建模型上链信息文件
             param:
                 - source_file_hash: 源文件hash
                 - model_hash: 模型hash
+                - model_info_config: 模型信息配置
             return:
                 - bool: 是否成功
         """
@@ -224,18 +254,18 @@ class MLService:
                 "model_hash": model_hash,
                 "model_name": model_info.get("model_name",""),
                 "creator_user_id": "",
-                "model_data_type": 1, # 默认为流量数据
+                "model_data_type": model_info.get("model_data_type",1), # 默认为流量数据
                 "model_type": model_info.get("model_type",1),
                 "model_algorithm": model_info.get("model_algorithm",""),
                 "model_train_framework": model_info.get("model_framework",""),
                 "model_open_source": model_info.get("open_source",1),
                 "model_features": model_info.get("features",[]),
-                "model_tags": model_info.get("tags",[]),
-                "model_description": model_info.get("description",""),
+                "model_tags": model_info_config.get("tags",[]),
+                "model_description": model_info_config.get("description",""),
                 "model_size": model_info.get("model_size",0),
                 "model_data_size": model_info.get("data_size",0),
                 "model_data_ipfs_hash": "",
-                "value": model_info.get("value",0),
+                "value": model_info_config.get("value",0),
                 "model_ipfs_hash": "",
                 "ref_cti_id": model_info.get("cti_id","")
             }

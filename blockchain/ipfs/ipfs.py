@@ -4,6 +4,7 @@
 """
 from env.global_var import getIpfsAddress,getIPFSDownloadPath
 import ipfshttpclient2
+import os
 ipfs_address = getIpfsAddress()
 download_path = getIPFSDownloadPath()
 
@@ -17,16 +18,20 @@ def upload_file_to_ipfs(file_path:str)->tuple[str,str]:
     try:
         # 连接到本地 IPFS 节点
         with ipfshttpclient2.connect(ipfs_address) as client:
+            # 获取文件名和后缀
+            file_name = os.path.basename(file_path)
+            file_ext = os.path.splitext(file_name)[1]
+            
             # 上传文件
-            res = client.add(file_path)
+            res = client.add(file_path, name=file_name)
             
             # 获取文件的 IPFS 哈希
             file_hash = res['Hash']
             
-            print(f"stix File uploaded successfully. IPFS Hash: {file_hash}")
+            print(f"文件 {file_name} 上传成功. IPFS Hash: {file_hash}")
             return file_hash,None
     except Exception as e:
-        print(f"Error uploading file: {e}")
+        print(f"上传文件出错: {e}")
         return None,f"Error uploading file: {e}"
 
 def download_file_from_ipfs(ipfs_hash:str,save_path=None)->tuple[str,str]:
@@ -66,32 +71,49 @@ def download_file_with_progress(ipfs_hash: str, save_path=None, progress_callbac
         :param ipfs_hash: IPFS hash
         :param save_path: 保存路径
         :param progress_callback: 进度回调函数,参数为(received_bytes, total_bytes)
-        :return: (文件路径,错误信息)
+        :return: (文件信息,错误信息)
     """
+    file_info = {
+        'save_path': "",
+        'file_size': 0,
+        'file_ext': '.txt', #默认后缀
+        'file_name': ipfs_hash+'.txt' #默认文件名
+    }
     try:
         if save_path is None:
             save_path = download_path
             
         # 连接到本地IPFS节点
         with ipfshttpclient2.connect(ipfs_address) as client:
-            # 获取文件大小
+            # 获取文件大小和文件名
             file_stat = client.files.stat(f"/ipfs/{ipfs_hash}")
             total_size = file_stat['Size']
+            print("file_stat",file_stat)
+            # 获取文件后缀名
+            file_name = file_stat.get('Name', '')
+            file_ext = os.path.splitext(file_name)[1] if file_name else '.txt'
             
             # 下载文件并跟踪进度
             received_size = 0
-            save_file_path = save_path + f"/{ipfs_hash}"
+            save_file_path = save_path + f"/{ipfs_hash}{file_ext}"
             
             with open(save_file_path, 'wb') as f:
-                for chunk in client.cat(ipfs_hash, chunk_size=1024*1024):
-                    f.write(chunk)
-                    received_size += len(chunk)
+                # 使用client.cat()获取字节数据
+                data = client.cat(ipfs_hash)
+                if isinstance(data, bytes):
+                    f.write(data)
+                    received_size = len(data)
                     if progress_callback:
                         progress_callback(received_size, total_size)
                         
             print(f"文件下载成功. 保存路径: {save_file_path}")
-            return save_file_path, None
-            
+            file_info['save_path'] = save_file_path
+            file_info['file_size'] = total_size
+            if file_ext:
+                file_info['file_ext'] = file_ext
+            if file_name and file_name!='':
+                file_info['file_name'] = file_name
+            return file_info, None
     except Exception as e:
         print(f"下载文件出错: {e}")
-        return None, f"Error downloading file: {e}"
+        return file_info, f"Error downloading file: {e}"

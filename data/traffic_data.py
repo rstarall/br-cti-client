@@ -2,13 +2,13 @@ import pandas as pd
 from db.tiny_db import get_tiny_db_instance
 from utils.file import get_file_sha256_hash
 import os
-def get_traffic_data_features_name(file_path:str):
+def get_feature_list(file_path:str):
     """
-        获取流量数据集特征名称
+        获取数据集特征名称
         param:
             file_path: 数据集文件路径
         return:
-            features_name: 特征名称列表
+            features_name: 特征名称列表(string)
     """
     # 判断后缀,csv or xlsx or txt or json or jsonl,不同后缀做不同的读取方式
     if file_path.endswith(".csv"):

@@ -50,23 +50,19 @@ def download_dataset_from_ipfs():
             return jsonify({'code': 400, 'msg': 'ipfs_hash parameter is required'})
             
         # 调用服务层方法下载文件
-        file_path, error = ml_service.download_file_from_ipfs_by_hash(data_source_hash, ipfs_hash)
+        file_info, error = ml_service.download_file_from_ipfs_by_hash(data_source_hash, ipfs_hash)
         if error:
             return jsonify({
                 'code': 500,
                 'msg': error,
                 'error': '下载文件失败'
             })
-            
-        # 获取下载进度
-        progress = ml_service.get_download_progress(data_source_hash)
-        
+               
         return jsonify({
             'code': 200,
             'msg': 'success',
             'data': {
-                'file_path': file_path,
-                'progress': progress if progress else 0
+                'file_info': file_info,
             }
         })
         
@@ -95,7 +91,7 @@ def get_download_progress():
             'code': 200,
             'msg': 'success',
             'data': {
-                'progress': progress if progress else 0
+                'progress': progress if progress else None
             }
         })
         
@@ -115,23 +111,17 @@ def create_model_task():
     if not source_file_hash or not label_column:
         return jsonify({"code":400,'error': 'file_hash and label_column are required',"data":None})
     
-    result = ml_service.createModelTask(source_file_hash, label_column,cti_id)
+    request_id,result = ml_service.createModelTask(source_file_hash, label_column,cti_id)
     if not result:
         return jsonify({"code":400,'error': 'Source file not found or invalid',"data":None})
         
-    # 返回当前进度信息
-    progress = ml_service.getModelProgressByHash(source_file_hash)
-    if not progress or len(progress) == 0:
-        return jsonify({"code":400,'error': 'Failed to get model progress',"data":None})
-        
-    latest_progress = progress[-1]
     return jsonify({
         "code":200,
         'msg': 'Model task created successfully', 
         'data': {
-            'current_step': latest_progress.get('current_step'),
-            'total_step': latest_progress.get('total_steps'),
-            'request_id': latest_progress.get('request_id')
+            'request_id': request_id,
+            'current_step': 1,
+            'total_step': 4
         }
     })
 
@@ -165,6 +155,21 @@ def get_model_progress_by_hash():
         return jsonify({"code":400,'error': 'No model progress found for this file',"data":None})
     return jsonify({"code":200,'msg': 'Get model progress list successfully', 'data': progress})
 
+@ml_blue.route('/get_train_progress_detail_by_id', methods=['POST'])
+def get_train_progress_detail_by_id():
+    data = request.get_json()
+    request_id = data.get('request_id')
+    
+    if not request_id:
+        return jsonify({"code":400,'error': 'request_id is required',"data":None})
+    
+    progress = ml_service.getTrainProgressDetailById(request_id)
+    if not progress:
+        return jsonify({"code":400,'error': 'Train progress detail not found',"data":None})
+    return jsonify({"code":200,'msg': 'Get train progress detail successfully', 'data': progress})
+
+
+
 @ml_blue.route('/get_model_record', methods=['POST'])
 def get_model_record():
     data = request.get_json()
@@ -186,23 +191,23 @@ def get_model_records_by_hash():
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     
-    records = ml_service.getModelRecordsByHash(file_hash)
+    records = ml_service.getModelRecordsBySourceFileHash(file_hash)
     if not records:
         return jsonify({"code":400,'error': 'No model records found for this file',"data":None})
     return jsonify({"code":200,'msg': 'Get model records successfully', 'data': records})
 
-@ml_blue.route('/get_traffic_feature_list', methods=['POST'])
-def get_traffic_feature_list():
+@ml_blue.route('/get_feature_list', methods=['POST'])
+def get_feature_list():
     data = request.get_json()
     file_hash = data.get('file_hash')
     
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     
-    features_name,error = ml_service.get_traffic_feature_list(file_hash)
+    features_name,error = ml_service.get_feature_list(file_hash)
     if error:
         return jsonify({"code":400,'error': error,"data":None})
-    return jsonify({"code":200,'msg': 'Get traffic feature list successfully', 'data': features_name})
+    return jsonify({"code":200,'msg': 'Get  feature list successfully', 'data': features_name})
 
 
 #根据源文件hash创建模型上链信息文件
@@ -210,10 +215,11 @@ def get_traffic_feature_list():
 def create_model_upchain_info_by_source_file_hash():
     data = request.get_json()
     file_hash = data.get('file_hash')
+    model_info_config = data.get('model_info_config')
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     
-    result = ml_service.createModelUpchainInfoBySourceFileHash(file_hash)
+    result = ml_service.createModelUpchainInfoBySourceFileHash(file_hash,model_info_config)
     if not result:
         return jsonify({"code":400,'error': '创建模型上链信息文件失败',"data":None})
     return jsonify({"code":200,'msg': '创建模型上链信息文件成功', 'data': None})
@@ -224,10 +230,11 @@ def create_model_upchain_info():
     data = request.get_json()
     file_hash = data.get('file_hash')
     model_hash = data.get('model_hash')
+    model_info_config = data.get('model_info_config')
     if not file_hash or not model_hash:
         return jsonify({"code":400,'error': 'file_hash and model_hash are required',"data":None})
     
-    result = ml_service.createModelUpchainInfoFileSingle(file_hash,model_hash)
+    result = ml_service.createModelUpchainInfoFileSingle(file_hash,model_hash,model_info_config)
     if not result:
         return jsonify({"code":400,'error': 'Failed to create model upchain info file',"data":None})
     return jsonify({"code":200,'msg': 'Create model upchain info file successfully', 'data': None})
