@@ -253,21 +253,24 @@ def get_model_evaluate_image():
 
 
 
-@ml_blue.route('/get_model_record', methods=['POST'])
-def get_model_record():
+@ml_blue.route('/get_model_record_by_request_id', methods=['POST'])
+def get_model_record_by_request_id():
     data = request.get_json()
     request_id = data.get('request_id')
     
     if not request_id:
         return jsonify({"code":400,'error': 'request_id is required',"data":None})
     
-    record = ml_service.getModelRecord(request_id)
+    record = ml_service.getModelRecordByRequestId(request_id)
     if not record:
         return jsonify({"code":400,'error': 'Model record not found',"data":None})
     return jsonify({"code":200,'msg': 'Get model record successfully', 'data': record})
 
-@ml_blue.route('/get_model_records_by_hash', methods=['POST'])
-def get_model_records_by_hash():
+@ml_blue.route('/get_model_record_list_by_hash', methods=['POST'])
+def get_model_record_list_by_hash():
+    """
+        根据源文件hash获取模型训练记录列表
+    """
     data = request.get_json()
     file_hash = data.get('file_hash')
     

@@ -2,7 +2,7 @@ from db.tiny_db import get_tiny_db_instance
 from ml.ml_model import start_model_process_task
 from utils.file import check_file_by_hash
 from env.global_var import getMlUploadFilePath,getMlDownloadFilePath
-from ml.model_status import get_model_progress_status_by_id,get_model_record_by_id
+from ml.model_status import get_model_progress_status_by_id,get_model_record_by_request_id
 from ml.model_status import get_model_progress_status_by_hash,get_model_record_by_hash,get_model_record_by_hash_and_hash
 from ml.model_progress import get_train_progress_by_id
 from data.traffic_data import get_feature_list
@@ -179,7 +179,7 @@ class MLService:
         """
         return get_train_progress_by_id(request_id)
     
-    def getModelRecord(self, request_id: str) -> dict:
+    def getModelRecordByRequestId(self, request_id: str) -> dict:
         """
         获取模型记录
         param:
@@ -187,7 +187,7 @@ class MLService:
         return:
             - dict: 模型记录
         """
-        return get_model_record_by_id(request_id)
+        return get_model_record_by_request_id(request_id)
     
     def getModelRecordsBySourceFileHash(self, source_file_hash: str) -> list:
         """
@@ -210,11 +210,11 @@ class MLService:
         """
         return get_model_record_by_hash_and_hash(source_file_hash,model_hash)
     
-    def getModelRecordsDetailList(self,source_file_hash:str)->list:
+    def getModelUpchainRecordsList(self,source_file_hash:str)->list:
         """
-            根据source_file_hash获取本地模型记录详情列表
+            根据source_file_hash获取本地模型上链记录列表
         """
-        model_record_list = self.getModelRecordsByHash(source_file_hash)
+        model_record_list = self.getModelRecordsBySourceFileHash(source_file_hash)
         model_records_detail_list = []
         for model_record in model_record_list:
             model_info = model_record.get("model_info",{})
@@ -333,14 +333,15 @@ class MLService:
         return:
             - str: 图像路径
         """
-        record = self.getModelRecord(request_id)
+        record = self.getModelRecordByRequestId(request_id)
         if not record:
             return None
-        
-        if image_type == 'train_process':
-            return record.get('train_process_image')
+        model_info = record.get('model_info',{})
+        if image_type == 'train':
+            train_results = model_info.get('train_results', {})
+            return train_results.get('visualization_path')
         elif image_type == 'evaluation':
-            eval_results = record.get('evaluation_results', {})
+            eval_results = model_info.get('evaluation_results', {})
             return eval_results.get('visualization_path')
         return None
 
@@ -349,7 +350,8 @@ class MLService:
         获取训练过程图像的base64编码
         """
         try:
-            image_path = self.get_model_image_path(request_id, 'train_process')
+            image_path = self.get_model_image_path(request_id, 'train')
+            print(f"train_image_path: {image_path}")
             return self.get_image_as_base64(image_path)
         except Exception as e:
             logging.error(f"获取训练过程图像失败: {str(e)}")
@@ -361,6 +363,7 @@ class MLService:
         """
         try:
             image_path = self.get_model_image_path(request_id, 'evaluation')
+            print(f"evaluation_image_path: {image_path}")
             return self.get_image_as_base64(image_path)
         except Exception as e:
             logging.error(f"获取模型评估图像失败: {str(e)}")

@@ -25,6 +25,14 @@ def save_regression_plot(y_test, y_pred, save_dir, request_id):
         # 创建1x3的子图布局
         fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(20, 6))
         
+        # 设置字体大小
+        plt.rcParams['font.size'] = 14  # 默认字体大小
+        plt.rcParams['axes.titlesize'] = 16  # 标题字体大小
+        plt.rcParams['axes.labelsize'] = 14  # 轴标签字体大小
+        plt.rcParams['xtick.labelsize'] = 12  # x轴刻度标签字体大小
+        plt.rcParams['ytick.labelsize'] = 12  # y轴刻度标签字体大小
+        plt.rcParams['legend.fontsize'] = 12  # 图例字体大小
+        
         # 1. 预测值vs实际值散点图
         ax1.scatter(y_test, y_pred, alpha=0.5)
         ax1.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2)
@@ -72,6 +80,14 @@ def save_classification_plot(y_test, y_pred, save_dir, request_id):
     try:
         # 创建1x3的子图布局
         fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(20, 6))
+        
+        # 设置字体大小
+        plt.rcParams['font.size'] = 14
+        plt.rcParams['axes.titlesize'] = 16
+        plt.rcParams['axes.labelsize'] = 14
+        plt.rcParams['xtick.labelsize'] = 12
+        plt.rcParams['ytick.labelsize'] = 12
+        plt.rcParams['legend.fontsize'] = 12
         
         # 1. 混淆矩阵热力图
         cm = confusion_matrix(y_test, y_pred)
@@ -127,7 +143,7 @@ def save_clustering_plot(X, y_pred, save_dir, request_id):
         - str: 图像保存路径
     """
     try:
-        # 设置中文字体
+        # 设置中文字体和字体大小
         plt.rcParams['font.sans-serif'] = ['SimHei']
         plt.rcParams['axes.unicode_minus'] = False
         
@@ -163,26 +179,56 @@ def save_clustering_plot(X, y_pred, save_dir, request_id):
         ax2.set_ylabel('第二主成分')
         plt.colorbar(scatter2, ax=ax2)
         
-        # 第三个子图: 轮廓系数可视化
-        silhouette_vals = silhouette_samples(X, y_pred)
-        n_clusters = len(np.unique(y_pred))
-        y_lower, y_upper = 0, 0
-        
-        for i in range(n_clusters):
-            cluster_silhouette_vals = silhouette_vals[y_pred == i]
-            cluster_silhouette_vals.sort()
-            y_upper += len(cluster_silhouette_vals)
+        # 第三个子图: 轮廓系数或聚类样本分布
+        if len(np.unique(y_pred)) > 1:  # 确保有多个簇
+            try:
+                silhouette_vals = silhouette_samples(X, y_pred)
+                n_clusters = len(np.unique(y_pred))
+                y_lower = 0
+                
+                for i in range(n_clusters):
+                    cluster_silhouette_vals = silhouette_vals[y_pred == i]
+                    cluster_silhouette_vals.sort()
+                    size_cluster_i = len(cluster_silhouette_vals)
+                    y_upper = y_lower + size_cluster_i
+
+                    ax3.fill_betweenx(np.arange(y_lower, y_upper),
+                                    0, cluster_silhouette_vals,
+                                    alpha=0.7)
+                    
+                    y_lower = y_upper + 10  # 在簇之间添加间隔
+                
+                # 计算平均轮廓系数
+                avg_silhouette = np.mean(silhouette_vals)
+                ax3.axvline(x=avg_silhouette, color='red', linestyle='--')
+                ax3.set_title('轮廓系数分析')
+                ax3.set_xlabel('轮廓系数')
+                ax3.set_ylabel('聚类标签')
+            except Exception as e:
+                print(f"计算轮廓系数时发生错误: {str(e)}")
+                # 绘制饼图显示各簇的样本分布
+                cluster_sizes = pd.Series(y_pred).value_counts().sort_index()
+                colors = plt.cm.viridis(np.linspace(0, 1, len(cluster_sizes)))
+                
+                ax3.pie(cluster_sizes, labels=[f'簇 {i}\n({size}个样本)' 
+                        for i, size in enumerate(cluster_sizes)],
+                        colors=colors,
+                        autopct='%1.1f%%',
+                        startangle=90)
+                ax3.set_title('聚类样本分布')
+        else:
+            # 绘制饼图显示各簇的样本分布
+            cluster_sizes = pd.Series(y_pred).value_counts().sort_index()
+            colors = plt.cm.viridis(np.linspace(0, 1, len(cluster_sizes)))
             
-            ax3.fill_betweenx(np.arange(y_lower, y_upper),
-                             0, cluster_silhouette_vals,
-                             alpha=0.7)
-            y_lower += len(cluster_silhouette_vals)
-        
-        ax3.set_title('轮廓系数分析')
-        ax3.set_xlabel('轮廓系数')
-        ax3.set_ylabel('聚类标签')
-        ax3.axvline(x=np.mean(silhouette_vals), color='red', linestyle='--')
-        
+            ax3.pie(cluster_sizes, labels=[f'簇 {i}\n({size}个样本)' 
+                    for i, size in enumerate(cluster_sizes)],
+                    colors=colors,
+                    autopct='%1.1f%%',
+                    startangle=90)
+            ax3.set_title('聚类样本分布')
+            print(f"数据维度不匹配: X shape = {plot_data.shape}, y_pred length = {len(y_pred)}")
+            return None
         plt.tight_layout()
         
         # 修改保存路径逻辑
@@ -193,96 +239,186 @@ def save_clustering_plot(X, y_pred, save_dir, request_id):
         print(f"聚类可视化图像已保存到: {save_path}")
         return save_path
     except Exception as e:
+        # 创建一个新的图形，包含3个子图来显示错误信息
+        plt.figure(figsize=(15, 5))
+        for i in range(3):
+            plt.subplot(1, 3, i+1)
+            plt.text(0.5, 0.5, '绘图失败\n请检查数据', 
+                    horizontalalignment='center',
+                    verticalalignment='center',
+                    fontsize=12)
+            plt.axis('off')
+        
+        # 保存错误示图
+        save_path = os.path.join(save_dir, f'{request_id}_clustering_eval_error.png')
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        plt.savefig(save_path, bbox_inches='tight', dpi=150)
+        plt.close()
         print(f"保存聚类评估图表时发生错误: {str(e)}")
-        return None
+        return save_path
 
 
 #------------------------------------训练过程图表------------------------------------
-def plot_training_process(model_info, save_dir, request_id):
+
+def plot_training_process(model_info, train_results, save_dir, request_id):
     """
-    绘制模型训练过程的图表，包含模型评估结果和训练进度
+    绘制模型训练过程的图表,包含模型评估结果和训练进度
     params:
         - model_info: 模型信息字典
+        - train_results: 训练结果字典 
         - save_dir: 保存目录
         - request_id: 请求ID
     return:
         - str: 图像保存路径
     """
+    print(f"plot_training_process train_results: {train_results}")
     try:
-        # 设置中文字体
+        # 检查必要的参数
+        if not train_results or not model_info:
+            raise ValueError("训练结果或模型信息不能为空")
+        
+        # 将负值转换为0
+        train_score = max(0, train_results.get('train_score', 0))
+        test_score = max(0, train_results.get('test_score', 0))
+        
+        # 处理metrics中的负值
+        metrics = train_results.get('metrics', {})
+        if isinstance(metrics, dict):
+            for key in metrics:
+                if isinstance(metrics[key], (int, float)):
+                    metrics[key] = max(0, metrics[key])
+        
+        # 其他数值也确保非负
+        metrics_data = {
+            '特征数量': max(0, train_results.get('feature_count', 0)),
+            '数据行数': max(0, train_results.get('rows_count', 0)),
+            '训练时间(秒)': max(0, train_results.get('time_elapsed', 0)),
+            '模型大小(KB)': max(0, train_results.get('model_size', 0)/1024)
+        }
+        
+        # 设置合理的图像尺寸限制
+        max_dimension = 65000  # 略小于2^16
+        fig_height = min(6 if n_plots <= 3 else 10, max_dimension)
+        fig_width = min(15 if n_plots <= 3 else 12, max_dimension)
+        
+        # 设置中文字体和字体大小
         plt.rcParams['font.sans-serif'] = ['SimHei']
         plt.rcParams['axes.unicode_minus'] = False
+        plt.rcParams['font.size'] = 17
+        plt.rcParams['axes.titlesize'] = 17
+        plt.rcParams['axes.labelsize'] = 17
+        plt.rcParams['xtick.labelsize'] = 17
+        plt.rcParams['ytick.labelsize'] = 17
+        plt.rcParams['legend.fontsize'] = 17
         
-        # 创建2行1列的子图
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 12))
+        # 设置子图数量
+        n_plots = 3 if not train_results.get('metrics') else 4
         
-        # 1. 绘制评估指标柱状图
-        evaluation_results = model_info.get('evaluation_results', {})
-        if evaluation_results:
-            metrics = []
-            values = []
-            for metric, value in evaluation_results.items():
-                if isinstance(value, (int, float)):  # 只使用数值型指标
-                    metrics.append(metric)
-                    values.append(value)
+        # 修改图像尺寸和布局设置
+        fig_height = 6 if n_plots <= 3 else 10
+        fig_width = 15 if n_plots <= 3 else 12
+        fig, axes = plt.subplots(n_plots // 2 + n_plots % 2, 2, figsize=(fig_width, fig_height))
+        axes = axes.ravel()
+        
+        # 1. 训练得分和测试得分对比柱状图
+        scores = ['训练得分', '测试得分']
+        values = [train_score, test_score]
+        bars = axes[0].bar(scores, values)
+        axes[0].set_title('模型得分对比')
+        axes[0].set_ylim(0, 1.1)
+        axes[0].grid(True, axis='y')
+        # 添加数值标签
+        for bar in bars:
+            height = bar.get_height()
+            axes[0].text(bar.get_x() + bar.get_width()/2., height,
+                    f'{height:.3f}',
+                    ha='center', va='bottom')
             
-            if metrics:
-                bars = ax1.bar(metrics, values)
-                ax1.set_title('模型评估指标')
-                ax1.set_ylim(0, 1.1)  # 假设指标值在0-1之间
-                ax1.grid(True, axis='y')
+        # 2. 评估指标的横向柱状图
+        y_pos = np.arange(len(metrics_data))
+        axes[1].barh(y_pos, list(metrics_data.values()))
+        axes[1].set_yticks(y_pos)
+        axes[1].set_yticklabels(list(metrics_data.keys()))
+        axes[1].set_title('模型训练指标')
+        # 添加数值标签
+        for i, v in enumerate(metrics_data.values()):
+            axes[1].text(v, i, f'{v:.2f}', va='center')
+            
+        # 3. 训练时间和模型大小的组合图
+        ax3_twin = axes[2].twinx()
+        time_value = metrics_data['训练时间(秒)']
+        size_value = metrics_data['模型大小(KB)']
+        
+        time_bar = axes[2].bar([0], [time_value], color='skyblue', label='训练时间(秒)')
+        axes[2].set_ylabel('训练时间(秒)')
+        
+        # 确保y轴范围至少有一个小的差值
+        axes[2].set_ylim(0, max(time_value * 1.2, 0.1))
+        ax3_twin.set_ylim(0, max(size_value * 1.2, 0.1))
+        
+        size_line = ax3_twin.plot([0], [size_value], 'r-', marker='o', label='模型大小(KB)')[0]
+        ax3_twin.set_ylabel('模型大小(KB)')
+        
+        lines = [time_bar, size_line]
+        labels = ['训练时间(秒)', '模型大小(KB)']
+        axes[2].legend(lines, labels, loc='upper right')
+        axes[2].set_title('训练性能指标')
+
+        # 4. 如果有评估矩阵数据,绘制评估指标对比图
+        if train_results.get('metrics'):
+            metrics = train_results['metrics']
+            if 'train' in metrics and 'test' in metrics:
+                train_metrics = metrics['train']
+                test_metrics = metrics['test']
                 
-                # 在柱状图上添加具体数值
-                for bar in bars:
-                    height = bar.get_height()
-                    ax1.text(bar.get_x() + bar.get_width()/2., height,
-                            f'{height:.3f}',
-                            ha='center', va='bottom')
-        
-        # 2. 绘制训练进度和时间信息
-        train_info = model_info.get('train_progress_info', {})
-        if train_info:
-            # 获取关键信息
-            progress = train_info.get('progress', 0)
-            time_elapsed = train_info.get('time_elapsed', 0)
-            train_score = train_info.get('train_score', 0)
-            test_score = train_info.get('test_score', 0)
+                metric_names = list(train_metrics.keys())
+                train_values = [train_metrics[m] for m in metric_names]
+                test_values = [test_metrics[m] for m in metric_names]
+                
+                x = np.arange(len(metric_names))
+                width = 0.35
+                
+                axes[3].bar(x - width/2, train_values, width, label='训练集')
+                axes[3].bar(x + width/2, test_values, width, label='测试集')
+                
+                axes[3].set_ylabel('得分')
+                axes[3].set_title('评估指标对比')
+                axes[3].set_xticks(x)
+                axes[3].set_xticklabels(metric_names)
+                axes[3].legend()
+                
+                plt.setp(axes[3].get_xticklabels(), rotation=30, ha='right')
+                axes[3].tick_params(axis='x', labelsize=8)
+
+        # 修改tight_layout的调用
+        try:
+            plt.tight_layout(pad=2.0)
+        except ValueError as e:
+            print(f"布局调整失败，使用默认布局: {str(e)}")
             
-            # 创建训练信息表格
-            table_data = [
-                ['训练进度', f'{progress:.1f}%'],
-                ['已用时间', f'{time_elapsed:.1f}秒'],
-                ['训练集得分', f'{train_score:.3f}'],
-                ['测试集得分', f'{test_score:.3f}']
-            ]
-            
-            # 隐藏坐标轴
-            ax2.axis('off')
-            
-            # 创建表格
-            table = ax2.table(cellText=table_data,
-                            colWidths=[0.3, 0.3],
-                            cellLoc='center',
-                            loc='center',
-                            bbox=[0.2, 0.2, 0.6, 0.6])  # 调整表格位置和大小
-            
-            # 设置表格样式
-            table.auto_set_font_size(False)
-            table.set_fontsize(12)
-            table.scale(1.5, 2)
-            
-            # 设置标题
-            ax2.set_title('训练进度信息', pad=20)
-        
-        plt.tight_layout()
-        
-        # 修改保存路径生成逻辑
+        # 保存图像
         save_path = os.path.join(save_dir, f'{request_id}_train_process.png')
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        plt.savefig(save_path, bbox_inches='tight', dpi=300)
+        plt.savefig(save_path, bbox_inches='tight', dpi=150)
         plt.close()
-        
+        print(f"训练过程图表已保存到: {save_path}")
         return save_path
+        
     except Exception as e:
         print(f"绘制训练过程图表时发生错误: {str(e)}")
-        return None
+        # 创建一个简单的错误提示图
+        plt.figure(figsize=(10, 5))
+        plt.text(0.5, 0.5, '绘图失败\n请检查数据', 
+                horizontalalignment='center',
+                verticalalignment='center',
+                fontsize=12)
+        plt.axis('off')
+        
+        save_path = os.path.join(save_dir, f'{request_id}_train_process_error.png')
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        plt.savefig(save_path, bbox_inches='tight', dpi=150)
+        plt.close()
+        return save_path
+
+
+

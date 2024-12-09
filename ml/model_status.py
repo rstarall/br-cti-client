@@ -1,7 +1,7 @@
 from tinydb import TinyDB, Query
 from db.tiny_db import TinyDBUtil
 import time
-
+import numpy as np
 example_model_record = {
     "request_id": "550e8400-e29b-41d4-a716-446655440000", # 请求ID
     "source_file_hash": "d41d8cd98f00b204e9800998ecf8427e", # 数据源文件hash
@@ -53,13 +53,34 @@ def save_model_record(request_id,status,source_file_hash,model_info:dict):
             - status: 状态(训练完成，训练失败，评估完成，评估失败)
             - model_info: 模型信息
     """
+    #处理mode_info
+    save_model_info = model_info.copy()
+
+    #删除不必要的模型信息
+    save_model_info.pop('pca_info')
+    # 递归函数：将 ndarray 转换为 list
+    def convert_numpy_to_python(obj):
+        if isinstance(obj, np.ndarray):
+            return list(obj)
+        elif isinstance(obj, dict):
+            return {key: convert_numpy_to_python(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_numpy_to_python(item) for item in obj]
+        elif isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        else:
+            return obj
+    save_model_info = convert_numpy_to_python(save_model_info)
+
     ml_records_table.upsert({
         'request_id': request_id,
         'source_file_hash': source_file_hash,
         'model_hash': model_info.get("model_hash",""),
         'onchain': False,
         'status': status,
-        'model_info': model_info,
+        'model_info': save_model_info,
         'created_time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     }, Query().request_id == request_id)
 
@@ -89,6 +110,7 @@ def log_progress(request_id, source_file_hash, stage, message, evaluate_results=
         'results': evaluate_results,
         'current_step': current_step,
         'total_step': total_step,
+        'progress': int(100*current_step / total_step),
         'time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
         'error': error
     }
@@ -129,7 +151,7 @@ def get_model_progress_status_by_hash(source_file_hash):
     records = progress_table.search(Query().source_file_hash == source_file_hash)
     return records
 
-def get_model_record_by_id(request_id):
+def get_model_record_by_request_id(request_id):
     """
         根据请求 ID 获取模型记录。
         参数:
