@@ -200,12 +200,12 @@ class DataService:
         if errors is not None:
             stix_process_progress["errors"] = errors
         if total_task_list is not None:
-            #初始化总任务列表
+            # 初始化总任务列表
             total_task_list = list(total_task_list)
             stix_process_progress["total_task_list"] = total_task_list
         if current_task_id is not None:
             stix_process_progress["current_task_id"] = current_task_id
-            #移出完成任务
+            # 移出完成任务
             if stix_process_progress["total_task_list"] is not None:
                 if current_task_id in stix_process_progress["total_task_list"]:
                     stix_process_progress["total_task_list"].remove(current_task_id)
@@ -331,7 +331,7 @@ class DataService:
             if os.path.exists(stix_record_file_path):
                 stix_records_detail_list.append(load_json_from_file(stix_record_file_path))
         return stix_records_detail_list
-    
+
     def get_local_stix_file_by_hash(self,source_file_hash,stix_file_hash):
         """
             根据stix文件的hash值获取本地stix文件路径
@@ -345,7 +345,7 @@ class DataService:
         """
         stix_file_path = getOutputDirPath()+"/"+source_file_hash+"/"+stix_file_hash+".jsonl"
         if os.path.exists(stix_file_path):
-            #读取stix文件
+            # 读取stix文件
             with open(stix_file_path,"r") as fp:
                 stix_data = fp.read()
             return stix_data
@@ -614,7 +614,7 @@ class DataService:
             start_index = (page-1)*page_size #计算起始索引
             end_index = min(start_index+page_size,total_count) #计算结束索引
             cti_records_list = cti_records_list[start_index:end_index]
-        #读取cti_record_info json文件
+        # 读取cti_record_info json文件
         cti_records_file_path_list = []
         for cti_record in cti_records_list:
             cti_records_file_path_list.append(cti_record["cti_file_path"])

@@ -3,7 +3,7 @@
     IPFS接口实现
 """
 from env.global_var import getIpfsAddress,getIPFSDownloadPath
-import ipfshttpclient2
+import ipfshttpclient
 import os
 ipfs_address = getIpfsAddress()
 download_path = getIPFSDownloadPath()
@@ -17,7 +17,7 @@ def upload_file_to_ipfs(file_path:str)->tuple[str,str]:
     """
     try:
         # 连接到本地 IPFS 节点
-        with ipfshttpclient2.connect(ipfs_address) as client:
+        with ipfshttpclient.connect(ipfs_address) as client:
             # 获取文件名和后缀
             file_name = os.path.basename(file_path)
             file_ext = os.path.splitext(file_name)[1]

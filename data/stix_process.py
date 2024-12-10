@@ -9,6 +9,8 @@ import uuid
 import numpy as np
 import os
 from utils.file import get_project_root_path,get_sha256_hash
+
+
 # 调整属性值为合适的数据类型
 def apply_transformation(value, transformation):
     if transformation == "list":
@@ -42,7 +44,7 @@ def apply_transformation(value, transformation):
 
 
 # 构造并返回SDO对象
-def stix_transform(mapping_dict, mapped_columns, row, row_count)->tuple[stix2.ObservedData,stix2.AttackPattern,dict]:
+def stix_transform(mapping_dict, mapped_columns, row, row_count) -> tuple[stix2.ObservedData,stix2.AttackPattern,dict]:
     """
         构造并返回SDO对象
         param:
@@ -89,7 +91,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count)->tuple[stix2.Ob
                 # 存入可能使用到的STIX对象的属性和对应的属性值，用于后续构建STIX对象
                 if stix_type == "IPv4Address":
                     ipv4address_object.append(property_value)
-                    #记录一份到本地数据库
+                    # 记录一份到本地数据库
                     stix_record["ips_list"].append(property_value)
                 elif stix_type == "NetworkTraffic":
                     networktraffic_object[object_property] = property_value
@@ -249,7 +251,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count)->tuple[stix2.Ob
     except Exception as e:
         print(f"第 {row_count + 1} 行数据扫描完后构造对象 {create_name} 时出错: {e}")
 
-    return observed_data, attack_pattern, stix_record# 返回SDO对象
+    return observed_data, attack_pattern, stix_record  # 返回SDO对象
 
 
 # 数据端服务函数接口：把流量数据集文件转换成stix格式文件
@@ -385,7 +387,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
                 "stix_data_hash":stix_data_hash,
                 "ioc_ips_map":ips_record_buffer,
             }
-            #暂时使用process_config代替stix_info
+            # 暂时使用process_config代替stix_info
             if process_config:
                 stix_info["stix_type"] = process_config.get("stix_type",1)
                 stix_info["stix_tags"] = process_config.get("stix_iocs",["ip","port","hash","payload"]) #tags也设置为iocs
@@ -394,7 +396,6 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
         except Exception as e:
             print(f"本地stix处理记录保存失败：{e}")
             errors.append(f"本地stix处理记录保存失败：{e}")
-
 
         # 清空缓冲区
         stix_record_buffer = []
@@ -440,6 +441,6 @@ def start_process_dataset_to_stix(data_service,file_hash:str,process_config:dict
     result = {
         "use_time":finish_time - start_time,
     }
-    #更新处理结果
+    # 更新处理结果
     data_service.update_stix_process_progress(file_hash,result=result,errors=errors)
     
