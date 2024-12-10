@@ -57,7 +57,8 @@ def save_model_record(request_id,status,source_file_hash,model_info:dict):
     save_model_info = model_info.copy()
 
     #删除不必要的模型信息
-    save_model_info.pop('pca_info')
+    if 'feature_engineering_info' in save_model_info:
+        save_model_info.pop('feature_engineering_info')
     # 递归函数：将 ndarray 转换为 list
     def convert_numpy_to_python(obj):
         if isinstance(obj, np.ndarray):

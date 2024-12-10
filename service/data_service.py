@@ -565,7 +565,9 @@ class DataService:
         """
         #ip_location_map,location_num_map,errors = ips_to_location(ips_map)
         #使用批量查询API处理(每次30个)
-        ip_location_map,ip_location_info_map,location_num_map,errors = ips_to_location(ips_map)
+        #ip_location_map,ip_location_info_map,location_num_map,errors = ips_to_location(ips_map)
+        #使用mock数据
+        ip_location_map,ip_location_info_map,location_num_map,errors = ips_to_location_mock_random(ips_map)
         return ip_location_map,ip_location_info_map,location_num_map,errors
     
     def get_local_cti_record_by_id(self,source_file_hash,cti_id):

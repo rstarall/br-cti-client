@@ -20,6 +20,21 @@ class MLService:
         # 自动生成请求 ID
     def generate_request_id(self):
         return str(uuid.uuid4())
+    
+    def get_data_source_file_path_by_hash(self,hash):
+        """
+            根据文件的hash值,获取文件路径
+            return:
+                file_path: 文件路径
+                error: 错误信息
+        """
+        #先检测上传文件夹
+        file_path = check_file_by_hash(getMlUploadFilePath(),hash)
+        if file_path is None:
+            #检查下载文件夹
+            return check_file_by_hash(getMlDownloadFilePath(),hash)
+        return file_path
+    
     def get_upload_file_path_by_hash(self, hash):
         """
             根据文件的hash值,获取数据集文件路径
@@ -67,7 +82,7 @@ class MLService:
             file_info['file_name'] = os.path.basename(exit_file_path)
             return file_info,None
 
-        return download_file_with_progress(ipfs_hash, save_path, progress_callback)
+        return download_file_with_progress(data_source_hash,ipfs_hash, save_path, progress_callback)
     
     def save_download_progress(self,data_source_hash,progress):
         """
@@ -115,7 +130,9 @@ class MLService:
                 error: 错误信息,如果成功则为None
         """
         try:
-            file_path = self.get_upload_file_path_by_hash(file_hash)
+            file_path = self.get_data_source_file_path_by_hash(file_hash)
+            if file_path is None:
+                return None, "文件不存在:"+file_hash
             return get_feature_list(file_path), None
         except Exception as e:
             return None, str(e)
@@ -134,7 +151,7 @@ class MLService:
         
     
         # 根据文件hash获取文件路径
-        source_file_path = self.get_upload_file_path_by_hash(source_file_hash)
+        source_file_path = self.get_data_source_file_path_by_hash(source_file_hash)
         if source_file_path is None:
             return None,False
         

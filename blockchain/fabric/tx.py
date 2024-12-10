@@ -16,9 +16,9 @@ def createTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
             tx_msg: 交易消息
     """
     # 检查用户是否存在
-    local_wallet_id = checkLocalUserAccountExist()
-    if local_wallet_id != wallet_id:
-        raise Exception("钱包ID不一致")
+    exist = checkLocalUserAccountExist(wallet_id)
+    if not exist:
+        raise Exception("钱包ID不存在")
     #检查密码
     if not checkWalletPassword(wallet_id,password):
         raise Exception("密码错误")
@@ -54,9 +54,9 @@ def createSignTransaction(wallet_id:str,password:str,tx_data:dict)->dict:
             tx_msg:交易消息->dict
     """
     #检查用户是否存在   
-    local_wallet_id = checkLocalUserAccountExist()
-    if local_wallet_id != wallet_id:
-        raise Exception("钱包ID不一致")
+    exist = checkLocalUserAccountExist(wallet_id)
+    if not exist:
+        raise Exception("钱包ID不存在")
     
     #处理tx_data
     tx_data_bytes = json.dumps(tx_data).encode('utf-8')

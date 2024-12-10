@@ -16,18 +16,19 @@ import os
 
 userWalletPath = getUserWalletAbsolutePath()
 
-def checkLocalUserAccountExist():
+def checkLocalUserAccountExist(wallet_id:str=None):
     """
         查询用户钱包是否存在
-        retrun:第一个钱包ID or None
+        retrun:True or False
     """
     userWalletPath = getUserWalletAbsolutePath()
     #检测wallet文件夹下所有钱包文件夹是否存在
-    for wallet_id in os.listdir(userWalletPath):
-        if  os.path.exists(os.path.join(userWalletPath, wallet_id, 'public_key.pem')):
-            if os.path.exists(os.path.join(userWalletPath, wallet_id, 'private_key.pem')):
-                return wallet_id
-    return None
+    for folder in os.listdir(userWalletPath):
+        if  os.path.exists(os.path.join(userWalletPath, folder, 'public_key.pem')):
+            if os.path.exists(os.path.join(userWalletPath, folder, 'private_key.pem')):
+                if  wallet_id == folder:
+                    return True
+    return False
 
 def getLocalUserAccountMulti():
     """

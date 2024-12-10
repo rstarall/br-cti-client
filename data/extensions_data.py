@@ -13,10 +13,12 @@ def ips_to_location_mock_random(ips:dict):
             ips: 字典(ip->ip出现数量)
         return:
             ip_location_map: 字典(ip->地理位置)
+            ip_location_info_map: 字典(ip->地理位置详细信息)
             location_num_map: 字典(地理位置->位置出现数量)
             errors: 错误信息列表
     """
     ip_location_map = {}
+    ip_location_info_map = {}
     location_num_map = {}
     errors = []
     
@@ -31,16 +33,45 @@ def ips_to_location_mock_random(ips:dict):
         "英国,伦敦,伦敦",
         "德国,柏林,柏林",
         "法国,巴黎,巴黎",
-        "俄罗斯,莫斯科,莫斯科"
+        "俄罗斯,莫斯科,莫斯科",
+        "加拿大,安大略,多伦多",
+        "澳大利亚,新南威尔士,悉尼",
+        "印度,马哈拉施特拉,孟买",
+        "巴西,圣保罗,圣保罗",
+        "新加坡,新加坡,新加坡",
+        "意大利,拉齐奥,罗马",
+        "西班牙,马德里,马德里"
     ]
+    
+    # 模拟的地理位置详细信息
+    location_infos = {
+        "中国,北京,北京": {"country":"CN","region":"Beijing","city":"Beijing","loc":"39.9075,116.3972"},
+        "中国,上海,上海": {"country":"CN","region":"Shanghai","city":"Shanghai","loc":"31.2222,121.4581"},
+        "中国,广东,深圳": {"country":"CN","region":"Guangdong","city":"Shenzhen","loc":"22.5431,114.0579"},
+        "美国,加利福尼亚,旧金山": {"country":"US","region":"California","city":"San Francisco","loc":"37.7749,-122.4194"},
+        "日本,东京,东京": {"country":"JP","region":"Tokyo","city":"Tokyo","loc":"35.6762,139.6503"},
+        "韩国,首尔,首尔": {"country":"KR","region":"Seoul","city":"Seoul","loc":"37.5665,126.9780"},
+        "英国,伦敦,伦敦": {"country":"GB","region":"England","city":"London","loc":"51.5074,-0.1278"},
+        "德国,柏林,柏林": {"country":"DE","region":"Berlin","city":"Berlin","loc":"52.5200,13.4050"},
+        "法国,巴黎,巴黎": {"country":"FR","region":"Île-de-France","city":"Paris","loc":"48.8566,2.3522"},
+        "俄罗斯,莫斯科,莫斯科": {"country":"RU","region":"Moscow","city":"Moscow","loc":"55.7558,37.6173"},
+        "加拿大,安大略,多伦多": {"country":"CA","region":"Ontario","city":"Toronto","loc":"43.6532,-79.3832"},
+        "澳大利亚,新南威尔士,悉尼": {"country":"AU","region":"New South Wales","city":"Sydney","loc":"-33.8688,151.2093"},
+        "印度,马哈拉施特拉,孟买": {"country":"IN","region":"Maharashtra","city":"Mumbai","loc":"19.0760,72.8777"},
+        "巴西,圣保罗,圣保罗": {"country":"BR","region":"São Paulo","city":"São Paulo","loc":"-23.5505,-46.6333"},
+        "新加坡,新加坡,新加坡": {"country":"SG","region":"Singapore","city":"Singapore","loc":"1.3521,103.8198"},
+        "意大利,拉齐奥,罗马": {"country":"IT","region":"Lazio","city":"Rome","loc":"41.9028,12.4964"},
+        "西班牙,马德里,马德里": {"country":"ES","region":"Madrid","city":"Madrid","loc":"40.4168,-3.7038"}
+    }
     
     for ip, ip_num in ips.items():
         # 随机选择一个地理位置
         location = random.choice(locations)
         ip_location_map[ip] = location
+        ip_location_info_map[ip] = location_infos[location]
         location_num_map[location] = location_num_map.get(location, 0) + ip_num
         
-    return ip_location_map, location_num_map, errors
+    return ip_location_map, ip_location_info_map, location_num_map, errors
 
 def ips_to_location_concurrent(ips:dict, max_workers=100):
     """

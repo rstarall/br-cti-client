@@ -66,7 +66,7 @@ def start_model_process_task(request_id,source_file_hash,source_file_path,target
     #2.训练并保存模型
     try:
         
-        model_info,model_save_path  = train_and_save_model(request_id,source_file_hash,
+        feature_engineering_df,model_info,model_save_path  = train_and_save_model(request_id,source_file_hash,
                                                            df=df,
                                                            output_dir_path=output_dir_path,
                                                            target_column=target_label_column,
@@ -75,18 +75,17 @@ def start_model_process_task(request_id,source_file_hash,source_file_path,target
         log_progress(request_id, source_file_hash, "Model Training", "Model training failed", error=str(e))
         save_model_record(request_id,'train_failed',source_file_hash,model_info)
         return None, str(e)
-    print(f"train_and_save_model model_info: {model_info}")
-    save_model_record(request_id,'train_success',source_file_hash,model_info)
     #3.获取模型hash
     model_hash = get_model_hash(model_save_path)
     model_info['model_hash'] = model_hash
+    save_model_record(request_id,'train_success',source_file_hash,model_info)  
     model_info['evaluation_results'] = None
     #4.评估模型
     try:
         log_progress(request_id, source_file_hash, "Model Evaluation", "Model evaluation started")
         evaluation_results = evaluate_model(request_id,
                        model_path=model_save_path,
-                       df=df,
+                       df=feature_engineering_df,
                        target_column=target_label_column,
                        model_info=model_info)
         model_info['evaluation_results'] = evaluation_results

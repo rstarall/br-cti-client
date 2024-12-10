@@ -21,18 +21,20 @@ from sklearn.metrics import (
     mean_squared_error, mean_absolute_error, r2_score,  # 回归指标
     silhouette_score, calinski_harabasz_score, davies_bouldin_score  # 聚类指标
 )
+import re
 
 
-def feature_engineering(df,pca_save_path,request_id, target_column=None):
+def feature_engineering(df,feature_engineering_save_path,request_id, target_column=None):
     """
     修复：
     1. 增加目标列为空的判断
     2. 根据是否有目标列调整特征工程策略
     3. 优化异常处理
-    4. PAC降维结果保存在文件中
+    4. 特征工程结果保存在文件中
     5. 增加特征重要性排序
     """
-    pca_info = {}    
+    df = df.copy()
+    feature_engineering_info = {}    
     try:
         # 记录原始特征数量
         original_features_count = df.shape[1]
@@ -43,41 +45,47 @@ def feature_engineering(df,pca_save_path,request_id, target_column=None):
         # 检查目标列
         if target_column!="" and target_column not in df.columns:
             raise ValueError(f"目标列 {target_column} 不存在于数据集中")
-        
+        print(f"目标列: {target_column}")
+        print(f"数据集: {df.columns}")
         supervised = target_column!="" and target_column in df.columns
+        # 保存目标列的值
+        target_values = None
+        if target_column in df.columns:
+            target_values = df[target_column].copy()
 
-        # 1. 特征缩放：对数值特征进行标准化
+        # 1. 数值特征标准化
         numerical_columns = df.select_dtypes(include=[np.number]).columns
         if target_column and supervised:
-            numerical_columns = numerical_columns.drop(target_column)
+            if target_column in numerical_columns:
+                numerical_columns = numerical_columns.drop(target_column)
 
         if len(numerical_columns) > 0:
             scaler = StandardScaler()
             df[numerical_columns] = scaler.fit_transform(df[numerical_columns])
 
-        # 2. 类别特征编码：对分类特征进行处理
+        # 2. 对所有分类特征进行独热编码转换为数值
         categorical_columns = df.select_dtypes(include=['object']).columns
         if len(categorical_columns) > 0:
-            # 无监督学习时使用 Label 编码而不是独热编码
-            if not supervised:
-                for col in categorical_columns:
-                    le = LabelEncoder()
-                    df[col] = le.fit_transform(df[col])
-            else:
-                df = pd.get_dummies(df, columns=categorical_columns)
+            df = pd.get_dummies(df, columns=categorical_columns)
 
-        # 3. 特征交互：仅在有监督学习且特征数量合理时生成
-        if supervised and target_column and len(numerical_columns) > 0 and len(numerical_columns) <= 10:
+        # 3. 特征交互：仅在有监督学习且特征数量合理时生成(会增大特征维度)
+        if supervised  and len(numerical_columns) > 0 and len(numerical_columns) <= 10:
+            
+            
             poly = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)
             poly_features = poly.fit_transform(df[numerical_columns])
             poly_columns = poly.get_feature_names_out(numerical_columns)
             df_poly = pd.DataFrame(poly_features, columns=poly_columns)
+            
             df = pd.concat([df, df_poly], axis=1)
+            if target_column not in df.columns and target_values is not None:
+                df[target_column] = target_values
 
-        # 4. 降维：根据任务类型调整PCA策略
-        if df.shape[1] > 10:
+        # 4. 降维：根据任务类型调整PCA策略(特征数大于30时进行降维)
+        if df.shape[1] > 50:
+            pca_info = {}
             # 无监督学习时保留更多维度(20)
-            n_components = min(df.shape[1], 20 if not supervised else 10)
+            n_components = min(df.shape[1], 30 if not supervised else 20)
             pca = PCA(n_components=n_components)
             pca_features = pca.fit_transform(df)
             
@@ -94,7 +102,7 @@ def feature_engineering(df,pca_save_path,request_id, target_column=None):
             
             pca_info.update({
                 'n_samples': pca_features.shape[0],
-                'n_components': pca_features.shape[1],
+                'n_components': pca_features.shape[1], #降维后特征数量
                 'explained_variance_ratio': pca.explained_variance_ratio_.tolist(),
                 'cumulative_variance_ratio': np.cumsum(pca.explained_variance_ratio_).tolist(),
                 'feature_names': [f'PC{i+1}' for i in range(n_components)],
@@ -106,19 +114,28 @@ def feature_engineering(df,pca_save_path,request_id, target_column=None):
             })
             
             # 如果需要保存完整的转换后数据，建议写入文件而不是存在内存中
-            if pca_save_path:  # 确保有输出路径
-                pca_output_path = os.path.join(pca_save_path, f"{request_id}-pca_features.npy")
+            if feature_engineering_save_path:  # 确保有输出路径
+                os.makedirs(feature_engineering_save_path, exist_ok=True)
+                pca_output_path = os.path.join(feature_engineering_save_path, f"{request_id}-pca_features.npy")
                 np.save(pca_output_path, pca_features)
                 pca_info['pca_features_path'] = pca_output_path
+            feature_engineering_info.update({
+                'pca_info': pca_info
+            })
         # 检查特征数量变化
         final_features_count = df.shape[1]
         print(f"特征工程前后特征数量变化: {original_features_count} -> {final_features_count}")
-            
-        return df, pca_info
+        if feature_engineering_save_path:
+            #保存特征工程后数据
+            os.makedirs(feature_engineering_save_path, exist_ok=True)
+            feature_engineering_output_path = os.path.join(feature_engineering_save_path, f"{request_id}-features.npy")
+            np.save(feature_engineering_output_path, df)
+            feature_engineering_info['feature_engineering_path'] = feature_engineering_output_path
+        return df, feature_engineering_info
         
     except Exception as e:
         print(f"特征工程过程中发生错误: {str(e)}")
-        raise  # 向上传递异常，而不是返回原始数据
+        raise  
         
 
 def train_and_save_model(request_id, source_file_hash, output_dir_path, df, target_column, callback=None):
@@ -179,9 +196,10 @@ def train_and_save_model(request_id, source_file_hash, output_dir_path, df, targ
         try:
             print('开始特征工程...')
             log_progress(request_id, source_file_hash, "Feature Engineering", "Feature engineering started")
-            df, pca_info = feature_engineering(df, output_dir_path, request_id, target_column)  # 特征工程步骤
+            feature_engineering_df, feature_engineering_info = feature_engineering(df, output_dir_path+'/feature_engineering', request_id, target_column)  # 特征工程步骤
+            print(f"特征工程后df: {feature_engineering_df.columns}")
             model_info.update({
-                'pca_info': pca_info
+                'feature_engineering_info': feature_engineering_info
             })
             print('特征工程完成！')
             log_progress(request_id, source_file_hash, "Feature Engineering", "Feature engineering completed")
@@ -190,23 +208,14 @@ def train_and_save_model(request_id, source_file_hash, output_dir_path, df, targ
             log_progress(request_id, source_file_hash, "Feature Engineering", "Feature engineering failed", error=str(e))
             raise
 
-        # 2. 编码类别型特征
-        try:
-            print("开始类别型特征编码...")
-            log_progress(request_id, source_file_hash, "Label Encoding", "Label encoding started")
-            for col in df.select_dtypes(include=['object']).columns:
-                le = LabelEncoder()
-                df[col] = le.fit_transform(df[col])
-            log_progress(request_id, source_file_hash, "Label Encoding", "Label encoding completed")  # 记录进度
-        except Exception as e:
-            print(f"类别型特征编码过程中发生错误: {str(e)}")
-            log_progress(request_id, source_file_hash, "Label Encoding", "Label encoding failed", error=str(e))
-            raise
+    
 
         # 3. 划分特征和标签
         if target_column:
-            X = df.drop(columns=[target_column])
-            y = df[target_column]
+            if target_column not in feature_engineering_df.columns:
+                raise ValueError(f"目标列 {target_column} 不存在于数据集中")
+            y = feature_engineering_df[target_column]
+            X = feature_engineering_df.drop(columns=[target_column])
             model_info["target_column"] = target_column
             print("开始划分训练集和测试集...")
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -214,7 +223,7 @@ def train_and_save_model(request_id, source_file_hash, output_dir_path, df, targ
             model_info["test_size"] = 0.2
         else:
             # 无监督学习,不需要标签
-            X = df
+            X = feature_engineering_df
             X_train, X_test = train_test_split(X, test_size=0.2, random_state=42)
             y_train = y_test = None
             log_progress(request_id, source_file_hash,"Train/Test Split", "Train/test split completed (unsupervised)")
@@ -225,7 +234,7 @@ def train_and_save_model(request_id, source_file_hash, output_dir_path, df, targ
             callback(request_id, source_file_hash,{
                 'model_select_info': info
             })
-        model,model_select_info = select_model_based_on_features(df, target_column,select_model_callback)
+        model,model_select_info = select_model_based_on_features(feature_engineering_df, target_column,select_model_callback)
         model_name = model.__class__.__name__
         model_info["model_name"] = model_name
         model_info["model_algorithm"] = model_select_info.get('model_algorithm')
@@ -238,42 +247,20 @@ def train_and_save_model(request_id, source_file_hash, output_dir_path, df, targ
         # 5. 训练模型
         model_start_time = time.time()
         if hasattr(model, 'supports_iterative_training') and model.supports_iterative_training:
-            # 对于支持迭代训练的模型（随机森林）
-            n_estimators_per_iter = 10  # 每次迭代训练10个树
-            total_estimators = model.n_estimators
-            current_estimators = 0
-            
-            while current_estimators < total_estimators:
-                current_estimators += n_estimators_per_iter
-                model.set_params(n_estimators=min(current_estimators, total_estimators))
+            # 对于支持迭代训练的模型
+            if model_name == 'RandomForestClassifier' or model_name == 'RandomForestRegressor':
+                n_estimators_per_iter = 10  # 每次迭代训练10个树
+                total_estimators = model.n_estimators
+                current_estimators = 0
+                
+                while current_estimators < total_estimators:
+                    current_estimators += n_estimators_per_iter
+                    model.set_params(n_estimators=min(current_estimators, total_estimators))
+                    model.fit(X_train, y_train)
+            else:
+                # 非随机森林模型直接训练
                 model.fit(X_train, y_train)
                 
-                if callback:
-                    progress = (current_estimators / total_estimators) * 100
-                    train_score = model.score(X_train, y_train)
-                    test_score = model.score(X_test, y_test)
-                    train_results['train_score'] = train_score
-                    train_results['test_score'] = test_score
-                    
-                    # 使用新的calculate_metrics函数获取评估指标
-                    metrics = calculate_metrics(model, X_train, X_test, y_train, y_test, model_info["model_type"])
-                    train_results['metrics'] = metrics
-                    
-                    callback(request_id, source_file_hash, {
-                        'model_select_info': model_select_info,
-                        'train_progress_info': {
-                            'progress': progress,
-                            'current_iter': current_estimators,
-                            'total_iter': total_estimators,
-                            'train_score': train_score,
-                            'test_score': test_score,
-                            'time_elapsed': time.time() - model_start_time,
-                            'metrics': metrics
-                        }
-                    })
-        else:
-            # 对于不支持迭代训练的模型
-            model.fit(X_train, y_train)
             if callback:
                 train_score = model.score(X_train, y_train)
                 test_score = model.score(X_test, y_test)
@@ -291,8 +278,29 @@ def train_and_save_model(request_id, source_file_hash, output_dir_path, df, targ
                         'train_score': train_score,
                         'test_score': test_score,
                         'time_elapsed': time.time() - model_start_time,
-                        'metrics': metrics,
-                        **train_results
+                        'metrics': metrics
+                    }
+                })
+        else:
+            # 对于不支持迭代训练的模型
+            model.fit(X_train, y_train)
+            if callback:
+                train_score = model.score(X_train, y_train)
+                test_score = model.score(X_test, y_test)
+                train_results['train_score'] = train_score
+                train_results['test_score'] = test_score
+                
+                # 使用新的calculate_metrics函数获取评估指标
+                metrics = calculate_metrics(model, X_train, X_test, y_train, y_test, model_info["model_type"])
+                train_results['metrics'] = metrics
+                callback(request_id, source_file_hash, {
+                    'model_select_info': model_select_info,
+                    'train_progress_info': {
+                        'progress': 100,
+                        'train_score': train_score,
+                        'test_score': test_score,
+                        'time_elapsed': time.time() - model_start_time,
+                        'metrics': metrics
                     }
                 })
 
@@ -304,12 +312,13 @@ def train_and_save_model(request_id, source_file_hash, output_dir_path, df, targ
         joblib.dump(model, model_save_path)
         model_info["model_save_path"] = model_save_path
         log_progress(request_id,source_file_hash, "Model Saving", f"Model save success")
-
+        train_time = round(time.time() - model_start_time, 3),#训练时间(秒)
         # 在模型训练完成后更新模型记录信息
         model_info.update({
-            'training_time': round(time.time() - model_start_time, 3),#训练时间(秒)
+            'training_time': train_time,
             "model_size": os.path.getsize(model_save_path)  # 记录模型文件大小
         })
+        train_results['time_elapsed'] = train_time
         train_results['model_size'] = model_info['model_size']
         # 在模型训练完成后，绘制训练过程图像
         train_results_image_path = plot_training_process(
@@ -339,7 +348,7 @@ def train_and_save_model(request_id, source_file_hash, output_dir_path, df, targ
                 }
             })
 
-        return model_info, model_save_path
+        return feature_engineering_df,model_info, model_save_path
         
     except Exception as e:
         log_progress(request_id, source_file_hash,
@@ -414,13 +423,16 @@ def select_unsupervised_model(df):
     n_samples = len(df)
     if n_samples < 1000:
         model = KMeans(n_clusters=5)  # 小数据集使用K-means
+        n_clusters = 5
     else:
         model = DBSCAN(eps=0.3, min_samples=10)  # 大数据集使用DBSCAN
+        # DBSCAN不需要预先指定簇的数量,在训练后获取
+        n_clusters = None
 
     model_select_info = {
         'task_type': 'clustering',
         'n_samples': n_samples,
-        'n_clusters': model.n_clusters,
+        'n_clusters': n_clusters if isinstance(model, KMeans) else None,
         'n_features': df.shape[1],
         'model_algorithm': model.__class__.__name__,
         'model_framework': 'scikit-learn'

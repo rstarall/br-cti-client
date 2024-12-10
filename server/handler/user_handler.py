@@ -10,7 +10,10 @@ wallet_service = WalletService()
 #检查本地钱包
 @user_blue.route('/checkLocalUserWallet',methods=['GET','POST'])
 def checkLocalUserWallet():
-    wallet_id = wallet_service.checkUserAccountExist()
+    wallet_id = request.json.get('wallet_id')
+    if not wallet_id:
+        return jsonify({'code': 400, 'message': 'wallet_id is required', 'data': None})
+    wallet_id = wallet_service.checkUserAccountExist(wallet_id)
     print(wallet_id)
     if wallet_id is  None:
         return jsonify({'code': 400, 'message': 'account not exist', 'data': None})
@@ -145,6 +148,21 @@ def createCTIPurchaseTransaction():
     if not wallet_id or not password or not cti_id:
         return jsonify({'code': 400, 'message': '参数不完整', 'data': None})
     result = wallet_service.createCTIPurchaseTransaction(wallet_id, password, cti_id)
+    if result:
+        return jsonify({'code': 200, 'message': 'success', 'data': result})
+    else:
+        return jsonify({'code': 400, 'message': result, 'data': None})
+
+
+#创建模型购买交易
+@user_blue.route('/createModelPurchaseTransaction',methods=['POST'])
+def createModelPurchaseTransaction():
+    wallet_id = request.json.get('wallet_id')
+    password = request.json.get('password') 
+    model_id = request.json.get('model_id')
+    if not wallet_id or not password or not model_id:
+        return jsonify({'code': 400, 'message': '参数不完整', 'data': None})
+    result = wallet_service.createModelPurchaseTransaction(wallet_id, password, model_id)
     if result:
         return jsonify({'code': 200, 'message': 'success', 'data': result})
     else:

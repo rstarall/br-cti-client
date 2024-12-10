@@ -176,26 +176,29 @@ class BlockchainService:
             wallet_id: 钱包账号
             wallet_password: 钱包密码
         """
+        # 1. 上传数据源文件到IPFS
+        data_source_hash = None
+        data_source_ipfs_hash = None
+        try:
+            data_source_path = self.data_service.get_upload_file_path_by_hash(source_file_hash)
+            if data_source_path and data_source_path != "":
+                data_source_ipfs_hash, error = self.uploadFileToIPFS(data_source_path)
+                if error:
+                    logging.error(f"uploadStixFileToIPFS error:{error}")
+                # 更新数据源IPFS地址
+                data_source_hash = source_file_hash
+                data_source_ipfs_hash = data_source_ipfs_hash
+            else:
+                logging.error("data source file is empty")
+        except Exception as e:
+            logging.error(f"uploadStixFileToIPFS error:{e}")
         for index, cti_data in enumerate(cti_data_list):
-            # 1. 上传数据源文件到IPFS
-            data_source_ipfs_hash = None
-            try:
-                data_source_path = self.data_service.get_upload_file_path_by_hash(source_file_hash)
-                if data_source_path and data_source_path != "":
-                    data_source_ipfs_hash, error = self.uploadFileToIPFS(data_source_path)
-                    if error:
-                        logging.error(f"uploadStixFileToIPFS error:{error}")
-                        continue
-                    # 更新数据源IPFS地址
-                    cti_data["data_source_hash"] = source_file_hash
-                    cti_data["data_source_ipfs_hash"] = data_source_ipfs_hash
-                else:
-                    logging.error("data source file is empty")
-                    continue
-            except Exception as e:
-                logging.error(f"uploadStixFileToIPFS error:{e}")
+            #如果已上链，则跳过
+            if cti_data.get("onchain",False):
                 continue
-
+            #更新每份CTI数据
+            cti_data["data_source_hash"] = data_source_hash
+            cti_data["data_source_ipfs_hash"] = data_source_ipfs_hash            
             # 2. 上传stix文件到IPFS
             try:
                 stix_file_path = cti_data.get("stix_data") 
@@ -257,8 +260,8 @@ class BlockchainService:
                     raise Exception(result)
             except Exception as e:
                 logging.error(f"uploadCTIToBlockchain error:{e}")
-                continue
-
+                #上传失败，直接停止
+                break
             # 更新进度
             self.updateCTIUpchainProgress(source_file_hash,
                                         current_step=index+1,
