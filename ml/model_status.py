@@ -88,7 +88,7 @@ def save_model_record(request_id,status,source_file_hash,model_info:dict):
     print(f"request_id:{request_id}的模型记录已保存至 {ml_records_table}")
 
 # 记录训练进度和评估信息
-def log_progress(request_id, source_file_hash, stage, message, evaluate_results={},error=None):
+def log_progress(request_id, source_file_hash, stage, message, evaluate_results={},error=None,model_hash=None):
     """
         记录训练进度、评估信息和时间。
         如果相同请求ID已经存在记录，则覆盖记录。
@@ -98,6 +98,8 @@ def log_progress(request_id, source_file_hash, stage, message, evaluate_results=
             - stage: 阶段
             - message: 消息
             - evaluate_results: 评估结果
+            - error: 错误信息
+            - model_hash: 模型hash
     """
     # 获取当前步骤索引
     current_step = PROCESS_STEPS.index(stage) + 1 if stage in PROCESS_STEPS else 0
@@ -113,7 +115,8 @@ def log_progress(request_id, source_file_hash, stage, message, evaluate_results=
         'total_step': total_step,
         'progress': int(100*current_step / total_step),
         'time': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
-        'error': error
+        'error': error,
+        'model_hash': model_hash
     }
     progress_table.upsert(record, Query().request_id == request_id)
 
@@ -186,4 +189,7 @@ def get_model_record_by_hash_and_hash(source_file_hash,model_hash):
             - record: 记录
     """
     records = ml_records_table.search(Query().source_file_hash == source_file_hash and Query().model_hash == model_hash)
-    return records[0]
+    if len(records) > 0:
+        return records[0]
+    else:
+        return None

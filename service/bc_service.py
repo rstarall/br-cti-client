@@ -17,7 +17,7 @@ import logging
 class BlockchainService:
     def __init__(self):
         self.tiny_db = get_tiny_db_instance()
-        self.cti_upchain_progress = {}
+        self.model_upchain_progress = {}
         self.upload_ipfs_data_progress = {}
         self.data_service = DataService()
         self.ml_service = MLService()
@@ -355,10 +355,10 @@ class BlockchainService:
             return: (result,success)
         """
         # 获取模型记录详情
-        model_record_detail = self.ml_service.getModelRecordByHashAndHash(source_file_hash,model_hash)
+        model_record_detail = self.ml_service.getModelUpchainRecordByModelHash(source_file_hash,model_hash)
         if model_record_detail is None:
             return "no_model_data", False
-            
+
         # 初始化进度
         total_task_list = [0]
         self.updateModelUpchainProgress(source_file_hash=source_file_hash,

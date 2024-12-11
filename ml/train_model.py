@@ -285,20 +285,28 @@ def train_and_save_model(request_id, source_file_hash, output_dir_path, df, targ
             # 对于不支持迭代训练的模型
             model.fit(X_train, y_train)
             if callback:
-                train_score = model.score(X_train, y_train)
-                test_score = model.score(X_test, y_test)
-                train_results['train_score'] = train_score
-                train_results['test_score'] = test_score
-                
-                # 使用新的calculate_metrics函数获取评估指标
-                metrics = calculate_metrics(model, X_train, X_test, y_train, y_test, model_info["model_type"])
-                train_results['metrics'] = metrics
+                # 检查是否为聚类模型（特别是DBSCAN）
+                if model_info["model_type"] == 3:  # 聚类模型
+                    # 聚类模型不使用传统的score，而是使用专门的聚类评估指标
+                    metrics = calculate_metrics(model, X_train, X_test, y_train, y_test, model_info["model_type"])
+                    train_results['train_score'] = metrics.get('silhouette', 0)  # 使用轮廓系数作为得分
+                    train_results['test_score'] = metrics.get('silhouette', 0)
+                    train_results['metrics'] = metrics
+                else:
+                    # 对于其他模型保持原有的评分方式
+                    train_score = model.score(X_train, y_train)
+                    test_score = model.score(X_test, y_test)
+                    train_results['train_score'] = train_score
+                    train_results['test_score'] = test_score
+                    metrics = calculate_metrics(model, X_train, X_test, y_train, y_test, model_info["model_type"])
+                    train_results['metrics'] = metrics
+
                 callback(request_id, source_file_hash, {
                     'model_select_info': model_select_info,
                     'train_progress_info': {
                         'progress': 100,
-                        'train_score': train_score,
-                        'test_score': test_score,
+                        'train_score': train_results['train_score'],
+                        'test_score': train_results['test_score'],
                         'time_elapsed': time.time() - model_start_time,
                         'metrics': metrics
                     }

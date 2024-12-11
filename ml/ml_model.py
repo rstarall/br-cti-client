@@ -94,7 +94,9 @@ def start_model_process_task(request_id,source_file_hash,source_file_path,target
         log_progress(request_id, source_file_hash, "Model Evaluation", "Model evaluation failed", error=str(e))
         save_model_record(request_id,'evaluate_failed',source_file_hash,model_info)
         return None, str(e)
-    save_model_record(request_id,'evaluate_success',source_file_hash,model_info)
+    save_model_record(request_id,'evaluate_success',
+                      source_file_hash=source_file_hash,
+                      model_info=model_info)
     return model_info, None
 
 def get_model_hash(model_save_path):

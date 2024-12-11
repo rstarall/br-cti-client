@@ -229,18 +229,27 @@ class MLService:
     
     def getModelUpchainRecordsList(self,source_file_hash:str)->list:
         """
-            根据source_file_hash获取本地模型上链记录列表
+            根据source_file_hash获取本地模型信息记录列表
         """
         model_record_list = self.getModelRecordsBySourceFileHash(source_file_hash)
         model_records_detail_list = []
         for model_record in model_record_list:
             model_info = model_record.get("model_info",{})
             model_hash = model_info.get("model_hash","")
-            #判断文件是否存在
-            if os.path.exists(self.getModelUpchainInfoFilePath(source_file_hash,model_hash)):
-                model_records_detail_list.append(load_json_from_file(self.getModelUpchainInfoFilePath(source_file_hash,model_hash)))
+            modelUpchainInfo = self.getModelUpchainRecordByModelHash(source_file_hash,model_hash)
+            if modelUpchainInfo:
+                model_records_detail_list.append(modelUpchainInfo)
         return model_records_detail_list
     
+    def getModelUpchainRecordByModelHash(self,source_file_hash:str,model_hash:str)->dict:
+        """
+            根据model_hash获取本地模型记录信息
+        """
+        if os.path.exists(self.getModelUpchainInfoFilePath(source_file_hash,model_hash)):
+            return load_json_from_file(self.getModelUpchainInfoFilePath(source_file_hash,model_hash))
+        return None
+
+
     def getModelUpchainInfoFilePath(self,source_file_hash:str,model_hash:str)->str:
         """
             获取模型上链信息文件路径
@@ -251,7 +260,8 @@ class MLService:
         """
             根据源文件hash创建模型上链信息文件(多个模型)
         """
-        model_record_list = self.getModelRecordsByHash(source_file_hash)
+        model_record_list = self.getModelRecordsBySourceFileHash(source_file_hash)
+        print(f"model_record_list: {model_record_list}")
         for model_record in model_record_list:
             self.createModelUpchainInfoFileSingle(source_file_hash,model_record.get("model_hash",""),model_info_config)
 
@@ -263,11 +273,14 @@ class MLService:
                 - model_hash: 模型hash
                 - model_info_config: 模型信息配置
             return:
-                - bool: 是否成功
+                - model_upchain_info: 模型上链信息
+                - error: 错误信息
         """
         try:
             ml_client_path = self.tiny_db.get_ml_client_path()
+            print(f"source_file_hash: {source_file_hash},model_hash: {model_hash}")
             model_record = self.getModelRecordByHashAndHash(source_file_hash,model_hash)
+            print(f"createModelUpchainInfoFileSingle model_record: {model_record}")
             model_info = model_record.get("model_info", {})
             model_upchain_info = {
                 "model_hash": model_hash,
@@ -279,7 +292,7 @@ class MLService:
                 "model_train_framework": model_info.get("model_framework",""),
                 "model_open_source": model_info.get("open_source",1),
                 "model_features": model_info.get("features",[]),
-                "model_tags": model_info_config.get("tags",[]),
+                "model_tags": model_info_config.get("model_tags",[]),
                 "model_description": model_info_config.get("description",""),
                 "model_size": model_info.get("model_size",0),
                 "model_data_size": model_info.get("data_size",0),
@@ -292,10 +305,11 @@ class MLService:
             model_upchain_info_path = f"{ml_client_path}/model_records/{source_file_hash}/{model_hash}.json"
             os.makedirs(os.path.dirname(model_upchain_info_path), exist_ok=True)
             save_json_to_file(model_upchain_info_path, model_upchain_info)
-            return True
+            print(f"save_json_to_file model_upchain_info: {model_upchain_info_path}")
+            return model_upchain_info,None
         except Exception as e:
             logging.error(f"createModelUpchainInfoFile error:{e}")
-            return False
+            return None,str(e)
             
     def saveModelUpchainResult(self,source_file_hash:str,model_hash:str,model_ipfs_hash:str,model_data_ipfs_hash:str)->bool:
         """

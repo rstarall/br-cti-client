@@ -223,8 +223,8 @@ def upload_model_to_bc_by_model_hash():
             'error': '服务器内部错误'
         })
 
-@bc_blue.route("/get_upload_model_progress", methods=['POST'])
-def get_upload_model_progress():
+@bc_blue.route("/get_model_upchain_progress", methods=['POST'])
+def get_model_upchain_progress():
     """
         获取模型数据上链进度
     """
