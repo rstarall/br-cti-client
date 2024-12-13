@@ -17,6 +17,7 @@ import logging
 class BlockchainService:
     def __init__(self):
         self.tiny_db = get_tiny_db_instance()
+        self.cti_upchain_progress = {}
         self.model_upchain_progress = {}
         self.upload_ipfs_data_progress = {}
         self.data_service = DataService()

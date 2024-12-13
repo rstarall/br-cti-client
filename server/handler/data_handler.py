@@ -73,13 +73,11 @@ def process_data_to_stix():
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     
     # 检查必要的配置参数
-    # required_fields = ['file_hash','process_id', 'stix_type', 'stix_traffic_features', 
-    #                   'stix_iocs', 'stix_label', 'stix_compress']
-
-    required_fields = ['file_hash'] #暂时不需要配置
+    required_fields = ['file_hash','process_id', 'stix_type','stix_iocs']
     required_fields_type = {
         "file_hash":str,
-        "stix_compress":int
+        "stix_type":int,
+        "stix_iocs":list
     }
     for field in required_fields:
         if field not in stix_process_config:

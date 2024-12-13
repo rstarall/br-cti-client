@@ -143,7 +143,7 @@ def rename_file_ext_with_content(file_path):
     new_file_name = file_name_without_ext + file_ext
     new_file_path = os.path.join(dir_path, new_file_name)
     os.rename(file_path, new_file_path)
-    return new_file_path,file_name,file_ext
+    return new_file_path,new_file_name,file_ext
 def get_file_size(file_path):
     """
         获取文件大小

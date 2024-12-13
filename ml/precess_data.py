@@ -13,7 +13,7 @@ def read_file_as_df(file_path):
         file_suffix = os.path.splitext(file_path)[1]
         if file_suffix == ".csv":
             dataset = pd.read_csv(file_path)
-        elif file_suffix == ".txt":
+        elif file_suffix == ".txt" or file_suffix == ".jsonl" or file_suffix == ".json":
             dataset = pd.read_json(file_path, lines=True)
         elif file_suffix == ".xlsx":
             dataset = pd.read_excel(file_path)

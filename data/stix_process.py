@@ -387,10 +387,14 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
             }
             #暂时使用process_config代替stix_info
             if process_config:
+                print("process_config",process_config)
                 stix_info["stix_type"] = process_config.get("stix_type",1)
                 stix_info["stix_tags"] = process_config.get("stix_iocs",["ip","port","hash","payload"]) #tags也设置为iocs
                 stix_info["stix_iocs"] = process_config.get("stix_iocs",["ip","port","hash","payload"])
-            data_service.save_local_stix_process_record(file_hash,output_file,stix_info)
+            data_service.save_local_stix_process_record(
+                source_file_hash=file_hash,
+                stix_file_path=output_file,
+                stix_info=stix_info)
         except Exception as e:
             print(f"本地stix处理记录保存失败：{e}")
             errors.append(f"本地stix处理记录保存失败：{e}")
