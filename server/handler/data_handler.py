@@ -164,13 +164,14 @@ def process_stix_to_cti():
     
     #判断类型正确性
     if type(cti_type) != int:
-        cti_type = 1 #默认设置为恶意流量
+        #转换
+        cti_type = int(cti_type)
     if type(open_source) != int:
-        open_source = 1 #默认设置为开源情报
+        open_source = int(open_source) #默认设置为开源情报
     if type(default_value) != int:
-        default_value = 10 #默认设置为10
+        default_value = int(default_value) #默认设置为10
     if type(cti_description) != str:
-        cti_description = "" #默认设置为空
+        cti_description = str(cti_description) #默认设置为空
     cti_config = {
         "cti_type": cti_type,
         "cti_traffic_type": random.randint(1,3),#随机生成一个流量类型(1:5G,2:卫星网络,3:SDN)

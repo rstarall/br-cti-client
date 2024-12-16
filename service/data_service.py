@@ -468,7 +468,7 @@ class DataService:
         new_cti_info_record = {
             "cti_hash": stix_file_hash,
             "cti_name": cti_config.get("cti_name", ""),
-            "cti_type": cti_config.get("cti_type", stix_info["stix_type"]),
+            "cti_type": int(cti_config.get("cti_type", stix_info["stix_type"])),
             "cti_traffic_type": CTI_TRAFFIC_TYPE["5G"] if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"] else 0,
             "open_source": cti_config.get("open_source", 1),
             "tags": stix_info["stix_tags"],
