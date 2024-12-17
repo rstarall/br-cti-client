@@ -157,7 +157,8 @@ def process_stix_to_cti():
     cti_default_name = data.get('cti_name',"")
     open_source = data.get('open_source',1)
     cti_description = data.get('cti_description',"")
-    default_value = data.get('default_value',10)
+    default_value = data.get('default_value',10.0)
+    incentive_mechanism = data.get('incentive_mechanism',1)
     print(f"process_stix_to_cti config:{data}")
     if not source_file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
@@ -168,16 +169,19 @@ def process_stix_to_cti():
         cti_type = int(cti_type)
     if type(open_source) != int:
         open_source = int(open_source) #默认设置为开源情报
-    if type(default_value) != int:
-        default_value = int(default_value) #默认设置为10
+    if type(default_value) != float:
+        default_value = float(default_value) #默认设置为10
     if type(cti_description) != str:
         cti_description = str(cti_description) #默认设置为空
+    if type(incentive_mechanism) != int:
+        incentive_mechanism = int(incentive_mechanism) #默认设置为1
     cti_config = {
         "cti_type": cti_type,
         "cti_traffic_type": random.randint(1,3),#随机生成一个流量类型(1:5G,2:卫星网络,3:SDN)
         "cti_name": cti_default_name,
         "open_source": open_source,
         "description": cti_description,
+        "incentive_mechanism": incentive_mechanism,
         "value": default_value
     }
     data_service.start_create_local_cti_records_by_hash(source_file_hash, cti_config)

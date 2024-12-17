@@ -334,7 +334,7 @@ def create_model_upchain_info():
     if not isinstance(model_info_config.get("tags",[]), list):
         model_info_config["model_tags"] = list(model_info_config.get("tags",[]))
     value = model_info_config.get("value", 0)
-    model_info_config["value"] = int(value) if value != '' else 0
+    model_info_config["value"] = float(value) if value != '' else 0.0
         
     result,error = ml_service.createModelUpchainInfoFileSingle(file_hash,model_hash,model_info_config)
     if error:

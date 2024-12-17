@@ -297,7 +297,7 @@ class MLService:
                 "model_size": model_info.get("model_size",0),
                 "model_data_size": model_info.get("data_size",0),
                 "model_data_ipfs_hash": "",
-                "value": model_info_config.get("value",0),
+                "value": model_info_config.get("value",0.0),
                 "model_ipfs_hash": "",
                 "ref_cti_id": model_info.get("cti_id","")
             }

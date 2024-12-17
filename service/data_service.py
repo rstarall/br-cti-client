@@ -480,7 +480,9 @@ class DataService:
             "data_size": os.path.getsize(stix_file_path),
             "data_source_hash": source_file_hash,  # 数据源hash
             "data_source_ipfs_hash": "",  # 数据源IPFS地址
+            "incentive_mechanism": cti_config.get("incentive_mechanism", 1),
             "value": cti_config.get("value", 0),
+
         }
         #处理create_time
         new_cti_info_record["create_time"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
