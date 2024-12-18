@@ -1,5 +1,6 @@
 from openai import OpenAI
 import re
+from pathlib import Path
 
 # 采用 OpenRouter 里的免费大模型：Google: Gemma 2 9B (free)
 key = "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"
@@ -27,7 +28,7 @@ def ask_model(input_text):
         print(f"模型调用出错：{e}")
         return None
 
-    # 从大模型返回的文本中提取出sitx信息
+    # 从大模型返回的文本中提取出stix信息
     try:
         # 使用正则表达式提取 JSON 部分
         json_pattern = re.compile(r'\{.*}', re.DOTALL)  # 正则表达式提取大括号内的内容
