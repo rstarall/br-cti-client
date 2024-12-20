@@ -169,11 +169,11 @@ def process_stix_to_cti():
         cti_type = int(cti_type)
     if type(open_source) != int:
         open_source = int(open_source) #默认设置为开源情报
-    if type(default_value) != float:
+    if default_value is not None and type(default_value) != float:
         default_value = float(default_value) #默认设置为10
-    if type(cti_description) != str:
+    if cti_description is not None and type(cti_description) != str:
         cti_description = str(cti_description) #默认设置为空
-    if type(incentive_mechanism) != int:
+    if incentive_mechanism is not None and type(incentive_mechanism) != int:
         incentive_mechanism = int(incentive_mechanism) #默认设置为1
     cti_config = {
         "cti_type": cti_type,
@@ -181,8 +181,8 @@ def process_stix_to_cti():
         "cti_name": cti_default_name,
         "open_source": open_source,
         "description": cti_description,
-        "incentive_mechanism": incentive_mechanism,
-        "value": default_value
+        "incentive_mechanism": incentive_mechanism if incentive_mechanism is not None else 1,
+        "value": default_value if default_value is not None else 10.0
     }
     data_service.start_create_local_cti_records_by_hash(source_file_hash, cti_config)
     

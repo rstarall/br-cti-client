@@ -4,12 +4,16 @@ from blockchain.fabric.tx import createTransaction
 import logging
 import json
 example_comment_data = {
-    "comment_id": "1234567890",
-    "user_id": "user123", 
-    "comment_doc_type": "cti",
+    # "comment_id": "1234567890",
+    # "user_id": "user123",
+    # "user_level": 1,
+    "comment_doc_type": "cti", 
     "comment_ref_id": "ref123",
     "comment_score": 4.5,
-    "comment_content": "这是一条评论"
+    "comment_content": "这是一条评论",
+    # "comment_status": 1,
+    # "create_time": "2024-01-01 00:00:00",
+    # "doctype": "comment"
 }
 def createCommentTransaction(wallet_id:str, password:str, comment_data:dict)->dict:
     """

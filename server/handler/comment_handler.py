@@ -7,6 +7,7 @@ comment_blue = Blueprint('comment',__name__,url_prefix='/comment') #创建一个
 #注册评论
 @comment_blue.route('/registerComment',methods=['POST'])
 def registerComment():
+    print("registerComment",request.json)
     wallet_id = request.json.get('wallet_id')
     password = request.json.get('password')
     comment_data = request.json.get('comment_data')
