@@ -199,7 +199,9 @@ class BlockchainService:
                 continue
             #更新每份CTI数据
             cti_data["data_source_hash"] = data_source_hash
-            cti_data["data_source_ipfs_hash"] = data_source_ipfs_hash            
+            cti_data["data_source_ipfs_hash"] = data_source_ipfs_hash
+            if wallet_id is not None and wallet_id != "":
+                cti_data["creator_user_id"] = wallet_id
             # 2. 上传stix文件到IPFS
             try:
                 stix_file_path = cti_data.get("stix_data") 
@@ -240,7 +242,8 @@ class BlockchainService:
             except Exception as e:
                 logging.error(f"upload statistic info error:{e}")
                 continue
-
+            if wallet_id is not None and wallet_id != "":
+                cti_data["creator_user_id"] = wallet_id
             # 4. 上传CTI数据到区块链
             try:
                 result, success = uploadCTIToBlockchain(wallet_id, wallet_password, cti_data)
