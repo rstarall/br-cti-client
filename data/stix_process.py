@@ -101,6 +101,7 @@ def stix_transform(mapping_dict, mapped_columns, row, row_count)->tuple[stix2.Ob
                     observed_time.append(property_value)
                 elif stix_type == "URL":
                     url_object[object_property] = property_value
+                    stix_record["urls_list"].append(property_value)
 
             # 未知映射关系
             else:
