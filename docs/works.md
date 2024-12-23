@@ -4,15 +4,15 @@
 
 #### 1.1 平台功能架构
 
-![img](docs/imgs/img1.png)
+![img](./imgs/img1.png)
 
 #### 1.2 区块链功能架构
 
-![img](docs/imgs/img2.png) 
+![img](./imgs/img2.png) 
 
 #### 1.3 用户端功能架构
 
-![img](docs/imgs/img3.png)
+![img](./imgs/img3.png)
 
 ### 2.开发注意事项
 
