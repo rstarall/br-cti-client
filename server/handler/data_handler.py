@@ -83,13 +83,11 @@ def process_data_to_stix():
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
     
     # 检查必要的配置参数
-    # required_fields = ['file_hash','process_id', 'stix_type', 'stix_traffic_features', 
-    #                   'stix_iocs', 'stix_label', 'stix_compress']
-
-    required_fields = ['file_hash']  # 暂时不需要配置
+    required_fields = ['file_hash','process_id', 'stix_type','stix_iocs']
     required_fields_type = {
         "file_hash":str,
-        "stix_compress":int
+        "stix_type":int,
+        "stix_iocs":list
     }
     for field in required_fields:
         if field not in stix_process_config:
@@ -129,7 +127,7 @@ def get_process_progress():
         return jsonify({"code": 400, 'error': '无该文件对应的处理进度！若文件已处理完成，请查找stix记录！', "data": None})
 
 
-# 查询stix记录表,支持分页
+#查询stix记录表,支持分页
 @data_blue.route('/get_local_stix_records', methods=['GET','POST'])
 def get_local_stix_records():
     data = {}
@@ -182,20 +180,24 @@ def process_stix_to_cti():
     
     # 判断类型正确性
     if type(cti_type) != int:
-        cti_type = 1  # 默认设置为恶意流量
+        #转换
+        cti_type = int(cti_type)
     if type(open_source) != int:
-        open_source = 1  # 默认设置为开源情报
-    if type(default_value) != int:
-        default_value = 10  # 默认设置为10
-    if type(cti_description) != str:
-        cti_description = ""  # 默认设置为空
+        open_source = int(open_source) #默认设置为开源情报
+    if default_value is not None and type(default_value) != float:
+        default_value = float(default_value) #默认设置为10
+    if cti_description is not None and type(cti_description) != str:
+        cti_description = str(cti_description) #默认设置为空
+    if incentive_mechanism is not None and type(incentive_mechanism) != int:
+        incentive_mechanism = int(incentive_mechanism) #默认设置为1
     cti_config = {
         "cti_type": cti_type,
         "cti_traffic_type": random.randint(1,3),  # 随机生成一个流量类型(1:5G,2:卫星网络,3:SDN)
         "cti_name": cti_default_name,
         "open_source": open_source,
         "description": cti_description,
-        "value": default_value
+        "incentive_mechanism": incentive_mechanism if incentive_mechanism is not None else 1,
+        "value": default_value if default_value is not None else 10.0
     }
     data_service.start_create_local_cti_records_by_hash(source_file_hash, cti_config)
     

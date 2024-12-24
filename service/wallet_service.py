@@ -17,12 +17,12 @@ import base64
 class WalletService:
     def __init__(self):
         self.tiny_db = get_tiny_db_instance()
-    def checkUserAccountExist(self):
+    def checkUserAccountExist(self,wallet_id:str=None):
         """
             检查用户账户是否存在
             return:用户钱包ID or None
         """
-        return checkLocalUserAccountExist()
+        return checkLocalUserAccountExist(wallet_id)
     def getLocalUserAccountMulti(self):
         """
             获取用户钱包列表(多个钱包)

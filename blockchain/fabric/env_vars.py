@@ -64,5 +64,16 @@ fabricServerApi = {
     "dataStat":{
         "queryCTISummaryInfo": "/dataStat/queryCTISummaryInfo",
         "getDataStatistics": "/dataStat/getDataStatistics"
+    },
+    "comment":{
+        "registerComment": "/comment/registerComment",
+        "approveComment": "/comment/approveComment",
+        "queryComment": "/comment/queryComment", 
+        "queryCommentsByRefID": "/comment/queryCommentsByRefID",
+        "queryAllCommentsByRefID": "/comment/queryAllCommentsByRefID"
+    },
+    "incentive":{
+        "registerDocIncentiveInfo": "/incentive/registerDocIncentiveInfo",
+        "queryDocIncentiveInfo": "/incentive/queryDocIncentiveInfo"
     }
 }

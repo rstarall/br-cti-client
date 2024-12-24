@@ -1,6 +1,6 @@
 import os,json,sys,hashlib
 from datetime import datetime
-
+from data.traffic_data import get_dataset_file_ext
 
 def get_project_root_path():
     """
@@ -122,7 +122,28 @@ def replace_file_name_with_hash(file_path):
     
     return file_hash,file_size
 
-
+def rename_file_ext_with_content(file_path):
+    """
+        根据文件内容重命名文件后缀
+        param:
+            file_path:文件路径
+        return:
+            new_file_path:新的文件后缀
+            file_name:文件名
+            file_ext:文件后缀
+    """
+    # 获取文件后缀和文件名
+    file_ext = get_dataset_file_ext(file_path)
+    file_name = os.path.basename(file_path)
+    # 获取文件所在目录路径
+    dir_path = os.path.dirname(file_path)
+    # 获取不带后缀的文件名
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    # 重命名后缀,生成新的文件路径
+    new_file_name = file_name_without_ext + file_ext
+    new_file_path = os.path.join(dir_path, new_file_name)
+    os.rename(file_path, new_file_path)
+    return new_file_path,new_file_name,file_ext
 def get_file_size(file_path):
     """
         获取文件大小

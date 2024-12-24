@@ -17,29 +17,23 @@ from ml.train_model import feature_engineering
 from ml.model_plot import save_regression_plot, save_classification_plot,save_clustering_plot
 import os
 
-def evaluate_model(request_id, source_file_hash, model_path, df, target_column, model_info):
+def evaluate_model(request_id, model_path, df, target_column, model_info):
     """主评估函数"""
     try:
-        print(f"原始数据框列: {df.columns.tolist()}")
         df = df.copy()
-        
-        # 加载模型
+        # 1.加载模型
         model = joblib.load(model_path)
-        
-        # 从 model_info 获取模型类型
+        # 2.从 model_info 获取模型类型
         model_type = model_info.get('model_type', 0)  # 1:分类模型、2:回归模型、3:聚类模型
-        
-        # 特征工程
-        print("开始特征工程...")
-        df, model_info = feature_engineering(df, model_info, target_column)
-        
+        print(f"模型类型: {model_type}")
+    
        
-        # 获取保存路径
+        # 5.获取保存路径(评估图像)
         save_dir = os.path.join(os.path.dirname(model_path), 'visualizations')
         os.makedirs(save_dir, exist_ok=True)
         evaluation_results = {}
-        print(f"模型类型: {model_type}")
-        # 根据模型类型选择评估方法
+        
+        # 6.根据模型类型选择评估方法
         if model_type in [1, 2]:  # 有监督学习（分类或回归）
             if not target_column or target_column not in df.columns:
                 raise ValueError(f"有监督学习需要有效的目标列。当前目标列 '{target_column}' 无效")
@@ -54,60 +48,19 @@ def evaluate_model(request_id, source_file_hash, model_path, df, target_column, 
             if model_type == 2:  # 回归模型
                 evaluation_results = evaluate_regression_model(y_test, y_pred)
                 visualization_path = save_regression_plot(y_test, y_pred, save_dir, request_id)
+                evaluation_results['visualization_path'] = visualization_path
             else:  # 分类模型
                 evaluation_results = evaluate_classification_model(y_test, y_pred)
                 visualization_path = save_classification_plot(y_test, y_pred, save_dir, request_id)
-        
+                evaluation_results['visualization_path'] = visualization_path
+                
         elif model_type == 3:  # 聚类模型
-            # 对于聚类模型，尝试使用PCA结果进行评估
-            pca_components = [col for col in df.columns if col.startswith('pca_component_')]
-            if pca_components and model_info.get('pca'):
-                # 选择方差贡献最大的主成分作为评估参考
-                best_component_idx = np.argmax(model_info['pca'])
-                evaluation_target = f'pca_component_{best_component_idx}'
-                
-                print(f"使用主成分 {evaluation_target} 作为聚类评估参考 "
-                      f"(方差贡献率: {model_info['pca'][best_component_idx]:.2%})")
-                
-                # 更新评估结果
-                evaluation_results.update({
-                    'evaluation_target': evaluation_target,
-                    'pca_variance_ratio': float(model_info['pca'][best_component_idx]),
-                })
-                
-                # 获取聚类预测
-                y_pred = model.predict(df)
-                
-                # 计算聚类效果
-                try:
-                    # 使用主成分值作为参考，计算每个簇的统计信息
-                    cluster_stats = {}
-                    for cluster_id in np.unique(y_pred):
-                        cluster_values = df[evaluation_target][y_pred == cluster_id]
-                        cluster_stats[f'cluster_{cluster_id}'] = {
-                            'mean': float(cluster_values.mean()),
-                            'std': float(cluster_values.std()),
-                            'size': int(len(cluster_values))
-                        }
-                    evaluation_results['cluster_stats'] = cluster_stats
-                    
-                    # 计算轮廓系数
-                    silhouette_avg = silhouette_score(df, y_pred)
-                    evaluation_results['silhouette_score'] = float(silhouette_avg)
-                    
-                except Exception as e:
-                    print(f"计算聚类统计信息时发生错误: {str(e)}")
-                
-                # 生成聚类可视化
-                try:
-                    visualization_path = save_clustering_plot(df, y_pred, save_dir, request_id)
-                    evaluation_results['visualization_path'] = visualization_path
-                except Exception as e:
-                    print(f"生成聚类可视化时发生错误: {str(e)}")
-            else:
-                # 如果没有PCA结果，使用原始的聚类评估方法
-                evaluation_results = evaluate_clustering_model(model, df, model_info, save_dir)
-        
+            evaluation_results = evaluate_clustering_model(
+                model=model, 
+                X=df, 
+                save_dir=save_dir,
+                request_id=request_id
+            )
         else:
             raise ValueError(f"不支持的模型类型: {model_type}")
         
@@ -135,17 +88,28 @@ def evaluate_classification_model(y_test, y_pred):
         'F1-Score': float(f1_score(y_test, y_pred, average='weighted'))
     }
 
-def evaluate_clustering_model(model, X, model_info, save_dir):
+def evaluate_clustering_model(model, X, save_dir, request_id):
     """评估聚类模型性能"""
     try:
         print(f"聚类评估输入数据形状: {X.shape}")
         print(f"聚类评估输入列: {X.columns.tolist() if isinstance(X, pd.DataFrame) else 'numpy array'}")
         
-        # 确保数据是数值类型
+        # 对非数值列进行编码
         if isinstance(X, pd.DataFrame):
-            X = X.select_dtypes(include=[np.number])
-            if X.empty:
-                raise ValueError("数据框中没有数值类型的列")
+            le = LabelEncoder()
+            for column in X.columns:
+                if X[column].dtype == 'object':
+                    X[column] = le.fit_transform(X[column].astype(str))
+            
+            # 确保所有列都转换为数值类型
+            X = X.astype(float)
+        
+        # 检查特征数量是否匹配
+        n_features_model = model.n_features_in_ if hasattr(model, 'n_features_in_') else None
+        n_features_data = X.shape[1]
+        
+        if n_features_model and n_features_data != n_features_model:
+            raise ValueError(f"输入特征数量不匹配：需要 {n_features_model} 个，但有 {n_features_data} 个")
         
         results = {}
         
@@ -154,24 +118,28 @@ def evaluate_clustering_model(model, X, model_info, save_dir):
         
         # 计算轮廓系数
         try:
-            silhouette_avg = silhouette_score(X, y_pred)
-            results['Silhouette Score'] = float(silhouette_avg)
+            if len(np.unique(y_pred)) > 1:  # 确保有多个簇
+                silhouette_avg = silhouette_score(X, y_pred)
+                results['Silhouette Score'] = float(silhouette_avg)
+            else:
+                print("无法计算轮廓系数: 只有一个簇")
+                results['Silhouette Score'] = 0
         except Exception as e:
             print(f"无法计算轮廓系数: {str(e)}")
-            results['Silhouette Score'] = None
+            results['Silhouette Score'] = 0
         
         # 如果是KMeans模型，添加惯性
         if hasattr(model, 'inertia_'):
             results['Inertia'] = float(model.inertia_)
         
-        # 生成聚类可视化图像
+        # 生成聚类可视化
         try:
-            visualization_path = save_clustering_plot(X, y_pred, save_dir, model_info.get('request_id'))
+            visualization_path = save_clustering_plot(X, y_pred, save_dir, request_id)
             results['visualization_path'] = visualization_path
         except Exception as e:
-            print(f"生成聚类可视化图像时发生错误: {str(e)}")
-        
+            print(f"生成聚类可视化时发生错误: {str(e)}")
         return results
+        
     except Exception as e:
         print(f"聚类评估过程中发生错误: {str(e)}")
         raise

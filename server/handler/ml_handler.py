@@ -253,21 +253,24 @@ def get_model_evaluate_image():
 
 
 
-@ml_blue.route('/get_model_record', methods=['POST'])
-def get_model_record():
+@ml_blue.route('/get_model_record_by_request_id', methods=['POST'])
+def get_model_record_by_request_id():
     data = request.get_json()
     request_id = data.get('request_id')
     
     if not request_id:
         return jsonify({"code":400,'error': 'request_id is required',"data":None})
     
-    record = ml_service.getModelRecord(request_id)
+    record = ml_service.getModelRecordByRequestId(request_id)
     if not record:
         return jsonify({"code":400,'error': 'Model record not found',"data":None})
     return jsonify({"code":200,'msg': 'Get model record successfully', 'data': record})
 
-@ml_blue.route('/get_model_records_by_hash', methods=['POST'])
-def get_model_records_by_hash():
+@ml_blue.route('/get_model_record_list_by_hash', methods=['POST'])
+def get_model_record_list_by_hash():
+    """
+        根据源文件hash获取模型训练记录列表
+    """
     data = request.get_json()
     file_hash = data.get('file_hash')
     
@@ -301,7 +304,15 @@ def create_model_upchain_info_by_source_file_hash():
     model_info_config = data.get('model_info_config')
     if not file_hash:
         return jsonify({"code":400,'error': 'file_hash is required',"data":None})
+    #入参类型进行判断
+    if not isinstance(model_info_config, dict):
+        return jsonify({"code":400,'error': 'model_info_config must be a dictionary',"data":None})
     
+    if not isinstance(model_info_config.get("tags",[]), list):
+        model_info_config["model_tags"] = list(model_info_config.get("tags",[]))
+    if not isinstance(model_info_config.get("value",0), int):
+        model_info_config["value"] = int(model_info_config.get("value",0))
+        
     result = ml_service.createModelUpchainInfoBySourceFileHash(file_hash,model_info_config)
     if not result:
         return jsonify({"code":400,'error': '创建模型上链信息文件失败',"data":None})
@@ -316,8 +327,16 @@ def create_model_upchain_info():
     model_info_config = data.get('model_info_config')
     if not file_hash or not model_hash:
         return jsonify({"code":400,'error': 'file_hash and model_hash are required',"data":None})
+    #入参类型进行判断
+    if not isinstance(model_info_config, dict):
+        return jsonify({"code":400,'error': 'model_info_config must be a dictionary',"data":None})
     
-    result = ml_service.createModelUpchainInfoFileSingle(file_hash,model_hash,model_info_config)
-    if not result:
-        return jsonify({"code":400,'error': 'Failed to create model upchain info file',"data":None})
-    return jsonify({"code":200,'msg': 'Create model upchain info file successfully', 'data': None})
+    if not isinstance(model_info_config.get("tags",[]), list):
+        model_info_config["model_tags"] = list(model_info_config.get("tags",[]))
+    value = model_info_config.get("value", 0)
+    model_info_config["value"] = float(value) if value != '' else 0.0
+        
+    result,error = ml_service.createModelUpchainInfoFileSingle(file_hash,model_hash,model_info_config)
+    if error:
+        return jsonify({"code":400,'error': error,"data":None})
+    return jsonify({"code":200,'msg': 'Create model result info file successfully', 'data': result})

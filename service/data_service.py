@@ -253,10 +253,9 @@ class DataService:
             "stix_file_path":"",
             "stix_file_size":0,#单位：字节
             "stix_file_hash":"",
-            "stix_type":CTI_TYPE["TRAFFIC"],#默认设置为恶意流量
-            "stix_type_name":CTI_TYPE_NAME[CTI_TYPE["TRAFFIC"]],
-            "stix_tags":random.sample(list(TAGS_LIST.keys())[:-4],2),#随机两个标签
-            "stix_iocs":random.sample(list(IOCS_LIST.keys()),2),#随机两个iocs
+            "stix_type":stix_info.get("stix_type",CTI_TYPE["HONEYPOT"]),#默认设置为恶意流量
+            "stix_tags":stix_info.get("stix_tags",random.sample(list(TAGS_LIST.keys())[:-4],2)),#随机两个标签
+            "stix_iocs":stix_info.get("stix_iocs",random.sample(list(IOCS_LIST.keys()),2)),#随机两个iocs
             "ioc_ips_map":{},
             "create_time":time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
             "onchain":False
@@ -274,14 +273,6 @@ class DataService:
                 if os.path.exists(stix_file_path):
                     stix_file_hash = get_file_sha256_hash(stix_file_path)
         new_stix_record_detail["stix_file_hash"] = stix_file_hash
-        #处理stix_type,stix_tags,stix_iocs
-        if stix_info is not None:
-            if stix_info.get("stix_type") is not None:
-                new_stix_record_detail["stix_type"] = stix_info["stix_type"]
-            if stix_info.get("stix_tags") is not None:
-                new_stix_record_detail["stix_tags"] = stix_info["stix_tags"]
-            if stix_info.get("stix_iocs") is not None:
-                new_stix_record_detail["stix_iocs"] = stix_info["stix_iocs"]
         #处理ioc_ips_map
         if stix_info.get("ioc_ips_map") is not None:
             new_stix_record_detail["ioc_ips_map"] = stix_info["ioc_ips_map"]
@@ -477,7 +468,7 @@ class DataService:
         new_cti_info_record = {
             "cti_hash": stix_file_hash,
             "cti_name": cti_config.get("cti_name", ""),
-            "cti_type": cti_config.get("cti_type", stix_info["stix_type"]),
+            "cti_type": int(cti_config.get("cti_type", stix_info["stix_type"])),
             "cti_traffic_type": CTI_TRAFFIC_TYPE["5G"] if stix_info["stix_type"]==CTI_TYPE["TRAFFIC"] else 0,
             "open_source": cti_config.get("open_source", 1),
             "tags": stix_info["stix_tags"],
@@ -489,7 +480,9 @@ class DataService:
             "data_size": os.path.getsize(stix_file_path),
             "data_source_hash": source_file_hash,  # 数据源hash
             "data_source_ipfs_hash": "",  # 数据源IPFS地址
+            "incentive_mechanism": cti_config.get("incentive_mechanism", 1),
             "value": cti_config.get("value", 0),
+
         }
         #处理create_time
         new_cti_info_record["create_time"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -565,7 +558,9 @@ class DataService:
         """
         #ip_location_map,location_num_map,errors = ips_to_location(ips_map)
         #使用批量查询API处理(每次30个)
-        ip_location_map,ip_location_info_map,location_num_map,errors = ips_to_location(ips_map)
+        #ip_location_map,ip_location_info_map,location_num_map,errors = ips_to_location(ips_map)
+        #使用mock数据
+        ip_location_map,ip_location_info_map,location_num_map,errors = ips_to_location_mock_random(ips_map)
         return ip_location_map,ip_location_info_map,location_num_map,errors
     
     def get_local_cti_record_by_id(self,source_file_hash,cti_id):

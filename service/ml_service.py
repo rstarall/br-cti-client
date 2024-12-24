@@ -2,7 +2,7 @@ from db.tiny_db import get_tiny_db_instance
 from ml.ml_model import start_model_process_task
 from utils.file import check_file_by_hash
 from env.global_var import getMlUploadFilePath,getMlDownloadFilePath
-from ml.model_status import get_model_progress_status_by_id,get_model_record_by_id
+from ml.model_status import get_model_progress_status_by_id,get_model_record_by_request_id
 from ml.model_status import get_model_progress_status_by_hash,get_model_record_by_hash,get_model_record_by_hash_and_hash
 from ml.model_progress import get_train_progress_by_id
 from data.traffic_data import get_feature_list
@@ -20,6 +20,21 @@ class MLService:
         # 自动生成请求 ID
     def generate_request_id(self):
         return str(uuid.uuid4())
+    
+    def get_data_source_file_path_by_hash(self,hash):
+        """
+            根据文件的hash值,获取文件路径
+            return:
+                file_path: 文件路径
+                error: 错误信息
+        """
+        #先检测上传文件夹
+        file_path = check_file_by_hash(getMlUploadFilePath(),hash)
+        if file_path is None:
+            #检查下载文件夹
+            return check_file_by_hash(getMlDownloadFilePath(),hash)
+        return file_path
+    
     def get_upload_file_path_by_hash(self, hash):
         """
             根据文件的hash值,获取数据集文件路径
@@ -67,7 +82,7 @@ class MLService:
             file_info['file_name'] = os.path.basename(exit_file_path)
             return file_info,None
 
-        return download_file_with_progress(ipfs_hash, save_path, progress_callback)
+        return download_file_with_progress(data_source_hash,ipfs_hash, save_path, progress_callback)
     
     def save_download_progress(self,data_source_hash,progress):
         """
@@ -115,7 +130,9 @@ class MLService:
                 error: 错误信息,如果成功则为None
         """
         try:
-            file_path = self.get_upload_file_path_by_hash(file_hash)
+            file_path = self.get_data_source_file_path_by_hash(file_hash)
+            if file_path is None:
+                return None, "文件不存在:"+file_hash
             return get_feature_list(file_path), None
         except Exception as e:
             return None, str(e)
@@ -134,7 +151,7 @@ class MLService:
         
     
         # 根据文件hash获取文件路径
-        source_file_path = self.get_upload_file_path_by_hash(source_file_hash)
+        source_file_path = self.get_data_source_file_path_by_hash(source_file_hash)
         if source_file_path is None:
             return None,False
         
@@ -179,7 +196,7 @@ class MLService:
         """
         return get_train_progress_by_id(request_id)
     
-    def getModelRecord(self, request_id: str) -> dict:
+    def getModelRecordByRequestId(self, request_id: str) -> dict:
         """
         获取模型记录
         param:
@@ -187,7 +204,7 @@ class MLService:
         return:
             - dict: 模型记录
         """
-        return get_model_record_by_id(request_id)
+        return get_model_record_by_request_id(request_id)
     
     def getModelRecordsBySourceFileHash(self, source_file_hash: str) -> list:
         """
@@ -210,20 +227,29 @@ class MLService:
         """
         return get_model_record_by_hash_and_hash(source_file_hash,model_hash)
     
-    def getModelRecordsDetailList(self,source_file_hash:str)->list:
+    def getModelUpchainRecordsList(self,source_file_hash:str)->list:
         """
-            根据source_file_hash获取本地模型记录详情列表
+            根据source_file_hash获取本地模型信息记录列表
         """
-        model_record_list = self.getModelRecordsByHash(source_file_hash)
+        model_record_list = self.getModelRecordsBySourceFileHash(source_file_hash)
         model_records_detail_list = []
         for model_record in model_record_list:
             model_info = model_record.get("model_info",{})
             model_hash = model_info.get("model_hash","")
-            #判断文件是否存在
-            if os.path.exists(self.getModelUpchainInfoFilePath(source_file_hash,model_hash)):
-                model_records_detail_list.append(load_json_from_file(self.getModelUpchainInfoFilePath(source_file_hash,model_hash)))
+            modelUpchainInfo = self.getModelUpchainRecordByModelHash(source_file_hash,model_hash)
+            if modelUpchainInfo:
+                model_records_detail_list.append(modelUpchainInfo)
         return model_records_detail_list
     
+    def getModelUpchainRecordByModelHash(self,source_file_hash:str,model_hash:str)->dict:
+        """
+            根据model_hash获取本地模型记录信息
+        """
+        if os.path.exists(self.getModelUpchainInfoFilePath(source_file_hash,model_hash)):
+            return load_json_from_file(self.getModelUpchainInfoFilePath(source_file_hash,model_hash))
+        return None
+
+
     def getModelUpchainInfoFilePath(self,source_file_hash:str,model_hash:str)->str:
         """
             获取模型上链信息文件路径
@@ -234,7 +260,8 @@ class MLService:
         """
             根据源文件hash创建模型上链信息文件(多个模型)
         """
-        model_record_list = self.getModelRecordsByHash(source_file_hash)
+        model_record_list = self.getModelRecordsBySourceFileHash(source_file_hash)
+        print(f"model_record_list: {model_record_list}")
         for model_record in model_record_list:
             self.createModelUpchainInfoFileSingle(source_file_hash,model_record.get("model_hash",""),model_info_config)
 
@@ -246,11 +273,14 @@ class MLService:
                 - model_hash: 模型hash
                 - model_info_config: 模型信息配置
             return:
-                - bool: 是否成功
+                - model_upchain_info: 模型上链信息
+                - error: 错误信息
         """
         try:
             ml_client_path = self.tiny_db.get_ml_client_path()
+            print(f"source_file_hash: {source_file_hash},model_hash: {model_hash}")
             model_record = self.getModelRecordByHashAndHash(source_file_hash,model_hash)
+            print(f"createModelUpchainInfoFileSingle model_record: {model_record}")
             model_info = model_record.get("model_info", {})
             model_upchain_info = {
                 "model_hash": model_hash,
@@ -262,12 +292,12 @@ class MLService:
                 "model_train_framework": model_info.get("model_framework",""),
                 "model_open_source": model_info.get("open_source",1),
                 "model_features": model_info.get("features",[]),
-                "model_tags": model_info_config.get("tags",[]),
+                "model_tags": model_info_config.get("model_tags",[]),
                 "model_description": model_info_config.get("description",""),
                 "model_size": model_info.get("model_size",0),
                 "model_data_size": model_info.get("data_size",0),
                 "model_data_ipfs_hash": "",
-                "value": model_info_config.get("value",0),
+                "value": model_info_config.get("value",0.0),
                 "model_ipfs_hash": "",
                 "ref_cti_id": model_info.get("cti_id","")
             }
@@ -275,10 +305,11 @@ class MLService:
             model_upchain_info_path = f"{ml_client_path}/model_records/{source_file_hash}/{model_hash}.json"
             os.makedirs(os.path.dirname(model_upchain_info_path), exist_ok=True)
             save_json_to_file(model_upchain_info_path, model_upchain_info)
-            return True
+            print(f"save_json_to_file model_upchain_info: {model_upchain_info_path}")
+            return model_upchain_info,None
         except Exception as e:
             logging.error(f"createModelUpchainInfoFile error:{e}")
-            return False
+            return None,str(e)
             
     def saveModelUpchainResult(self,source_file_hash:str,model_hash:str,model_ipfs_hash:str,model_data_ipfs_hash:str)->bool:
         """
@@ -333,14 +364,15 @@ class MLService:
         return:
             - str: 图像路径
         """
-        record = self.getModelRecord(request_id)
+        record = self.getModelRecordByRequestId(request_id)
         if not record:
             return None
-        
-        if image_type == 'train_process':
-            return record.get('train_process_image')
+        model_info = record.get('model_info',{})
+        if image_type == 'train':
+            train_results = model_info.get('train_results', {})
+            return train_results.get('visualization_path')
         elif image_type == 'evaluation':
-            eval_results = record.get('evaluation_results', {})
+            eval_results = model_info.get('evaluation_results', {})
             return eval_results.get('visualization_path')
         return None
 
@@ -349,7 +381,8 @@ class MLService:
         获取训练过程图像的base64编码
         """
         try:
-            image_path = self.get_model_image_path(request_id, 'train_process')
+            image_path = self.get_model_image_path(request_id, 'train')
+            print(f"train_image_path: {image_path}")
             return self.get_image_as_base64(image_path)
         except Exception as e:
             logging.error(f"获取训练过程图像失败: {str(e)}")
@@ -361,6 +394,7 @@ class MLService:
         """
         try:
             image_path = self.get_model_image_path(request_id, 'evaluation')
+            print(f"evaluation_image_path: {image_path}")
             return self.get_image_as_base64(image_path)
         except Exception as e:
             logging.error(f"获取模型评估图像失败: {str(e)}")
