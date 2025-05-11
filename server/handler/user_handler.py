@@ -75,6 +75,18 @@ def registerOnchainUserAccount():
         #链上注册失败直接返回钱包ID
         return jsonify({'code': 200, 'message': result, 'data': {'wallet_id': result}})
 
+#查询用户信息
+@user_blue.route('/queryUserInfo',methods=['POST'])
+def queryUserInfo():
+    user_id = request.json.get('user_id')
+    if not user_id:
+        return jsonify({'code': 400, 'message': 'user_id is required', 'data': None})
+    result,success = wallet_service.queryUserInfo(user_id)  
+    if success:
+        return jsonify({'code': 200, 'message': 'success', 'data': result})
+    else:
+        return jsonify({'code': 400, 'message': result, 'data': None})
+
 
 #查询用户积分信息
 @user_blue.route('/queryUserPointInfo',methods=['POST'])

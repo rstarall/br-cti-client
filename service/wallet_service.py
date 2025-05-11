@@ -12,7 +12,7 @@ from blockchain.fabric.user_onchain import registerUserOnchain
 from blockchain.user.wallet import checkLocalWalletOnchainStatus,getLocalUserAccountMulti
 from blockchain.fabric.cti_onchain import purchaseCTIFromBlockchain,createCTIPurchaseTransaction
 from blockchain.fabric.ml_onchain import purchaseModelFromBlockchain,createModelPurchaseTransaction
-from blockchain.fabric.user_onchain import getUserCTIStatistics
+from blockchain.fabric.user_onchain import getUserCTIStatistics,queryPointTransactions,queryUserPointInfo,queryUserInfo
 import base64
 class WalletService:
     def __init__(self):
@@ -131,3 +131,37 @@ class WalletService:
                 - bool: 是否成功
         """
         return getUserCTIStatistics(user_id)
+    
+    def queryPointTransactions(self, user_id: str)->tuple[dict,bool]:
+        """
+            查询用户积分交易记录
+            param:
+                - user_id: 用户ID
+            return:
+                - dict: 用户积分交易记录
+                - bool: 是否成功
+        """
+        return queryPointTransactions(user_id)
+    
+
+    def queryUserInfo(self, user_id: str)->tuple[dict,bool]:
+        """
+            查询用户信息
+            param:
+                - user_id: 用户ID
+            return:
+                - dict: 用户信息
+                - bool: 是否成功
+        """
+        return queryUserInfo(user_id)
+
+    def queryUserPointInfo(self, user_id: str)->tuple[dict,bool]:
+        """
+            查询用户积分信息
+            param:
+                - user_id: 用户ID
+            return:
+                - dict: 用户积分信息
+                - bool: 是否成功
+        """
+        return queryUserPointInfo(user_id)

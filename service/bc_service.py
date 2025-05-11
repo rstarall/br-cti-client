@@ -189,6 +189,7 @@ class BlockchainService:
                 # 更新数据源IPFS地址
                 data_source_hash = source_file_hash
                 data_source_ipfs_hash = data_source_ipfs_hash
+                print(f"data_source_ipfs_hash:{data_source_ipfs_hash}")
             else:
                 logging.error("data source file is empty")
         except Exception as e:

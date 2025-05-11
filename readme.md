@@ -1,7 +1,7 @@
 ### Git拉取与提交
 1.拉取main分支
 ```shell
-git clone https://github.com/righstar2020/br-cti-client.git
+git clone https://github.com/rstarall/br-cti-client.git
 ```
 2.创建自己的任务分支(比如任务1)
 ```shell
@@ -34,7 +34,7 @@ git push origin work1
 ```
 7.子项目git
 ```shell
-git submodule add https://github.com/righstar2020/br-cti-bc-server bc-server
+git submodule add https://github.com/rstarall/br-cti-bc-server bc-server
 ```
 更新子项目
 ```shell

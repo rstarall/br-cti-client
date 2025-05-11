@@ -440,6 +440,7 @@ class DataService:
             total_task_list = [stix_info["stix_file_hash"] for stix_info in stix_info_list]
             self.update_cti_process_progress(source_file_hash,0,len(stix_info_list),total_task_list=total_task_list)
             for index,stix_info in enumerate(stix_info_list):
+                new_cti_record = None
                 try:
                     new_cti_record = self.create_local_cti_record(source_file_hash,stix_info["stix_file_path"],stix_info,cti_config)
                 except Exception as e:

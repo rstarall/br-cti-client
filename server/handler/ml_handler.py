@@ -210,6 +210,7 @@ def get_train_process_image():
             "data": None
         })
 
+
 @ml_blue.route('/get_model_evaluate_image', methods=['POST']) 
 def get_model_evaluate_image():
     """
@@ -252,7 +253,7 @@ def get_model_evaluate_image():
         })
 
 
-
+#根据请求ID获取模型记录
 @ml_blue.route('/get_model_record_by_request_id', methods=['POST'])
 def get_model_record_by_request_id():
     data = request.get_json()
