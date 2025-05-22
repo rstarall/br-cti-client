@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>DDoS攻击防御展示</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        #logArea {
+            margin-top: 30px;
+            text-align: left;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+<h2>请选择防御演示环境</h2>
+<select id="fileSelector">
+    <option value="ip_result.jsonl">IP网络防御</option>
+    <option value="5g_result.jsonl">5G网络防御</option>
+    <option value="satellite_result.jsonl">卫星网络防御</option>
+</select>
+<h2>服务器流量收发情况</h2>
+<button id="startButton">开始检测</button>
+<canvas id="flowChart" width="1000" height="400"></canvas>
+
+<h3>检测过程日志</h3>
+<div id="logArea"></div>
+
+<script>
+    let timeline = [];
+    let chart;
+    let currentIndex = 0;
+    let isStarted = false;
+    let trafficCount = 0;
+
+
+    async function fetchTimeline() {
+        const selectedFile = document.getElementById('fileSelector').value;
+        const response = await fetch(`/data?file=${encodeURIComponent(selectedFile)}`);
+        const raw = await response.json();
+        timeline = raw.timeline;
+    }
+
+    function setupChart() {
+        const ctx = document.getElementById('flowChart').getContext('2d');
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '接收流量 (recv)',
+                        data: [],
+                        borderColor: '#007ACC',
+                        borderWidth: 2,
+                        fill: false
+                    },
+                    {
+                        label: '发送流量 (sent)',
+                        data: [],
+                        borderColor: '#FF8C00',
+                        borderWidth: 2,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                animation: false,
+                scales: {
+                    y: {beginAtZero: true}
+                }
+            }
+        });
+    }
+
+    function logEvent(message) {
+        const logArea = document.getElementById('logArea');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        logArea.appendChild(entry);
+        logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    function processNextFrame() {
+        if (!isStarted || currentIndex >= timeline.length) return;
+
+        const frame = timeline[currentIndex];
+
+        if (frame.step === "traffic_sample") {
+            trafficCount++;  // 每遇到一次采样，横轴 +1
+            chart.data.labels.push(trafficCount);  // 让横坐标更准确
+            chart.data.datasets[0].data.push(frame.recv);
+            chart.data.datasets[1].data.push(frame.sent);
+            chart.update();
+        } else if (frame.step === "ddos_check") {
+            logEvent(`DDoS 检测结果：${frame.is_ddos ? "⚠️ 有攻击" : "✅ 无异常"}`);
+        } else if (frame.step === "ddos_source") {
+            logEvent(`🚫 封锁恶意 IP：${frame.ip.join(', ')}，防御状态：${frame.success ? "成功" : "失败"}`);
+        } else if (frame.step === "detection_model") {
+            logEvent(`🧠 检测模型选择动作：${frame.message}`);
+        } else if (frame.step === "defense_model") {
+            logEvent(`🛡️ 防御模型选择动作：${frame.message}`);
+        } else if (frame.step === "monitor_start") {
+            logEvent(`📡 监控启动：${frame.description}`);
+        }
+        currentIndex++;
+        setTimeout(processNextFrame, 500); // 播放速度控制
+    }
+
+    document.getElementById('startButton').addEventListener('click', async () => {
+        isStarted = false;
+        currentIndex = 0;
+        trafficCount = 0;
+        timeline = [];
+        document.getElementById('logArea').innerHTML = '';
+        if (chart) {
+            chart.destroy();
+        }
+
+        await fetchTimeline();
+        setupChart();
+        isStarted = true;
+        processNextFrame();
+    });
+</script>
+</body>
+</html>
