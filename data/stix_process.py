@@ -305,7 +305,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
     mapped_columns = dataset.columns  # 获取数据集的列名
 
     # 逐行处理数据集文件，最终生成stix数据文件
-    output_directory = data_service.get_stix_output_dir_path(file_hash)
+    output_directory = data_service.get_stix_output_dir_path(file_hash)  # 获取输出目录路径
     # 检测是否有数据压缩配置
     stix_compress = 500 # 默认压缩500行
     if process_config.get("stix_compress",None):
@@ -324,7 +324,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
     buffer = []  # 写入缓冲区，大小为压缩行数
     errors = []
     stix_record_buffer = []
-    ips_record_buffer = {} #dict去重和记录数量
+    ips_record_buffer = {}  # dict去重和记录数量
     for k in range(0,batch_count):
         batch_size = stix_compress              
         # 逐行处理数据集
@@ -346,7 +346,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
                 errors.append(f"第 {row_index + 1} 行数据转换失败：{e}")
                 continue
 
-        #计算数据hash
+        # 计算数据hash
         stix_data_hash = ""
         try:
             stix_data_hash = get_sha256_hash(json.dumps(buffer).encode("utf-8"))
@@ -356,7 +356,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
             return None,f"数据hash计算失败：{e}"
         
         output_file = output_directory + "/" + f"{stix_data_hash}.jsonl"  # 自动命名生成文件
-        ips_record_output_file = output_directory + "/" + f"{stix_data_hash}_ioc_ips.json" #记录stix内的ip信息 
+        ips_record_output_file = output_directory + "/" + f"{stix_data_hash}_ioc_ips.json"  # 记录stix内的ip信息
     
         with open(output_file, "w") as fp:           
             # 写入数据
@@ -366,7 +366,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
                 print(f"{output_file}写入失败：{e}")
                 errors.append(f"{output_file}写入失败：{e}")
 
-        #2.写入额外IP记录
+        # 2.写入额外IP记录
         try:
             for record in stix_record_buffer:
                 if record["ips_list"]:
@@ -378,7 +378,7 @@ def process_dataset_to_stix(data_service, input_file_path:str, file_hash:str, pr
             print(f"{ips_record_output_file}写入失败：{e}")
             errors.append(f"{ips_record_output_file}写入失败：{e}")
 
-        #3.保存本地stix处理记录
+        # 3.保存本地stix处理记录
         try:
             stix_info = {
                 "stix_type":"",

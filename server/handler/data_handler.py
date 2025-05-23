@@ -205,7 +205,7 @@ def process_stix_to_cti():
     data_service.get_cti_process_progress(source_file_hash)
     return jsonify({
         "code":200,
-        'msg': 'start create local cti records by hash', 
+        'msg': 'start_point create local cti records by hash',
         'data': {
             "current_step": 0,
             "total_step": 0
