@@ -3,7 +3,7 @@
     IPFS接口实现
 """
 from env.global_var import getIpfsAddress,getIPFSDownloadPath
-import ipfshttpclient2
+import ipfshttpclient
 import os
 from utils.file import rename_file_ext_with_content
 ipfs_address = getIpfsAddress()
@@ -21,7 +21,7 @@ def upload_file_to_ipfs(file_path:str)->tuple[str,str]:
         if not os.path.exists(file_path):
             return None,"文件不存在"+file_path
         # 连接到本地 IPFS 节点
-        with ipfshttpclient2.connect(ipfs_address) as client:
+        with ipfshttpclient.connect(ipfs_address) as client:
             # 获取文件名和后缀
             file_name = os.path.basename(file_path)
             file_ext = os.path.splitext(file_name)[1]
@@ -50,7 +50,7 @@ def download_file_from_ipfs(ipfs_hash:str,save_path=None)->tuple[str,str]:
         if save_path is None:
             save_path = download_path
         # 连接到本地 IPFS 节点
-        with ipfshttpclient2.connect(ipfs_address) as client:
+        with ipfshttpclient.connect(ipfs_address) as client:
             # 下载文件
             client.get(ipfs_hash, filepath=save_path+f"/{ipfs_hash}")
             
@@ -90,7 +90,7 @@ def download_file_with_progress(data_source_hash: str,ipfs_hash: str, save_path=
             save_path = download_path
             
         # 连接到本地IPFS节点
-        with ipfshttpclient2.connect(ipfs_address) as client:
+        with ipfshttpclient.connect(ipfs_address) as client:
             # 获取文件大小和文件名
             file_stat = client.files.stat(f"/ipfs/{ipfs_hash}")
             total_size = file_stat['Size']
