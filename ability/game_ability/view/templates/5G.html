@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDoS防御博弈策略展示</title>
+    <style>
+        ul{
+            list-style:none;
+            padding:0;
+            margin:0;
+        }
+        li{
+            display: inline-block;
+        }
+        .page {
+            display: none;
+        }
+        .left-column, .right-column {
+            width: 50%;
+            height: 90%;
+            background-color: write;
+            border: 2px solid lightgrey;
+            padding: 20px;
+            margin: 10px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            height: 90vh;
+            border: 2px solid lightgrey;
+        }
+        .content {
+            display: none;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>网络选择</h1>
+    <ul>
+        <li><a href="/IP" >IP网络</a></li>
+        <li><a href="/5G" >5G网络</a></li>
+        <li><a href="/sate" >卫星网络</a></li>
+        <li><a href="/" >回到首页</a></li>
+    </ul>
+        <h2>5G网络DDoS攻防动态博弈</h2>
+        <div class="container">
+
+            <!--5G页面的左半部分，展示博弈分析内容-->
+            <div class="left-column">
+                <h2>博弈分析</h2>
+                <h4>防御者选择协同博弈决定防御策略</h4>
+                <h4>攻击者观察防御者策略选择进攻策略</h4>
+                {%if reduce%}
+                     <img src="{{ url_for('static', filename='5G/5Geffect-dynamic.png') }}" alt="示例图片" width="480" height="350">
+                    <p>防御成本下降{{reduce}}%</p>
+                {%else%}
+                    <img src="{{ url_for('static', filename='5G/5Geffect.png') }}" alt="示例图片" width="480" height="350">
+                    <p>防御成本下降 45.7%</p>
+                {%endif%}
+                <h4>防御者选择协同，攻击者被迫选择分散攻击，使得进攻者收益下降，防御收益变高</h4>
+            </div>
+
+            <!--5G页面的右半部分，显示不同防御者和攻击者的策略-->
+            <div class="right-column">
+                <h2>策略展示</h2>
+                    <!--5G页面的右半部分，显示不同防御者和攻击者的策略，点击切换对应内容content，切换函数为showContent()-->
+                    <ul>
+                        <li><a href="#" onclick="showContent('DDoS进攻者')">DDoS进攻者</a></li>
+                        <li><a href="#" onclick="showContent('5G防御者A')">防御者A</a></li>
+                        <li><a href="#" onclick="showContent('5G防御者B')">防御者B</a></li>
+                        <li><a href="#" onclick="showContent('5G防御者C')">防御者C</a></li>
+                        <li><a href="#" onclick="showContent('攻击者流量预算设置')">攻击者预算设置</a></li>
+                    </ul>
+
+                <!--5G网络页面右半部分的DDoS进攻者的内容-->
+                <div id="DDoS进攻者" class="content">
+                    <h3>DDoS进攻者</h3>
+
+                    {%if reduce%}
+                        <p>DDoS流量预算 {{budget}}</p>
+                        <p>DDoS攻击者选择分散进攻各个防御者</p>
+                        <img src="{{ url_for('static', filename='5G/5g-attacker-dynamic.png') }}" alt="示例图片" width="500" height="375">
+                    {%else%}
+                        <p>DDoS流量预算 150000</p>
+                        <p>DDoS攻击者选择分散进攻各个防御者</p>
+                        <img src="{{ url_for('static', filename='5G/5g-attacker.png') }}" alt="示例图片" width="500" height="375">
+                    {%endif%}
+                </div>
+
+                <!--5G网络页面右半部分的防御者A的内容-->
+                <div id="5G防御者A" class="content">
+                    <h3>5G网络防御者A</h3>
+
+                    {%if reduce%}
+                        <p>总流量 {{atrategy1}}</p>
+                        <p>选择与各个防御者和云协同过滤</p>
+                        <img src="{{ url_for('static', filename='5G/5g-strategy-1-dynamic.png') }}" alt="示例图片" width="500" height="375">
+                    {%else%}
+                        <p>总流量 47862</p>
+                        <p>选择与各个防御者和云协同过滤</p>
+                        <img src="{{ url_for('static', filename='5G/5g-strategy-1.png') }}" alt="示例图片" width="500" height="375">
+                    {%endif%}
+                </div>
+
+                <!--5G网络页面右半部分的防御者B的内容-->
+                <div id="5G防御者B" class="content">
+                    <h3>5G网络防御者B</h3>
+                    {%if reduce%}
+                        <p>总流量 {{atrategy2}}</p>
+                        <p>选择与各个防御者和云协同过滤</p>
+                        <img src="{{ url_for('static', filename='5G/5g-strategy-2-dynamic.png') }}" alt="示例图片" width="500" height="375">
+                    {%else%}
+                        <p>总流量 50903</p>
+                        <p>选择与各个防御者和云协同过滤</p>
+                        <img src="{{ url_for('static', filename='5G/5g-strategy-2.png') }}" alt="示例图片" width="500" height="375">
+                    {%endif%}
+                </div>
+
+                <!--5G网络页面右半部分的防御者C的内容-->
+                <div id="5G防御者C" class="content">
+                    <h3>5G网络防御者C</h3>
+                    {%if reduce%}
+                        <p>DDoS流量 {{atrategy3}}</p>
+                        <p>选择与各个防御者和云协同过滤</p>
+                        <img src="{{ url_for('static', filename='5G/5g-strategy-3-dynamic.png') }}" alt="示例图片" width="500" height="375">
+                    {%else%}
+                        <p>DDoS流量 51235</p>
+                        <p>选择与各个防御者和云协同过滤</p>
+                        <img src="{{ url_for('static', filename='5G/5g-strategy-3.png') }}" alt="示例图片" width="500" height="375">
+                    {%endif%}
+                </div>
+
+                <div id="攻击者流量预算设置" class="content">
+                    <form method="POST" action="/5G">
+                        <div class="form-group">
+                            <label for="5Ginput">进攻者预算</label>
+                            <input type="number" id="5Ginput" name="5Ginput">
+                        </div>
+                        <button type="submit" name="5Gbutton" id="5Gbutton">提交</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    <script>
+        function showContent(contentId) {
+            var contents = document.getElementsByClassName("content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+            }
+            document.getElementById(contentId).style.display = "block";
+        }
+    </script>
+</body>
+</html>

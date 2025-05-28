@@ -3,7 +3,7 @@ import json
 import os
 
 app = Flask(__name__)
-DATA_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "json")
+DATA_FOLDER = "json"
 
 
 def read_jsonl(filepath):
@@ -35,8 +35,7 @@ def data():
     filename = request.args.get("file", "ip_result.jsonl")
     filepath = os.path.join(DATA_FOLDER, filename)
     if not os.path.exists(filepath):
-        app.logger.error(f"File not found: {filepath}")
-        return jsonify({"error": f"File not found: {filename}", "path": filepath}), 404
+        return jsonify({"error": "File not found"}), 404
     records = read_jsonl(filepath)
     timeline = []
     last_recv_len = 0
@@ -50,14 +49,17 @@ def data():
                 "description": record.get("description", "")
             })
 
+
         elif step == "traffic_sample":
             recv = record.get("recv", [])
             sent = record.get("sent", [])
+            profit = record.get("profit", [])
             if len(recv) > last_recv_len:
                 timeline.append({
                     "step": "traffic_sample",
                     "recv": recv[-1],
-                    "sent": sent[-1] if sent else 0
+                    "sent": sent[-1] if sent else 0,
+                    "profit": profit if profit else []
                 })
                 last_recv_len = len(recv)
 
@@ -94,4 +96,4 @@ def data():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=5005)
+    app.run(debug=True)

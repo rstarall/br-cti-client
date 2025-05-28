@@ -11,8 +11,23 @@
             padding: 20px;
         }
 
-        canvas {
+        .charts-container {
+            display: flex;
+            flex-direction: column; /* 改为纵向排列 */
+            align-items: center; /* 居中显示 */
             margin-top: 20px;
+            gap: 30px; /* 图表之间间距 */
+        }
+
+        canvas {
+            width: 80% !important; /* 控制宽度 */
+            max-width: 800px;
+            height: 250px !important; /* 控制高度 */
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
         }
 
         button {
@@ -43,25 +58,30 @@
 </head>
 <body>
 <h2>请选择防御演示环境</h2>
-<select id="fileSelector">
-    <option value="ip_result.jsonl">IP网络防御</option>
-    <option value="5g_result.jsonl">5G网络防御</option>
-    <option value="satellite_result.jsonl">卫星网络防御</option>
-</select>
-<h2>服务器流量收发情况</h2>
-<button id="startButton">开始检测</button>
-<canvas id="flowChart" width="1000" height="400"></canvas>
+<div class="controls">
+    <select id="fileSelector">
+        <option value="ip_result.jsonl">IP网络防御</option>
+        <option value="5g_result.jsonl">5G网络防御</option>
+        <option value="satellite_result.jsonl">卫星网络防御</option>
+    </select>
+    <button id="startButton">开始检测</button>
+</div>
+
+<div class="charts-container">
+    <canvas id="flowChart" width="600" height="200"></canvas>
+    <canvas id="profitChart" width="600" height="200"></canvas>
+</div>
 
 <h3>检测过程日志</h3>
 <div id="logArea"></div>
 
 <script>
     let timeline = [];
-    let chart;
+    let flowChart;
+    let profitChart;
     let currentIndex = 0;
     let isStarted = false;
     let trafficCount = 0;
-
 
     async function fetchTimeline() {
         const selectedFile = document.getElementById('fileSelector').value;
@@ -70,9 +90,11 @@
         timeline = raw.timeline;
     }
 
-    function setupChart() {
-        const ctx = document.getElementById('flowChart').getContext('2d');
-        chart = new Chart(ctx, {
+    function setupCharts() {
+        const flowCtx = document.getElementById('flowChart').getContext('2d');
+        const profitCtx = document.getElementById('profitChart').getContext('2d');
+
+        flowChart = new Chart(flowCtx, {
             type: 'line',
             data: {
                 labels: [],
@@ -101,6 +123,46 @@
                 }
             }
         });
+
+        profitChart = new Chart(profitCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '攻击收益 (profit)',
+                        data: [],
+                        borderColor: '#DC143C',
+                        borderWidth: 2,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                animation: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1.0,
+                        ticks: {
+                            callback: function (value) {
+                                return (value * 100).toFixed(0) + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return '攻击收益: ' + (context.parsed.y * 100).toFixed(2) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     function logEvent(message) {
@@ -118,11 +180,19 @@
         const frame = timeline[currentIndex];
 
         if (frame.step === "traffic_sample") {
-            trafficCount++;  // 每遇到一次采样，横轴 +1
-            chart.data.labels.push(trafficCount);  // 让横坐标更准确
-            chart.data.datasets[0].data.push(frame.recv);
-            chart.data.datasets[1].data.push(frame.sent);
-            chart.update();
+            trafficCount++;
+            flowChart.data.labels.push(trafficCount);
+            flowChart.data.datasets[0].data.push(frame.recv);
+            flowChart.data.datasets[1].data.push(frame.sent);
+            flowChart.update();
+
+            if (frame.profit && Array.isArray(frame.profit)) {
+                const profitIndex = frame.profit.length - 1;
+                profitChart.data.labels.push(trafficCount);
+                profitChart.data.datasets[0].data.push(frame.profit[profitIndex]);
+                profitChart.update();
+            }
+
         } else if (frame.step === "ddos_check") {
             logEvent(`DDoS 检测结果：${frame.is_ddos ? "⚠️ 有攻击" : "✅ 无异常"}`);
         } else if (frame.step === "ddos_source") {
@@ -134,8 +204,9 @@
         } else if (frame.step === "monitor_start") {
             logEvent(`📡 监控启动：${frame.description}`);
         }
+
         currentIndex++;
-        setTimeout(processNextFrame, 500); // 播放速度控制
+        setTimeout(processNextFrame, 200);
     }
 
     document.getElementById('startButton').addEventListener('click', async () => {
@@ -144,12 +215,11 @@
         trafficCount = 0;
         timeline = [];
         document.getElementById('logArea').innerHTML = '';
-        if (chart) {
-            chart.destroy();
-        }
+        if (flowChart) flowChart.destroy();
+        if (profitChart) profitChart.destroy();
 
         await fetchTimeline();
-        setupChart();
+        setupCharts();
         isStarted = true;
         processNextFrame();
     });

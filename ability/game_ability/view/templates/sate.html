@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDoS防御博弈策略展示</title>
+    <style>
+        ul{
+            list-style:none;
+            padding:0;
+            margin:0;
+        }
+        li{
+            display: inline-block;
+        }
+        .page {
+            display: none;
+        }
+        .left-column, .right-column {
+            width: 50%;
+            height: 90%;
+            background-color: write;
+            border: 2px solid lightgrey;
+            padding: 20px;
+            margin: 10px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            height: 90vh;
+            border: 2px solid lightgrey;
+        }
+        .content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>网络选择</h1>
+    <ul>
+        <li><a href="/IP" >IP网络</a></li>
+        <li><a href="/5G" >5G网络</a></li>
+        <li><a href="/sate" >卫星网络</a></li>
+        <li><a href="/" >回到首页</a></li>
+    </ul>
+        <h2>卫星网络DDoS平均场动态博弈</h2>
+        <div class="container">
+
+            <!--卫星页面的左半部分，展示博弈分析内容-->
+            <div class="left-column">
+                <h2>博弈分析</h2>
+                <h4>进攻者基于平均防守资源投入选择进攻强度</h4>
+                <h4>防御者基于平均进攻流量选择防御资源投入</h4>
+                <!--引用/static中的图片-->
+                <img src="{{ url_for('static', filename='sate/sate-systemmodel.jpg') }}" alt="示例图片" width="500" height="375">
+            </div>
+
+            <!--卫星页面的右半部分，展示策略内容-->
+            <div class="right-column">
+                <h2>策略展示</h2>
+
+                    <!--卫星页面的右半部分，显示攻击者防御者的策略，点击切换对应内容content，切换函数为showContent()-->
+                    <ul>
+                        <li><a href="#" onclick="showContent('卫星攻击者')">DDoS攻击者</a></li>
+                        <li><a href="#" onclick="showContent('卫星防御者')">防御者</a></li>
+                    </ul>
+
+                <!--卫星网络页面右半部分的卫星进攻者的内容-->
+                <div id="卫星攻击者" class="content">
+                    <h3>卫星网络DDoS攻击者</h3>
+                    <!--引用/static中的图片-->
+                    <img src="{{ url_for('static', filename='sate/attacker.png') }}" alt="示例图片" width="480" height="360">
+                    <h4>由于防御者防御资源增大，进攻者不获利，倾向于不进攻</h4>
+                </div>
+
+                <!--5G网络页面右半部分的卫星防御者的内容-->
+                <div id="卫星防御者" class="content">
+                    <h3>卫星网络防御者</h3>
+                    <!--引用/static中的图片-->
+                    <img src="{{ url_for('static', filename='sate/defender.png') }}" alt="示例图片" width="480" height="360">
+                    <h4>防御者通过动态防御策略降低攻击者的收益，降低DDoS影响</h4>
+                    <h4>DDoS攻击结束后，减少防御资源投入，降低防御成本</h4>
+                </div>
+            </div>
+        </div>
+
+
+    <script>
+        function showContent(contentId) {
+            var contents = document.getElementsByClassName("content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+            }
+            document.getElementById(contentId).style.display = "block";
+        }
+    </script>
+</body>
+</html>
