@@ -3,10 +3,30 @@
     IPFS接口实现
 """
 from env.global_var import getIpfsAddress,getIPFSDownloadPath
-import ipfshttpclient
+import requests
 import os
 from utils.file import rename_file_ext_with_content
-ipfs_address = getIpfsAddress()
+
+# 转换IPFS多地址为HTTP URL
+def convert_multiaddr_to_http_url(multiaddr):
+    """
+    将IPFS多地址转换为HTTP URL
+    例如: /ip4/127.0.0.1/tcp/5001 -> http://127.0.0.1:5001
+    """
+    if multiaddr.startswith('/ip4/'):
+        parts = multiaddr.split('/')
+        if len(parts) >= 5:
+            ip = parts[2]
+            port = parts[4]
+            return f"http://{ip}:{port}"
+    # 如果已经是HTTP URL格式，直接返回
+    if multiaddr.startswith('http://') or multiaddr.startswith('https://'):
+        return multiaddr
+    # 默认返回本地IPFS API地址
+    return "http://127.0.0.1:5001"
+
+ipfs_address_raw = getIpfsAddress()
+ipfs_address = convert_multiaddr_to_http_url(ipfs_address_raw)
 download_path = getIPFSDownloadPath()
 
 
@@ -20,20 +40,22 @@ def upload_file_to_ipfs(file_path:str)->tuple[str,str]:
         #判断文件是否存在
         if not os.path.exists(file_path):
             return None,"文件不存在"+file_path
-        # 连接到本地 IPFS 节点
-        with ipfshttpclient.connect(ipfs_address) as client:
-            # 获取文件名和后缀
-            file_name = os.path.basename(file_path)
-            file_ext = os.path.splitext(file_name)[1]
+        
+        # 使用IPFS HTTP API直接上传文件
+        api_url = f"{ipfs_address}/api/v0/add"
+        
+        with open(file_path, 'rb') as file:
+            files = {'file': file}
+            response = requests.post(api_url, files=files)
             
-            # 上传文件
-            res = client.add(file_path)
-            
-            # 获取文件的 IPFS 哈希
-            file_hash = res['Hash']
-            
-            print(f"文件 {file_name} 上传成功. IPFS Hash: {file_hash}")
-            return file_hash,None
+            if response.status_code == 200:
+                result = response.json()
+                file_hash = result['Hash']
+                file_name = os.path.basename(file_path)
+                print(f"文件 {file_name} 上传成功. IPFS Hash: {file_hash}")
+                return file_hash, None
+            else:
+                return None, f"上传失败: HTTP {response.status_code}"
     except Exception as e:
         print(f"上传文件出错: {e}")
         print(f"上传文件出错: {file_path}")
@@ -49,13 +71,20 @@ def download_file_from_ipfs(ipfs_hash:str,save_path=None)->tuple[str,str]:
     try:
         if save_path is None:
             save_path = download_path
-        # 连接到本地 IPFS 节点
-        with ipfshttpclient.connect(ipfs_address) as client:
-            # 下载文件
-            client.get(ipfs_hash, filepath=save_path+f"/{ipfs_hash}")
             
-            print(f"文件下载成功. 保存路径: {save_path+f'/{ipfs_hash}'}")
-            return save_path+f'/{ipfs_hash}',None
+        # 使用IPFS HTTP API直接下载文件
+        api_url = f"{ipfs_address}/api/v0/get?arg={ipfs_hash}"
+        response = requests.post(api_url)
+        
+        if response.status_code != 200:
+            return None, f"下载失败: HTTP {response.status_code}"
+            
+        file_path = save_path+f"/{ipfs_hash}"
+        with open(file_path, 'wb') as f:
+            f.write(response.content)
+            
+        print(f"文件下载成功. 保存路径: {file_path}")
+        return file_path, None
     except Exception as e:
         print(f"下载文件出错: {e}")
         return None,f"Error downloading file: {e}"
@@ -67,7 +96,9 @@ def get_ipfs_file_url(ipfs_hash:str)->str:
         :param ipfs_hash:IPFS hash
         :return URL
     """
-    return f"{ipfs_address}/ipfs/{ipfs_hash}"
+    # 获取网关URL，通常是 http://127.0.0.1:8080
+    gateway_url = ipfs_address.replace("5001", "8080")
+    return f"{gateway_url}/ipfs/{ipfs_hash}"
 
 
 def download_file_with_progress(data_source_hash: str,ipfs_hash: str, save_path=None, progress_callback=None) -> tuple[str, str]:

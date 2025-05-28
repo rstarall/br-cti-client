@@ -11,6 +11,7 @@ from server.handler.upchain_handler import upchain_blue
 from server.handler.comment_handler import comment_blue
 from server.handler.incentive_handler import incentive_blue
 from server.handler.ddos_handler import ddos_blue
+from server.handler.game_handler import game_blue
 logging.basicConfig(level=logging.INFO)#保留error及以上级别的日志
 app = Flask(__name__)
 # 允许所有来源的请求(本地请求会产生跨域)
@@ -28,6 +29,7 @@ app.register_blueprint(upchain_blue) #上链API
 app.register_blueprint(comment_blue) #评论API
 app.register_blueprint(incentive_blue) #激励API
 app.register_blueprint(ddos_blue) #DDoS检测API
+app.register_blueprint(game_blue) #博弈论API
 #一些配置(文件上传大小约束)
 app.config['MAX_CONTENT_LENGTH'] = 100*1024 * 1024 * 1024  # 100GB limit
 

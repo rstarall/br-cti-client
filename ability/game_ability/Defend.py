@@ -1,21 +1,15 @@
 #  防御方的分配策略
 from scipy.optimize import minimize
+import matplotlib.pyplot as plt
+import matplotlib as mql
+import numpy as np
 
-def Defend(serverNum, servers):
-    D_set = []
-    A_strategy = []
-    V_set = []
-    for i in range(len(servers)):
-        D_set.append(servers[i].getCommonRequest())
-        V_set.append(servers[i].getCapacity())
-        A_strategy.append(servers[i].getAttackRequest())
-    print("D_set:", D_set)
-    print("A_strategy:", A_strategy)
-    print("V_set:", V_set)
-    print(serverNum)
-    D_strategy_ic, D_strategy_ik = calculate_defender_strategy(D_set, A_strategy, V_set, wc=0.01, num=serverNum)
-    return D_strategy_ic, D_strategy_ik
-
+def make_autopct(value):
+    def my_autopct(pct):
+        total =sum(value)
+        val = int(round(pct*total/100.0))
+        return '{p:.2f}% ({v:d})'.format(p=pct,v=val)
+    return my_autopct
 
 def calculate_F(wc, num_i, num_j, V_set, D_set, A_strategy, num):
     """
@@ -157,9 +151,16 @@ def calculate_defender_strategy(D_set, A_strategy, V_set, wc, num):
                 for k in range(1, len(V_set)):
                     sum_1 = wc * (D_set[i] + A_strategy[i]) - f
                     sum_1 = sum_1 * V_set[k] / (D_set[i] + A_strategy[i])
+                    if(sum_1)<0:
+                        sum_1=0
                     ik.append(sum_1)
                 D_strategy_ik.append(ik)
-                D_strategy_ic.append(sum(ik))
+                if (1 - sum(ik))<0:
+                    D_strategy_ic.append(0)
+                else:
+                    D_strategy_ic.append(1-sum(ik))
+
+
             elif true_j <= R_set[i] <= num:
                 D_strategy_ic.append(0)
                 ik = []
@@ -172,176 +173,92 @@ def calculate_defender_strategy(D_set, A_strategy, V_set, wc, num):
         D_strategy_ic.insert(0, 0)
         D_strategy_ik.insert(0, [])
         return D_strategy_ic, D_strategy_ik
+    else:
+        # 如果没有找到有效解，返回默认策略
+        print("警告：未找到有效的防御策略，使用默认策略")
+        D_strategy_ic = [0] + [1.0] * num  # 全部使用云清洗
+        D_strategy_ik = [[]] + [[0.0] * (len(V_set) - 1) for _ in range(num)]  # 不使用协同过滤
+        return D_strategy_ic, D_strategy_ik
 
+def single(D_set,A_strategy,V_set,wc):
+    sum=0
+    for i in range(len(D_set)-1):
+        sum=sum+(D_set[i+1]+A_strategy[i+1])/V_set[i+1]
+    return sum
 
-#优化函数
-def objective(D_set, R_set, Xic_set, Xie_set,num,i_bar,j_bar,wc,f):
-    def u(x):
-        term = 0
-        for i in range(1,num+1):
-            if 0<R_set[i]<i_bar:
-                term = term + wc*(D_set[i]+x[i])
-            if j_bar<=R_set[i]<=num:
-                term = term + f
-            if i_bar<=R_set[i]<j_bar:
-                term = term + wc*(D_set[i]+x[i])*Xic_set[i]+sum(Xie_set[i])*f
-        return -term
-    return u
-
-
-def calculate_A_strategy(A_MAX, D_set, A_strategy, V_set, wc, num):
-    """
-    计算迭代对应的 攻击策略
-    :param D_set: 记录正常流量的集合
-    :param A_strategy: 所要求解的存在（SQP优化中，需要给出对应的预设值？）——开始会有初始值，通过优化获得最终的解值
-    :param V_set: 记录对应的处理能力
-    :param wc:
-    :param num: 服务器数量
-    :return:
-    """
-    # 恶意总流量最大值
-    # A_MAX = 3000
-    v_sum = sum(V_set)
-    res = []
-    r_rank_set = Ranking(num,[0]*(num+1),D_set)
-    for i in range(1,num+1):
-        for j in range(i,num + 2):
-            A_set = A_strategy[:]
-            f = calculate_F(wc,i,j,V_set,D_set,A_strategy,num)
-            ic,ik = calculate_defender_strategy(D_set, A_strategy, V_set, wc, num)
-            R_set = Ranking(num, A_set, D_set)
-            cons = []
-            cons.append({'type':'ineq','fun':constraint2(A_MAX)})
-            for k in range(1,num+1):
-                #所有ai都大于0
-                cons.append({'type':'ineq','fun':constraint1(k)})
-                if 0<R_set[k]<i:
-                    cons.append({'type':'ineq','fun':constraint3(wc,f,D_set[k],k)})
-                if i<=R_set[k]<j:
-                    cons.append({'type':'ineq','fun':constraint4(wc,f,D_set[k],v_sum,k)})
-                    cons.append({'type':'ineq','fun':constraint5(wc,f,D_set[k],k)})
-                if j<=R_set[k]<=num:
-                    cons.append({'type':'ineq','fun':constraint6(wc,f,D_set[k],v_sum,k)})
-            for l in range(1,num+1):
-                for ll in range(l,num+1):
-                    if(r_rank_set[l]<r_rank_set[ll]):
-                        cons.append({'type':'ineq','fun':constraint8(D_set,l,ll)})
-                    elif(r_rank_set[l]>=r_rank_set[ll]):
-                        cons.append({'type':'ineq','fun':constraint9(D_set,l,ll)})
-
-            '''
-            for m in range(1,num+1):
-                #排序
-                cons.append({'type':'eq','fun':constraint7(num,D_set,r_rank_set,m)})
-            '''
-            cons = tuple(cons)
-            #print('cons\n',cons)
-            r = minimize(objective(D_set,R_set,ic,ik,num,i,j,wc,f), A_strategy,method='SLSQP',constraints=cons)
-            flag = 0
-            for m in range(1,num+1):
-                if r.x[m] <0:
-                    flag = 1
-                if sum(r.x)> A_MAX:
-                    flag = 1
-                #if Ranking(num,r.x,D_set) != R_set:
-                    #flag = 1
-            if flag == 0:
-                res.append(r)
-            #验证排序是否正确
-            #s = res[-1]
-            #print('正常流量：\n',R_set)
-            #print('正常流量+恶意流量：\n',Ranking(num,s.x,D_set))
-    print(res)
-    #找到使得U（a,x）最大的解，也就是使得fun最小的解
-    u = []
-    for i in res:
-        u.append(i.fun)
-    print("最小值是%d,下标是%d"%(min(u),u.index(min(u))))
-    print("success:?",res[u.index(min(u))].success)
-    print("对应解：\n",res[u.index(min(u))].x)
-    print('正常流量排名：\n',r_rank_set)
-    print('正常流量+恶意流量排名：\n',Ranking(num,res[u.index(min(u))].x,D_set))
-    print('攻击流量总和：',sum(res[u.index(min(u))].x))
-    return res[u.index(min(u))].x
-
-def constraint1(i):
-    def v(x):
-        return x[i]
-    return v
-
-def constraint2(A_MAX):
-    def v(x):
-        return A_MAX-sum(x[1:])
-    return v
-
-def constraint3(wc, f,d_i,i):
-    def v(x):
-        return wc/f - 1/(d_i + x[i])
-    return v
-
-def constraint4(wc,f,d_i,v_sum,i):
-    def v(x):
-        return 1/(d_i+x[i])-(wc-1/v_sum)/f
-    return v
-
-def constraint5(wc,f,d_i,i):
-    def v(x):
-        return wc/f - 1/(x[i]+d_i)
-    return v
-
-def constraint6(wc,f,d_i,v_sum,i):
-    def v(x):
-        return (wc-1/v_sum)/f - 1/(d_i+x[i])
-    return v
-
-def constraint7(num,D_set,r_rank_set,i):
-    def v(x):
-        rank_new = Ranking(num,x,D_set)
-        return rank_new[i]-r_rank_set[i]
-    return v
-
-def constraint8(D_set,l,ll):
-    def v(x):
-        return x[ll]+D_set[ll]-x[l]-D_set[l]
-    return v
-
-def constraint9(D_set,l,ll):
-    def v(x):
-        return x[l]+D_set[l]-x[ll]-D_set[ll]
-    return v
+def cost(D_set,A_strategy,V_set,wc,ik,ic):
+    f=0
+    value=0
+    for i in range(len(D_set)-1):
+        f=f+(D_set[i+1]+A_strategy[i+1])*sum(ik[i+1])/sum(V_set)
+    for i in range(len(D_set) - 1):
+        value=value+(D_set[i+1]+A_strategy[i+1])*ic[i+1]*wc
+        value=value+sum(ik[i+1])*f
+    return value
 
 if __name__ == "__main__":
-    D_set = [0, 50, 250, 500, 750, 1000]
-    A_strategy = [0, 50, 250, 500, 750, 1000]
-    V_set = [0, 50, 50, 100, 100, 200]
-    #D_set = [0,50,300,550,800,1050,1300]
-    #A_strategy = [0,10,10,10,10,10]
-    #V_set = [0,50,100,200,400,800,1600]
-    wc = 0.01
-    num = 5
-    #D_set = [0,1000,750,500,250,50]
-    #A_strategy = [0,1000,750,500,250,50]
-    #V_set = [0,200,100,100,50,50]
-    #num = 5
-    #R_set = [0,1,2,3,4,5]
-    #ic, ik =calculate_defender_strategy(D_set, A_strategy, V_set, wc, num)
-    #num = 8
-    #D_set = [0, 600,700,800,900,1000,1100,1200,1300]
-    #A_strategy = [0,0,0,0,0,0,0,0,0]
-    #A_strategy = [0,0,0,0,0,0,0,0,0,0,0]
-    V_set = [0, 50, 50, 50, 50, 50, 50, 50, 50]
-    #result = []
+    """
+        @:param
+        D_set (list) 防御者集合,存放所有防御者的正常流量的值，数据类型列表，第一个值占位无意义
+        A_strategy (list) 攻击者策略，对各个防御者的投放的有害流量，数据类型列表，第一个值占位无意义
+        V_set (list) 各边缘服务器的集合，存放对应服务器处理流量的能力，数据类型列表，第一个值占位无意义
+        wc (float) 云服务器，单位流量传输到云的传输延迟的系数
+        A_MAX 进攻者预算
+        输出ic，各个防御者向云端转移的流量的百分比，数据类型列表，第一个值占位无意义
+        输出ik，各个防守者向各个服务器转移的流量的百分比，数据类型二维列表，第一个值占位无意义
+    """
+    #ip平均流量3w
+    D_set = [0, 5000, 5000, 5000]
+    A_strategy = [0, 15000, 20000, 25000]
+    V_set = [0,1120,2002,2980]
+    wc = 0.0005
+    num = 3
 
-    #攻击策略
-    A_strategy_new = calculate_A_strategy(D_set, A_strategy, V_set, wc, num)
+    #5G平均流量5W，云较快
+    # D_set = [0, 5000, 5000, 5000]
+    # A_strategy = [0, 35000, 45000, 55000]
+    # V_set = [0, 8200,5320,6700]
+    # wc = 0.0001
+    # num = 3
+
+
+    #卫星网络平均流量2w，云较慢
+    # D_set = [0, 5000, 5000, 5000]
+    # A_strategy = [0, 13000, 18000, 20000]
+    # V_set = [0,1000,2000,3000]
+    # wc = 0.001
+    # num = 3
+
+
     #防御策略
-    ic, ik =calculate_defender_strategy(D_set, A_strategy_new, V_set, wc, num)
+    ic, ik =calculate_defender_strategy(D_set, A_strategy, V_set, wc=wc, num=num)
     print('根据攻击策略做出新的防御策略ic:',ic)
     print('根据攻击策略做出新的防御策略ik',ik)
-    #res = minimize(objective(D_set,R_set,ic,ik,5,1,1,0.1,3), A_strategy)
-    #print(res.fun)
-    #print(res.success)
-    #print(res.x)
-    #ic, ik =calculate_defender_strategy(D_set, A_strategy, V_set, wc, num)
-    #print(ic)
-    #print(ik)
+
+    volumec=[]
+    volumek=[]
+    for i in range(num):
+        volumec.append((D_set[i+1]+A_strategy[i+1])*ic[i+1])
+        kk=[]
+        for j in range(num):
+            kk.append((D_set[i+1]+A_strategy[i+1])*(ik[i+1][j]))
+        volumek.append(kk)
+    print("分配到云的流量为：",volumec)
+    print("协同防御的流量为：",volumek)
+
+
+    print("博弈处理成本",cost(D_set,A_strategy,V_set,wc,ik,ic))
+
+
+    print("单独处理成本",single(D_set,A_strategy,V_set,wc))
+
+    allstrategy=[]
+    for i in range(num):
+        strategy=[]
+        strategy.append(volumec[i])
+        for j in range(num):
+            strategy.append(volumek[i][j])
+        allstrategy.append(strategy)
+    mql.rcParams['font.family']='SimHei'
+
+
