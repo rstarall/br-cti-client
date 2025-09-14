@@ -1,0 +1,7 @@
+2025-09-13 20:31:29,459 - INFO - ThreatRAG - Loading config from D:\Threat\system\br-cti-client\threatRAG\config.yaml
+2025-09-13 20:31:35,352 - INFO - ThreatRAG - 已加载图数据库信息，最后更新时间：2025-09-11T14:50:46.479065
+2025-09-13 20:31:35,352 - INFO - ThreatRAG - Connecting to Neo4j at bolt://localhost:7687 with database neo4j
+2025-09-13 20:31:39,410 - ERROR - ThreatRAG - Failed to connect to Neo4j: Couldn't connect to localhost:7687 (resolved to ('[::1]:7687', '127.0.0.1:7687')):
+Failed to establish connection to ResolvedIPv6Address(('::1', 7687, 0, 0)) (reason [WinError 10061] 由于目标计算机积极拒绝，无法连接。)
+Failed to establish connection to ResolvedIPv4Address(('127.0.0.1', 7687)) (reason [WinError 10061] 由于目标计算机积极拒绝，无法连接。)
+2025-09-13 20:31:39,412 - ERROR - ThreatRAG - Connection details: URI=bolt://localhost:7687, Database=neo4j, Username=neo4j

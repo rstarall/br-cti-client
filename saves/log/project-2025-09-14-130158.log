@@ -1,0 +1,6 @@
+2025-09-14 13:01:58,009 - INFO - ThreatRAG - Loading config from D:\Threat\system\br-cti-client\threatRAG\config.yaml
+2025-09-14 13:02:04,439 - INFO - ThreatRAG - 已加载图数据库信息，最后更新时间：2025-09-11T14:50:46.479065
+2025-09-14 13:02:07,313 - DEBUG - ThreatRAG - Loading embedding model local/BAAI/bge-m3
+2025-09-14 13:02:07,314 - INFO - ThreatRAG - Loading local model `BAAI/bge-m3` from `BAAI/bge-m3` with device `cuda`，如果没配置任何路径的话，正常情况下会自动从 Huggingface 下载模型，如果遇到下载失败，可以尝试使用 HF_MIRROR 环境变量；如果还是不行，建议手动下载到某个文件夹比如  /path/to/models/BAAI/bge-m3 目录下；然后配置 src/.env 文件中的 MODEL_DIR 环境变量到 /path/to/models 目录；如果是在 docker 中运行，请确保 docker-compose 文件（line 12 左右）中映射了 MODEL_DIR 到 /models 目录
+2025-09-14 13:02:11,315 - INFO - ThreatRAG - Embedding model BAAI/bge-m3 loaded
+2025-09-14 13:02:21,517 - ERROR - ThreatRAG - Failed to connect to Milvus: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>

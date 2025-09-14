@@ -2,8 +2,8 @@ import base64
 import io
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from defend import calculate_defender_strategy, cost, single
-from attack import calculate_A_strategy
+from ability.game_ability.Defend import calculate_defender_strategy, cost, single
+from ability.game_ability.attack import calculate_A_strategy
 
 
 class GameAbility:
